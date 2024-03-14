@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour
+public class EnemyBehaviour : MonoBehaviour
 {
     [Header("Enemy Stats")]
     [SerializeField] int moveSpeed;
@@ -42,15 +42,14 @@ public class Enemy : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            Debug.Log("hit");
-            //collision.gameObject.GetComponent<Player>().TakeDamage(damage);
-            isAttacking = false;
+            //collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
             StartCoroutine(Attacked());
         }
     }
 
     IEnumerator Attacked()
     {
+        isAttacking = false;
         yield return new WaitForSeconds(timeToStartAttackAgain);
         isAttacking = true;
         Debug.Log("Attacking Again");
