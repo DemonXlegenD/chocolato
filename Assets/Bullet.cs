@@ -9,15 +9,12 @@ public class Bullet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(DestroyBullet());
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        transform.forward = player.transform.position - transform.position;
     }
 
     private IEnumerator DestroyBullet()
     {
         yield return new WaitForSeconds(8f);
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -31,8 +28,15 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
             //collision.gameObject.GetComponent<PlayerController>().TakeDamage(bulletDamage);
         }
+    }
+
+    public void StartBullet()
+    {
+        StartCoroutine(DestroyBullet());
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        transform.forward = player.transform.position - transform.position;
     }
 }
