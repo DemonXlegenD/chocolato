@@ -10,13 +10,17 @@ public enum PanelType{
 }
 public class MenuController : MonoBehaviour
 {
+    [SerializeField] private Collection<PanelType, MenuPanel> panelsCollection = new Collection<PanelType, MenuPanel>();
+    private MenuPanel currentPanel;
 
     private GameManager gameManager;
     // Start is called before the first frame update
 
     private void Start()
     {
-        gameManager = GameManager.Instance;  
+        gameManager = GameManager.Instance;
+        OpenPanel(PanelType.Main);
+
     }
 
     // Update is called once per frame
@@ -31,7 +35,12 @@ public class MenuController : MonoBehaviour
 
     public void OpenPanel(PanelType _panelType)
     {
-
+        foreach (MenuPanel _panel in panelsCollection.GetItemsList())
+        {
+            _panel.ChangeState(false);
+        }
+        currentPanel = panelsCollection.GetItemBykey(_panelType);
+        currentPanel.ChangeState(true);
     }
 
     public void Quit()
