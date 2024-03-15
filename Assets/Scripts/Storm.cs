@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Storm : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    ParticleSystem particleSystemStorm;
+    [SerializeField] private GameObject player;
+    Rigidbody rb;
 
     private void Start()
     {
-        particleSystemStorm = GetComponent<ParticleSystem>();
-        player = GetComponent<Transform>();
+        rb = player.GetComponent<Rigidbody>();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -19,7 +18,9 @@ public class Storm : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                particleSystemStorm.Play();
+                // TakeDaMAGE()
+                Debug.Log("sa touche");
+                rb.AddForce(3 * Time.deltaTime * Vector3.back);
             }
         }
     }
@@ -30,17 +31,8 @@ public class Storm : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                particleSystemStorm.Stop();
+                // ne plus faire de dégats en continue
             }
-        }
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("Lancement tornade");
-            particleSystemStorm.Play();
         }
     }
 }

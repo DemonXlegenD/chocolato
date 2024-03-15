@@ -5,19 +5,20 @@ using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour
 {
-    public static EventManager instance;
+    static EventManager instance;
 
     public EnemyDeathEvent onEnemyDeath = new EnemyDeathEvent();
 
-    void SetInstance()
+    public static EventManager GetInstance()
     {
         if (instance == null)
-            instance = this;
+            return instance = FindAnyObjectByType<EventManager>();
+        return instance;
     }
 
     private void Awake()
     {
-        SetInstance();
+        GetInstance();
     }
 
     public void EnemyDeath(EnemyBehaviour.EnemyColor color)

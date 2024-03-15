@@ -1,27 +1,38 @@
 using Nova;
 using NovaSamples.UIControls;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.ProBuilder.AutoUnwrapSettings;
+using UnityEngine.Events;
 
 public class LoadSkill : MonoBehaviour
 {
 
+    [SerializeField] PlayerController controller;
+
+    [SerializeField] private UIBlock2D BackgroundUI;
+    [SerializeField] private UIBlock2D Drag;
     [SerializeField] private UIBlock2D fill;
     [SerializeField] private Slider Slider;
 
-    [SerializeField] private bool currentChocolate;
-    // Start is called before the first frame update
+    public bool currentChocolate;
+
+    [SerializeField] private UnityEvent OnLoad;
+
+    public float totalTime = 5f;
+    private float currentTime = 0f;
+    private float startAngle = 0f;
+    private float endAngle = 360f;
+
     void Start()
     {
         if (currentChocolate)
         {
-            fill.RadialFill.FillAngle = 0;
+            fill.RadialFill.FillAngle = 0f;
+            Background();
         }
         else
         {
             fill.RadialFill.FillAngle = 360;
+            ForeGround();
         }
         fill.RadialFill.Rotation = -90;
     }
@@ -29,25 +40,44 @@ public class LoadSkill : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!currentChocolate && fill.RadialFill.FillAngle != 0)
+        if (!currentChocolate)
         {
-            if (fill.RadialFill.FillAngle <= 0)
+            if (currentTime < totalTime)
             {
-                fill.RadialFill.FillAngle = 0;
+                currentTime += Time.deltaTime;
+                float fillAmount = currentTime / totalTime;
+                float currentAngle = Mathf.Lerp(startAngle, endAngle, fillAmount);
+                fill.RadialFill.FillAngle = 360f - currentAngle;
             }
-            if (fill.RadialFill.FillAngle > 0)
+            else
             {
-                fill.RadialFill.FillAngle -= Time.deltaTime * 10f;
+                currentTime = totalTime;
+                fill.RadialFill.FillAngle = 0f;
+                OnLoad.Invoke();
             }
         }
+
     }
 
-    public void UpdateFillAngle()
+    public void Background()
     {
-        float percentage = Slider.Value;
-        percentage = Mathf.Clamp(percentage, 0f, 100f);
+        BackgroundUI.ZIndex = 0;
+        fill.ZIndex = 0;
+        Drag.ZIndex = 0;
+    }
 
-        fill.RadialFill.FillAngle = 360 - percentage * 3.6f;
+    public void ForeGround()
+    {
+        BackgroundUI.ZIndex = 1;
+        fill.ZIndex = 1;
+        Drag.ZIndex = 1;
 
+    }
+
+    public void Reset()
+    {
+        ForeGround();
+        fill.RadialFill.FillAngle = 360f;
+        currentTime = 0f;
     }
 }

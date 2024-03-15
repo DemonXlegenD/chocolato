@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxEnemies: 100
-  maxBullets: 50
+  maxCookies: 10
+  maxenemyBullets: 10
   bulletPrefab: {fileID: 4356965762799517794, guid: 760a5068a8db84b49afe2028011d412a,
+    type: 3}
+  cookieBlackPrefab: {fileID: 2983797281684359641, guid: ae193872c14da2342ad1503100221190,
+    type: 3}
+  cookieWhitePrefab: {fileID: 2983797281684359641, guid: bf67c962082cdff4690f06fe27d8fda4,
     type: 3}
