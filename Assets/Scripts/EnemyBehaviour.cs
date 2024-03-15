@@ -39,6 +39,9 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Backend")]
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
+
+    [Header("Animation")]
+    [SerializeField] string nameAnime;
     bool isMoving = true;
     bool isTouchingPlayer = false;
     bool canShoot = true;
@@ -52,6 +55,8 @@ public class EnemyBehaviour : MonoBehaviour
     Vector3 endChompPos;
     bool isDigging = false;
     [SerializeField] PoolObjects pool;
+    Animator animator;
+    ParticleSystem part;
 
 
     // Start is called before the first frame update
@@ -66,12 +71,17 @@ public class EnemyBehaviour : MonoBehaviour
         {
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         }
+        animator = GetComponent<Animator>();
+        part = GetComponentInChildren<ParticleSystem>();
+        StartCoroutine(Test());
+        animator.SetBool($"{nameAnime}", true);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveTowardsPlayer();
+       MoveTowardsPlayer();
         if(isExploding)
         {
             Explode();
@@ -249,5 +259,12 @@ public class EnemyBehaviour : MonoBehaviour
             isUnderground = false;
             StartCoroutine(Dig());
         }
+    }
+
+    IEnumerator Test()
+    {
+        part.Play();
+        yield return new WaitForSeconds(2f);
+        part.Stop();
     }
 }

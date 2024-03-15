@@ -86,10 +86,41 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6c69f4d073620c04db6bd111c7dfc42f,
         type: 3}
       propertyPath: m_Name
-      value: kgirls01
+      value: BlackEnemy1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c69f4d073620c04db6bd111c7dfc42f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2059297165975735104}
   m_SourcePrefab: {fileID: 100100000, guid: 6c69f4d073620c04db6bd111c7dfc42f, type: 3}
+--- !u!1 &3033261679956552377 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6c69f4d073620c04db6bd111c7dfc42f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2799311235312539624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &2059297165975735104
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3033261679956552377}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 33fc0cc3261eff643b2353c2e23fe8bf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
