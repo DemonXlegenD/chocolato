@@ -13,7 +13,7 @@ public class ObstacleFix : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (transform.GetChild(0).transform.position.y < -20f)
+        if (transform.GetChild(0).transform.position.y < -20f )
         {
             Destroy(gameObject);
         }
