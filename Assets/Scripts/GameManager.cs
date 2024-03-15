@@ -48,7 +48,22 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(SceneManager.GetActiveScene().name == "Game")
+        {
+            WaveSpawner.GetInstance().Init();
+        }
+    }
+    
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;   
+    }
     public void StartGame()
     {
         Debug.Log("Le jeu commence !");

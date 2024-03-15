@@ -4,13 +4,33 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
+    static WaveSpawner instance;
+
+    #region Singleton
+    public static WaveSpawner GetInstance()
+    {
+        if(instance == null)
+            return instance = FindAnyObjectByType<WaveSpawner>();
+        else return instance;
+    }
+    #endregion
+
+
+
+
+    [SerializeField] PoolObjects poolObjects;
     public float spawnRate = 1f;
     public float timeBetweenWaves = 10f;
     public GameObject enemy;
     public int enemyCount;
     public float i;
     bool waveIsDone = true;
-    // Update is called once per frame
+    
+    public void Init()
+    {
+        poolObjects = PoolObjects.GetInstance();
+    }
+    
     void Update()
     {
         if (waveIsDone == true)

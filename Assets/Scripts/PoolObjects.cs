@@ -5,6 +5,15 @@ using UnityEngine.Events;
 
 public class PoolObjects : MonoBehaviour
 {
+    static PoolObjects instance;
+    public static PoolObjects GetInstance()
+    {
+        if (instance == null)
+            return instance = FindAnyObjectByType<PoolObjects>();
+        else return instance;
+    }
+
+
     [SerializeField] int maxEnemies;
     [SerializeField] int maxCookies;
     [SerializeField] int maxenemyBullets;
@@ -12,6 +21,18 @@ public class PoolObjects : MonoBehaviour
     private List<GameObject> enemyBullets;
     private List<GameObject> lootCookiesBlack;
     private List<GameObject> lootCookiesWhite;
+    [Header("White Entities")]
+    [SerializeField] GameObject enemyWhiteNormal;
+    [SerializeField] GameObject enemyWhiteKamikaze;
+    [SerializeField] GameObject enemyWhiteRanged;
+    [SerializeField] GameObject enemyWhiteDigger;
+    [Header("Black Entities")]
+    [SerializeField] GameObject enemyBlackNormal;
+    [SerializeField] GameObject enemyBlackKamikaze;
+    [SerializeField] GameObject enemyBlackRanged;
+    [SerializeField] GameObject enemyBlackDigger;
+
+    [Header("Le reste")]
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cookieBlackPrefab;
     [SerializeField] GameObject cookieWhitePrefab;
@@ -45,12 +66,6 @@ public class PoolObjects : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public List<GameObject> GetPoolenemyBullets()
     {
         return enemyBullets;
@@ -71,16 +86,18 @@ public class PoolObjects : MonoBehaviour
         return lootCookiesWhite;
     }
 
-
-
-
-    [System.Serializable]
-    public class EnemyDeathEvent : UnityEvent<int>
+    public GameObject GetFreeEnemy()
     {
+        foreach (GameObject enemy in enemies) 
+        {
+            if(!enemy.activeInHierarchy)
+                return enemy;
+        }
+        GameObject tempEnemy = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        tempEnemy.SetActive(false);
+        enemyBullets.Add(tempEnemy);
+        return tempEnemy;
     }
-
-
-
 
     public GameObject GetFreeBullet()
     {
@@ -91,7 +108,10 @@ public class PoolObjects : MonoBehaviour
                 return bullet;
             }
         }
-        return null;
+        GameObject tempBullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        tempBullet.SetActive(false);
+        enemyBullets.Add(tempBullet);
+        return tempBullet;
     }
 
 
@@ -104,7 +124,10 @@ public class PoolObjects : MonoBehaviour
                 return cookie;
             }
         }
-        return null;
+        GameObject tempCookie = Instantiate(cookieWhitePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        tempCookie.SetActive(false);
+        lootCookiesWhite.Add(tempCookie);
+        return tempCookie;
     }
 
     public GameObject GetFreeLootCookiesBlack()
@@ -116,8 +139,18 @@ public class PoolObjects : MonoBehaviour
                 return cookie;
             }
         }
-        return null;
+        GameObject tempCookie = Instantiate(cookieBlackPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        tempCookie.SetActive(false);
+        lootCookiesBlack.Add(tempCookie);
+        return tempCookie;
     }
+
+
+    public void SpawnEnemy(Transform transform)
+    {
+        GameObject enemy = GetFreeEnemy();
+    }
+
 
     public void SpawnEnemyBullet(Transform enemyTransform)
     {
