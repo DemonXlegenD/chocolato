@@ -360,7 +360,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timerText: {fileID: 1258204775}
   currentTime: 0
-  countDown: 0
 --- !u!4 &734597612
 Transform:
   m_ObjectHideFlags: 0
@@ -640,7 +639,6 @@ GameObject:
   - component: {fileID: 1266330633}
   - component: {fileID: 1266330632}
   - component: {fileID: 1266330631}
-  - component: {fileID: 1266330630}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -668,21 +666,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1266330630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266330628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c100e7ae15004714bacc0191b863d4fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerText: {fileID: 0}
-  currentTime: 0
-  countDown: 0
 --- !u!114 &1266330631
 MonoBehaviour:
   m_ObjectHideFlags: 0
