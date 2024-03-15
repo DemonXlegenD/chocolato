@@ -267,6 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508350228}
   - component: {fileID: 508350227}
+  - component: {fileID: 508350229}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -286,6 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b561291473d8444285415da01e79092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poolObjects: {fileID: 0}
   spawnRate: 1
   timeBetweenWaves: 10
   enemy: {fileID: 0}
@@ -306,6 +308,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &508350229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508350226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c100e7ae15004714bacc0191b863d4fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTimer: 0
+  GamePaused:
+    m_PersistentCalls:
+      m_Calls: []
+  GameResumed:
+    m_PersistentCalls:
+      m_Calls: []
+  timerText: {fileID: 460319801}
+  currentTime: 0
 --- !u!1 &738856024
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +447,74 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1001 &979638319
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.706688
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.76919746
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.19657598
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 573431857521842263, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062316010243315239, guid: f940650b925adcd41b31ae7241a7b453,
+        type: 3}
+      propertyPath: m_Name
+      value: GenerationObjects
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f940650b925adcd41b31ae7241a7b453, type: 3}
 --- !u!1 &1520195774
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,8 +595,6 @@ GameObject:
   - component: {fileID: 1952604647}
   - component: {fileID: 1952604646}
   - component: {fileID: 1952604645}
-  - component: {fileID: 1952604648}
-  - component: {fileID: 1952604649}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -526,7 +615,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 460319800}
-  m_Father: {fileID: 2134560399}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -596,62 +685,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1952604648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952604642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c100e7ae15004714bacc0191b863d4fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timerText: {fileID: 460319801}
-  currentTime: 0
---- !u!114 &1952604649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952604642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 197acac3e1ab98143824e080f5e275ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GamePaused:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1952604648}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  GameResumed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1952604648}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!1 &2134560396
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,8 +775,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1952604643}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2134560400
@@ -798,3 +830,5 @@ SceneRoots:
   - {fileID: 738856026}
   - {fileID: 1520195777}
   - {fileID: 508350228}
+  - {fileID: 979638319}
+  - {fileID: 1952604643}
