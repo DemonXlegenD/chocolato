@@ -22,11 +22,11 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     [Header("Enemy Stats")]
-    [SerializeField] EnemyType enemyType;
-    [SerializeField] EnemyColor enemyColor;
+    [SerializeField] public EnemyType enemyType;
+    [SerializeField] public EnemyColor enemyColor;
     [SerializeField] float moveSpeed;
     [SerializeField] int hpMax;
-    private int hpActual;
+    private float hpActual;
     [SerializeField] public int damage;
     [SerializeField] Slider healthBar;
     [SerializeField] float range;
@@ -39,6 +39,9 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Backend")]
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
+
+    [Header("Animation")]
+    //[SerializeField] string nameAnime;
     bool isMoving = true;
     bool isTouchingPlayer = false;
     bool canShoot = true;
@@ -52,6 +55,8 @@ public class EnemyBehaviour : MonoBehaviour
     Vector3 endChompPos;
     bool isDigging = false;
     [SerializeField] PoolObjects pool;
+    Animator animator;
+    ParticleSystem part;
 
 
     // Start is called before the first frame update
@@ -66,21 +71,29 @@ public class EnemyBehaviour : MonoBehaviour
         {
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         }
+        animator = GetComponent<Animator>();
+        part = GetComponentInChildren<ParticleSystem>();
+        //La fonction test c'est pour les particule quand il est mort il faudrat le link 
+        // le contenu dans la fonction dead
+        //StartCoroutine(Test());
+        //Quand on va link l'asset au prefab faudrat mettre le nom de l'asset mais si on le met pas tout de suite commenter le
+        //animator.SetBool($"{nameAnime}", true);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         MoveTowardsPlayer();
-        if(isExploding)
+        if (isExploding)
         {
             Explode();
         }
-        if(isDigging)
+        if (isDigging)
         {
             Digging();
         }
-        if(isChomping)
+        if (isChomping)
         {
             Chomping();
         }
@@ -108,9 +121,9 @@ public class EnemyBehaviour : MonoBehaviour
                     StartCoroutine(Shooted());
                 }
             }
-            else if(EnemyType.Kamikaze == enemyType)
+            else if (EnemyType.Kamikaze == enemyType)
             {
-                if(range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
+                if (range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.fixedDeltaTime / 5);
                 }
@@ -119,16 +132,18 @@ public class EnemyBehaviour : MonoBehaviour
                     isExploding = true;
                 }
             }
-            else if(EnemyType.Digger == enemyType)
+            else if (EnemyType.Digger == enemyType)
             {
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) && !isDigging)
                 {
+                    Debug.Log("move");
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
                 }
                 else if (isUnderground)
                 {
                     if (!isChomping)
                     {
+                        Debug.Log("Chomp");
                         isChomping = true;
                         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
                         Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
@@ -137,7 +152,7 @@ public class EnemyBehaviour : MonoBehaviour
                     }
                 }
             }
-            if(isTouchingPlayer)
+            if (isTouchingPlayer)
             {
                 StartCoroutine(StopMoving());
             }
@@ -171,21 +186,24 @@ public class EnemyBehaviour : MonoBehaviour
         return enemyColor;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         hpActual -= damage;
-        healthBar.value = hpActual;
+        //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
+            Death();
             gameObject.SetActive(false);
         }
     }
-    
+
     IEnumerator StopMoving()
     {
+        //Debug.Log("Stop move");
         isMoving = false;
         yield return new WaitForSeconds(timeToStartMovingAgain);
         isMoving = true;
+        //Debug.Log("Can move Again");
     }
 
     IEnumerator Shooted()
@@ -195,10 +213,12 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(StopMoving());
         yield return new WaitForSeconds(timeToStartAttackingAgain);
         canShoot = true;
+        //Debug.Log("Can shoot Again");
     }
 
     IEnumerator Dig()
     {
+        FindAnyObjectByType<AreaEffectManager>().Deactivate();
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
         FindAnyObjectByType<AreaEffectManager>().Deactivate();
@@ -214,7 +234,7 @@ public class EnemyBehaviour : MonoBehaviour
             transform.position = Vector3.Lerp(startDigPos, endDigPos, elapsedTime / digTimer);
             elapsedTime += Time.deltaTime;
         }
-        else if(elapsedTime >= digTimer)
+        else if (elapsedTime >= digTimer)
         {
             isDigging = false;
             isUnderground = true;
@@ -237,8 +257,8 @@ public class EnemyBehaviour : MonoBehaviour
     {
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
         bool chomped = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
-
-        if(!chomped)
+        Debug.Log("Chomping");
+        if (!chomped)
         {
             transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffect.elapsedTime / 1f);
         }
@@ -249,5 +269,16 @@ public class EnemyBehaviour : MonoBehaviour
             isUnderground = false;
             StartCoroutine(Dig());
         }
+    }
+
+    IEnumerator Test()
+    {
+        part.Play();
+        yield return new WaitForSeconds(2f);
+        part.Stop();
+    }
+    public void Death()
+    {
+        EventManager.instance.EnemyDeath(enemyColor);
     }
 }

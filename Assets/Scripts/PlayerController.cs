@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private InputActionMap _actionMap;
 
     [Header("Player Stats")]
-    [SerializeField] int life;
+    [SerializeField] float life;
     [SerializeField] int speed;
     [SerializeField] int baseSpeed;
     [SerializeField] int damage;
@@ -30,8 +30,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float colorTimer;
     [SerializeField] float colorTick;
     [SerializeField] float attackTimer;
-    [SerializeField] float attackTick;
 
+
+    [Header("Player Weapons")]
+    [SerializeField] int whiteWeaponLevel = 1;
+    [SerializeField] float whiteWeaponXpActual;
+    [SerializeField] float whiteWeaponXpMax;
+    [SerializeField] float whiteWeaponDmg;
+    [SerializeField] float whiteWeaponBaseDmg = 10;
+    [SerializeField] float whiteAttackTick;
+    [SerializeField] int blackWeaponLevel = 1;
+    [SerializeField] float blackWeaponXpActual;
+    [SerializeField] float blackWeaponXpMax;
+    [SerializeField] float blackWeaponDmg;
+    [SerializeField] float blackWeaponBaseDmg = 20;
+    [SerializeField] float blackAttackTick;
+
+    [Header("Materials")]
+    [SerializeField] MeshRenderer playerMesh;
+    [SerializeField] Material whiteMat;
+    [SerializeField] Material blackMat;
 
     [Header("State")]
     [SerializeField] PlayerState playerState;
@@ -52,6 +70,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        playerMesh = GetComponentInChildren<MeshRenderer>();
+        playerMesh.material = whiteMat;
         rb = GetComponent<Rigidbody>();
         shootPoint = GameObject.FindWithTag("ShootPoint");
         _playerInput = GetComponent<PlayerInput>();
@@ -59,6 +79,8 @@ public class PlayerController : MonoBehaviour
         _actionMap = _inputActions.FindActionMap("Player");
         colorState = colorSlider.value / 2;
         animator = GetComponent<Animator>();
+        blackWeaponDmg = blackWeaponBaseDmg;
+        whiteWeaponDmg = whiteWeaponBaseDmg;
     }
 
     // Update is called once per frame
@@ -76,17 +98,19 @@ public class PlayerController : MonoBehaviour
         if (_actionMap.FindAction("SwapColor").WasPressedThisFrame())
         {
             if (chocoState == ChocoState.chocoWhite)
-            {
+            {   
+                playerMesh.material = blackMat;
                 chocoState = ChocoState.chocoBlack;
                 colorState -= colorEvolve;
             }
             else
             {
+                playerMesh.material = whiteMat;
                 chocoState = ChocoState.chocoWhite;
                 colorState += colorEvolve;
             }
             colorTimer = colorTick;
-            attackTimer = attackTick;
+            SetAttackTimer();
         }
         SetColor();
     }
@@ -106,7 +130,6 @@ public class PlayerController : MonoBehaviour
         {
             lastDirection = moveInput;
             rb.velocity = new Vector3(moveInput.x, 0, moveInput.y) * speed;
-            Debug.Log("Moving");
         }
         else
         {
@@ -161,14 +184,21 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                animator.SetTrigger("Swing");
+                animator.Play("SwingWeapon");
             }
         }
     }
     void SetAttackTimer()
     {
-        animator.ResetTrigger("Swing");
-        attackTimer = attackTick;
+        if (chocoState == ChocoState.chocoWhite)
+        {
+            attackTimer = whiteAttackTick;
+        }
+        else
+        {
+            attackTimer = blackAttackTick;
+            animator.ResetTrigger("Swing");
+        }
     }
     void TickTimers()
     {
@@ -193,24 +223,84 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void HitEnemy(GameObject enemy)
+    public void HitEnemy(GameObject enemy, GameObject bullet = null)
     {
-        if (chocoState == ChocoState.chocoWhite)
+        var tempBhv = enemy.GetComponent<EnemyBehaviour>();
+        if (chocoState == ChocoState.chocoBlack)
         {
-            enemy.SetActive(false);
+            switch (tempBhv.enemyColor)
+            {
+                case EnemyBehaviour.EnemyColor.chocoWhite:
+                    Debug.Log("oui");
+                    tempBhv.TakeDamage(blackWeaponDmg);
+                    enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50,ForceMode.Impulse);
+                    break;
+            }
         }
         else
         {
+            switch (tempBhv.enemyColor)
+            {
+                case EnemyBehaviour.EnemyColor.chocoBlack:
+                    Debug.Log("oui");
+                    tempBhv.TakeDamage(whiteWeaponDmg);
+                    enemy.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 5, ForceMode.Impulse);
+                    break;
+            }
+        }
+    }
 
+    public void GetDamaged(float damage)
+    {
+        life -= damage;
+    }
+
+    void GetHealed(float heal)
+    {
+        life += heal;
+    }
+
+    void OnEnemyDeath(EnemyBehaviour.EnemyColor color)
+    {
+        if (color == EnemyBehaviour.EnemyColor.chocoWhite)
+        {
+            whiteWeaponXpActual += 5;
+        }
+        else if (color == EnemyBehaviour.EnemyColor.chocoBlack)
+        {
+            blackWeaponXpActual += 5;
+        }
+        CheckLevelUpWeapon();
+    }
+    void CheckLevelUpWeapon()
+    {
+        if (whiteWeaponXpActual >= whiteWeaponXpMax)
+        {
+            whiteWeaponLevel++;
+            whiteWeaponXpActual = whiteWeaponXpActual - whiteWeaponXpMax;
+            whiteWeaponXpMax += 30;
+            whiteAttackTick -= (whiteAttackTick * 15 / 100);
+            whiteWeaponDmg += whiteWeaponBaseDmg * (whiteWeaponLevel-1);
+        }
+        else if (blackWeaponXpActual >= blackWeaponXpMax)
+        {
+            blackWeaponLevel++;
+            blackWeaponXpActual = blackWeaponXpActual - blackWeaponXpMax;
+            blackWeaponXpMax += 30;
+            blackAttackTick -= (blackAttackTick * 15 / 100);
+            blackWeaponDmg += blackWeaponBaseDmg * (blackWeaponLevel-1);
         }
     }
 
     private void OnEnable()
     {
+        EventManager.instance.onEnemyDeath.AddListener(OnEnemyDeath);
         _actionMap.Enable();
     }
+
     private void OnDisable()
     {
+        EventManager.instance.onEnemyDeath.RemoveListener(OnEnemyDeath);
         _actionMap.Disable();
     }
 }

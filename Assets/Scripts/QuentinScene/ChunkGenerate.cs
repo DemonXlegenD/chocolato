@@ -77,6 +77,7 @@ public class ChunkGenerate : MonoBehaviour
 
     }
 
+    [System.Serializable]
     public class Chunk
     {
         List<GameObject> obstacles = new List<GameObject>();
@@ -138,8 +139,8 @@ public class ChunkGenerate : MonoBehaviour
             if (coord.x != 0 || coord.y != 0)
             {
                 int numberObstacles = Random.Range(Mathf.RoundToInt(maxObstaclesNumber / 2) + 1, maxObstaclesNumber);
-                Vector2 minChunk = (coord - (Vector2.one / 2)) * this.size;
-                Vector2 maxChunk = (coord + (Vector2.one / 2)) * this.size;
+                Vector2 minChunk = (coord - (Vector2.one / 2f)) * this.size;
+                Vector2 maxChunk = (coord + (Vector2.one / 2f)) * this.size;
                 for (int i = 0; i < numberObstacles; i++)
                 {
                     GameObject newObstacle = ObstacleSpawner.SpawnObstacles(minChunk, maxChunk, meshObject);

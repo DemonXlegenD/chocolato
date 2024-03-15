@@ -16,22 +16,21 @@ public class ObstacleSpawner : MonoBehaviour
     {
     }
 
-    public GameObject SpawnObstacles(Vector2 chunkMin, Vector2 chunkMax, GameObject parentGameObject)
+    public GameObject SpawnObstacles(Vector2 chunkMin, Vector2 chunkMax, GameObject meshObject)
     {
         int tries = 0;
 
         while (tries < maxTries)
         {
-            //Ca ne marche pas, peut etre à cause de la génération procédurale... le fait que ca soit un mesh?
-            RaycastHit hit;
             Vector3 randomPoint = GenerateRandomPoint(chunkMin, chunkMax);
-            if (Physics.Raycast(randomPoint, Vector3.down, out hit, Mathf.Infinity))
+            if (CheckObstaclePlacement(randomPoint))
             {
-                GameObject newObstacle = Instantiate(obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)], hit.point, Quaternion.identity);
-                if (parentGameObject != null)
-                {
-                    newObstacle.transform.parent = parentGameObject.transform;
-                }
+
+                GameObject newObstacle = Instantiate(obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)], randomPoint, Quaternion.identity);
+                newObstacle.transform.localScale = Vector3.one * Random.Range(2, 15);
+                    
+                newObstacle.transform.parent = meshObject.transform;
+
                 return newObstacle;
             }
             tries++;
@@ -42,6 +41,11 @@ public class ObstacleSpawner : MonoBehaviour
     Vector3 GenerateRandomPoint(Vector2 chunkMin, Vector2 chunkMax)
     {
         Vector3 randomPoint = new Vector3(Random.Range(chunkMin.x, chunkMax.x), 0, Random.Range(chunkMin.y, chunkMax.y));
+        while (randomPoint.y > 160)
+        {
+            randomPoint = new Vector3(Random.Range(chunkMin.x, chunkMax.x), 0, Random.Range(chunkMin.y, chunkMax.y));
+        }
+        Debug.Log("Random " +randomPoint);
         return randomPoint;
     }
 

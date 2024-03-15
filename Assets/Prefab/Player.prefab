@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 8276284462624801746}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -321,7 +321,16 @@ MonoBehaviour:
   colorTimer: 0
   colorTick: 2
   attackTimer: 0
-  attackTick: 2
+  whiteWeaponLevel: 0
+  whiteWeaponXpActual: 0
+  whiteWeaponXpMax: 30
+  whiteWeaponDmg: 0
+  whiteAttackTick: 1
+  blackWeaponLevel: 0
+  blackWeaponXpActual: 0
+  blackWeaponXpMax: 30
+  blackWeaponDmg: 0
+  blackAttackTick: 2
   playerState: 0
   chocoState: 0
   rb: {fileID: 0}
@@ -329,7 +338,9 @@ MonoBehaviour:
   playerBody: {fileID: 8780168418938850125}
   animator: {fileID: 0}
   shootPoint: {fileID: 0}
-  prefabBullet: {fileID: 0}
+  prefabBullet: {fileID: 4356965762799517794, guid: 760a5068a8db84b49afe2028011d412a,
+    type: 3}
+  pool: {fileID: 0}
 --- !u!136 &251400130115665830
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -457,7 +468,7 @@ Transform:
   m_GameObject: {fileID: 8332313700471324881}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.566}
+  m_LocalPosition: {x: 0, y: -0.435, z: 0.566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
