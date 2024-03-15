@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Player Input")]
     private PlayerInput _playerInput;
-    private PlayerActions _playerActions;
     private InputActionAsset _inputActions;
     private InputActionMap _actionMap;
 
@@ -55,7 +54,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         shootPoint = GameObject.FindWithTag("ShootPoint");
         _playerInput = GetComponent<PlayerInput>();
-        _playerActions = new PlayerActions();
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
         colorState = colorSlider.value / 2;
