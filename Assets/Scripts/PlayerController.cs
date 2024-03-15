@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
+using NovaSamples.UIControls;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,14 +22,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float dashBaseTime;
     [SerializeField] int dashSpeed;
     [SerializeField] Vector2 lastDirection;
-    [SerializeField] float colorState;
-    [SerializeField] float colorEvolve;
-    [SerializeField] float colorTimer;
-    [SerializeField] float colorTick;
-    [SerializeField] float attackTimer;
+    [SerializeField] float colorState; // jauge
+    [SerializeField] float colorEvolve; // ce que tu gagnes ou perds
+    [SerializeField] float colorTimer; // timer qui met a jour la jauge couleur
+    [SerializeField] float colorTick; //base time 
+    [SerializeField] float attackTimer; //timer attack
 
 
     [Header("Player Weapons")]
+    [SerializeField] float switchWeaponTime = 5;
     [SerializeField] int whiteWeaponLevel = 1;
     [SerializeField] float whiteWeaponXpActual;
     [SerializeField] float whiteWeaponXpMax;
@@ -53,11 +51,10 @@ public class PlayerController : MonoBehaviour
 
     [Header("State")]
     [SerializeField] PlayerState playerState;
-    [SerializeField] ChocoState chocoState;
+    [SerializeField] ChocoState chocoState; //
 
     [Header("Components")]
     [SerializeField] Rigidbody rb;
-    [SerializeField] Slider colorSlider;
     [SerializeField] GameObject playerBody;
     [SerializeField] Animator animator;
 
@@ -66,6 +63,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject prefabBullet;
     [SerializeField] PoolObjects pool;
 
+    [Header("UI")]
+    [SerializeField] Slider ChocolatJauge;
+    [SerializeField] WeaponsDisplay DarkChocolateWeaponDisplay;
+    [SerializeField] WeaponsDisplay WhiteChocolateWeaponDisplay;
+    [SerializeField] TextMeshPro levelDarkWeapon;
+    [SerializeField] TextMeshPro levelWhiteWeapon;
+    [SerializeField] Slider xpWhiteWeapon;
+    [SerializeField] Slider xpDarkWeapon;
+    [SerializeField] Slider hpPlayer;
+    [SerializeField] LoadDash dashSlider;
+
+    private bool canSwitchWeapon = false;
+    private bool canDash = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -77,10 +87,15 @@ public class PlayerController : MonoBehaviour
         _playerInput = GetComponent<PlayerInput>();
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
-        colorState = colorSlider.value / 2;
+        ChocolatJauge.Value = colorState;
         animator = GetComponent<Animator>();
         blackWeaponDmg = blackWeaponBaseDmg;
         whiteWeaponDmg = whiteWeaponBaseDmg;
+        xpWhiteWeapon.Value = whiteWeaponXpActual;
+        xpWhiteWeapon.Max = whiteWeaponXpMax;
+        xpDarkWeapon.Value = blackWeaponXpActual;
+        xpDarkWeapon.Max = blackWeaponXpMax;
+        hpPlayer.Value = life;
     }
 
     // Update is called once per frame
@@ -89,31 +104,55 @@ public class PlayerController : MonoBehaviour
         if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
         {
             Rotate();
-            if (_actionMap.FindAction("Dash").WasPressedThisFrame())
+            if (_actionMap.FindAction("Dash").WasPressedThisFrame() && canDash)
             {
                 Dash();
             }
         }
+        
+        SwapColor();
+
         TickTimers();
-        if (_actionMap.FindAction("SwapColor").WasPressedThisFrame())
-        {
-            if (chocoState == ChocoState.chocoWhite)
-            {   
-                playerMesh.material = blackMat;
-                chocoState = ChocoState.chocoBlack;
-                colorState -= colorEvolve;
-            }
-            else
-            {
-                playerMesh.material = whiteMat;
-                chocoState = ChocoState.chocoWhite;
-                colorState += colorEvolve;
-            }
-            colorTimer = colorTick;
-            SetAttackTimer();
-        }
+
         SetColor();
+
+        SetArms();
     }
+
+    private void SetArms()
+    {
+        levelWhiteWeapon.text = whiteWeaponLevel.ToString();
+        levelDarkWeapon.text = blackWeaponLevel.ToString();
+    }
+
+    private void SwapColor()
+    {
+        if (canSwitchWeapon)
+        {
+            if (_actionMap.FindAction("SwapColor").WasPressedThisFrame())
+            {
+                if (chocoState == ChocoState.chocoWhite)
+                {
+                    playerMesh.material = blackMat;
+                    chocoState = ChocoState.chocoBlack;
+                    colorState -= colorEvolve;
+                }
+                else
+                {
+                    playerMesh.material = whiteMat;
+                    chocoState = ChocoState.chocoWhite;
+                    colorState += colorEvolve;
+                }
+                DarkChocolateWeaponDisplay.ChangeDisplay();
+                WhiteChocolateWeaponDisplay.ChangeDisplay();
+                canSwitchWeapon = false;
+                colorTimer = colorTick;
+                SetAttackTimer();
+            }
+        }
+
+    }
+
     void FixedUpdate()
     {
         if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
@@ -121,6 +160,16 @@ public class PlayerController : MonoBehaviour
             Move();
         }
     }
+
+
+    #region Getter
+
+    public float GetSwitchWeaponTime() { return switchWeaponTime; }
+
+    #endregion
+
+    public void CanSwitchWeapon() { canSwitchWeapon = true; }
+    public void CanDash() { canDash = true; }
 
     private void Move()
     {
@@ -149,12 +198,14 @@ public class PlayerController : MonoBehaviour
 
     void Dash()
     {
+        dashSlider.Reset();
         dashTimer = dashBaseTime;
         playerState = PlayerState.dashing;
+        canDash = false;
     }
     void SetColor()
     {
-        if (colorTimer <= 0 && colorState > 0 && colorState < colorSlider.maxValue)
+        if (colorTimer <= 0 && colorState > 0 && colorState < 100)
         {
             colorTimer = colorTick;
             if (chocoState == ChocoState.chocoWhite)
@@ -170,7 +221,7 @@ public class PlayerController : MonoBehaviour
         {
             colorTimer -= Time.deltaTime;
         }
-        colorSlider.value = colorState;
+        ChocolatJauge.Value = colorState;
     }
     void Attack()
     {
@@ -233,7 +284,7 @@ public class PlayerController : MonoBehaviour
                 case EnemyBehaviour.EnemyColor.chocoWhite:
                     Debug.Log("oui");
                     tempBhv.TakeDamage(blackWeaponDmg);
-                    enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50,ForceMode.Impulse);
+                    enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
                     break;
             }
         }
@@ -253,6 +304,7 @@ public class PlayerController : MonoBehaviour
     public void GetDamaged(float damage)
     {
         life -= damage;
+        hpPlayer.Value = life;
     }
 
     void GetHealed(float heal)
@@ -270,6 +322,10 @@ public class PlayerController : MonoBehaviour
         {
             blackWeaponXpActual += 5;
         }
+        xpWhiteWeapon.Value = whiteWeaponXpActual;
+        xpWhiteWeapon.Max = whiteWeaponXpMax;
+        xpDarkWeapon.Value = blackWeaponXpActual;
+        xpDarkWeapon.Max = blackWeaponXpMax;
         CheckLevelUpWeapon();
     }
     void CheckLevelUpWeapon()
@@ -279,17 +335,19 @@ public class PlayerController : MonoBehaviour
             whiteWeaponLevel++;
             whiteWeaponXpActual = whiteWeaponXpActual - whiteWeaponXpMax;
             whiteWeaponXpMax += 30;
-            whiteAttackTick -= (whiteAttackTick * 15 / 100);
-            whiteWeaponDmg += whiteWeaponBaseDmg * (whiteWeaponLevel-1);
+            whiteAttackTick -= whiteAttackTick * 15 / 100;
+            whiteWeaponDmg += whiteWeaponBaseDmg * (whiteWeaponLevel - 1);
         }
         else if (blackWeaponXpActual >= blackWeaponXpMax)
         {
             blackWeaponLevel++;
             blackWeaponXpActual = blackWeaponXpActual - blackWeaponXpMax;
             blackWeaponXpMax += 30;
-            blackAttackTick -= (blackAttackTick * 15 / 100);
-            blackWeaponDmg += blackWeaponBaseDmg * (blackWeaponLevel-1);
+            blackAttackTick -= blackAttackTick * 15 / 100;
+            blackWeaponDmg += blackWeaponBaseDmg * (blackWeaponLevel - 1);
         }
+        xpWhiteWeapon.Max = whiteWeaponXpMax;
+        xpDarkWeapon.Max = blackWeaponXpMax;
     }
 
     private void OnEnable()
