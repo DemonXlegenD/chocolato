@@ -9,15 +9,17 @@ public class EventManager : MonoBehaviour
 
     public EnemyDeathEvent onEnemyDeath = new EnemyDeathEvent();
 
-    void SetInstance()
+    public static EventManager GetInstance()
     {
         if (instance == null)
-            instance = this;
+            return instance = FindAnyObjectByType<EventManager>();
+        else 
+            return instance;
     }
 
     private void Awake()
     {
-        SetInstance();
+        GetInstance();
     }
 
     public void EnemyDeath(EnemyBehaviour.EnemyColor color)

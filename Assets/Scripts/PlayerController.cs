@@ -197,7 +197,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             attackTimer = blackAttackTick;
-            animator.ResetTrigger("Swing");
         }
     }
     void TickTimers()
@@ -248,7 +247,6 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
-        tempBhv.CheckHealth();
     }
 
     public void GetDamaged(float damage)
@@ -295,13 +293,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.instance.onEnemyDeath.AddListener(OnEnemyDeath);
+        EventManager.GetInstance().onEnemyDeath.AddListener(OnEnemyDeath);
         _actionMap.Enable();
     }
 
     private void OnDisable()
     {
-        EventManager.instance.onEnemyDeath.RemoveListener(OnEnemyDeath);
+        EventManager.GetInstance().onEnemyDeath.RemoveListener(OnEnemyDeath);
         _actionMap.Disable();
     }
 }

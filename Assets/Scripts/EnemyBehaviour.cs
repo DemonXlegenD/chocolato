@@ -39,6 +39,11 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Backend")]
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
+
+    [Header("Animation")]
+    [SerializeField] string nameAnime;
+    ParticleSystem part;
+    Animator animator;
     bool isMoving = true;
     bool isTouchingPlayer = false;
     bool canShoot = true;
@@ -55,17 +60,26 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         hpActual = hpMax;
         if (enemyType == EnemyType.Digger)
         {
             StartCoroutine(Dig());
         }
-else
+        else
         {
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         }
+        animator = GetComponent<Animator>();
+        part = GetComponentInChildren<ParticleSystem>();
+        pool = FindAnyObjectByType<PoolObjects>();
+        //La fonction test c'est pour les particule quand il est mort il faudrat le link 
+        // le contenu dans la fonction dead
+        //StartCoroutine(Test());
+        //Quand on va link l'asset au prefab faudrat mettre le nom de l'asset mais si on le met pas tout de suite commenter le
+
+
     }
 
     // Update is called once per frame
@@ -80,7 +94,7 @@ else
         {
             Digging();
         }
-        if(isChomping)
+        if (isChomping)
         {
             Chomping();
         }
@@ -89,12 +103,15 @@ else
     void MoveTowardsPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        Debug.Log(player.name);
         Vector3 targetPostition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
         transform.LookAt(targetPostition);
         if (player != null && isMoving)
         {
             if (EnemyType.Basic == enemyType && rangeContact < Vector3.Distance(player.transform.position, transform.position))
             {
+                Debug.Log(Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5));
+
                 transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
             }
             else if (EnemyType.Ranged == enemyType)
@@ -123,14 +140,12 @@ else
             {
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) && !isDigging)
                 {
-                    Debug.Log("move");
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
                 }
                 else if (isUnderground)
                 {
                     if (!isChomping)
                     {
-                        Debug.Log("Chomp");
                         isChomping = true;
                         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
                         Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
@@ -179,18 +194,19 @@ else
         //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
+            //animator.SetBool($"{nameAnime}", true);
+            StartCoroutine(DeathParticle());
             Death();
             gameObject.SetActive(false);
         }
     }
-    
+
     IEnumerator StopMoving()
     {
-        //Debug.Log("Stop move");
         isMoving = false;
         yield return new WaitForSeconds(timeToStartMovingAgain);
         isMoving = true;
-        //Debug.Log("Can move Again");
+
     }
 
     IEnumerator Shooted()
@@ -208,7 +224,7 @@ else
         FindAnyObjectByType<AreaEffectManager>().Deactivate();
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
-FindAnyObjectByType<AreaEffectManager>().Deactivate();
+        FindAnyObjectByType<AreaEffectManager>().Deactivate();
         isDigging = true;
         startDigPos = transform.position;
         endDigPos = new Vector3(startDigPos.x, startDigPos.y - 1.5f, startDigPos.z);
@@ -221,7 +237,7 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
             transform.position = Vector3.Lerp(startDigPos, endDigPos, elapsedTime / digTimer);
             elapsedTime += Time.deltaTime;
         }
-        else if(elapsedTime >= digTimer)
+        else if (elapsedTime >= digTimer)
         {
             isDigging = false;
             isUnderground = true;
@@ -244,8 +260,7 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
     {
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
         bool chomped = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
-        Debug.Log("Chomping");
-        if(!chomped)
+        if (!chomped)
         {
             transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffect.elapsedTime / 1f);
         }
@@ -256,6 +271,13 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
             isUnderground = false;
             StartCoroutine(Dig());
         }
+    }
+
+    IEnumerator DeathParticle()
+    {
+        part.Play();
+        yield return new WaitForSeconds(2f);
+        part.Stop();
     }
     public void Death()
     {
