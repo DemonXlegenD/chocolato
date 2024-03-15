@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private InputActionMap _actionMap;
 
     [Header("Player Stats")]
-    [SerializeField] int life;
+    [SerializeField] float life;
     [SerializeField] int speed;
     [SerializeField] int baseSpeed;
     [SerializeField] int damage;
@@ -31,6 +31,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float colorTick;
     [SerializeField] float attackTimer;
     [SerializeField] float attackTick;
+
+
+    [Header("Player Weapons")]
+    [SerializeField] int whiteWeaponLevel;
+    [SerializeField] float whiteWeaponXpActual;
+    [SerializeField] float whiteWeaponXpMax;
+    [SerializeField] float whiteWeaponDmg;
+    [SerializeField] int blackWeaponLevel;
+    [SerializeField] float blackWeaponXpActual;
+    [SerializeField] float blackWeaponXpMax;
+    [SerializeField] float blackWeaponDmg;
+
 
 
     [Header("State")]
@@ -198,6 +210,11 @@ public class PlayerController : MonoBehaviour
         if(chocoState == ChocoState.chocoWhite)
         {
             enemy.SetActive(false);
+
+          /*switch (enemy.GetComponent<EnemyBehaviour>().enemyType)
+            {
+                case EnemyColor.chocoWhite: enemy.SetActive(true); break;
+            }*/
         }
         else
         {
@@ -205,12 +222,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GetDamaged(float damage)
+    {
+        life -= damage;
+    }
+
+    void GetHealed(float heal)
+    {
+        life += heal;
+    }
+    void OnEnemyDeath()
+    {
+
+    }
     private void OnEnable()
     {
+        EventManager.instance.onEnemyDeath.AddListener(OnEnemyDeath);
         _actionMap.Enable();
     }
     private void OnDisable()
     {
+        EventManager.instance.onEnemyDeath.RemoveListener(OnEnemyDeath);
         _actionMap.Disable();
     }
 }
