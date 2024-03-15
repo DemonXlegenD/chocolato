@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] float bulletSpeed;
     [SerializeField] float bulletDamage;
+    [SerializeField] float timerUntilDespawn;
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,7 +19,7 @@ public class Bullet : MonoBehaviour
 
     private IEnumerator DestroyBullet()
     {
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(timerUntilDespawn);
         gameObject.SetActive(false);
     }
 

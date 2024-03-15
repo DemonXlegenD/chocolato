@@ -12,7 +12,7 @@ public class EventManager : MonoBehaviour
     void SetInstance()
     {
         if (instance == null)
-            instance = this;
+            instance = FindAnyObjectByType<EventManager>();
     }
 
     private void Awake()

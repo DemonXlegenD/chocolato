@@ -39,6 +39,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Backend")]
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
+    [SerializeField] PoolObjects pool;
 
     [Header("Animation")]
     //[SerializeField] string nameAnime;
@@ -54,11 +55,15 @@ public class EnemyBehaviour : MonoBehaviour
     Vector3 startChompPos;
     Vector3 endChompPos;
     bool isDigging = false;
-    [SerializeField] PoolObjects pool;
     Animator animator;
     ParticleSystem part;
+    int isDeadHash = Animator.StringToHash("IsDead");
 
-
+    void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+        pool = FindAnyObjectByType<PoolObjects>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -71,7 +76,6 @@ public class EnemyBehaviour : MonoBehaviour
         {
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         }
-        animator = GetComponent<Animator>();
         part = GetComponentInChildren<ParticleSystem>();
         //La fonction test c'est pour les particule quand il est mort il faudrat le link 
         // le contenu dans la fonction dead
@@ -102,13 +106,13 @@ public class EnemyBehaviour : MonoBehaviour
     void MoveTowardsPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3 targetPostition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-        transform.LookAt(targetPostition);
+        Vector3 targetPosition = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+        transform.LookAt(targetPosition);
         if (player != null && isMoving)
         {
             if (EnemyType.Basic == enemyType && rangeContact < Vector3.Distance(player.transform.position, transform.position))
             {
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, (moveSpeed * Time.fixedDeltaTime) / 5);
             }
             else if (EnemyType.Ranged == enemyType)
             {
@@ -159,18 +163,17 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             isTouchingPlayer = true;
-            //collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
+            collision.gameObject.GetComponent<PlayerController>().GetDamaged(damage);
         }
     }
-
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision collision)
     {
-        if (other.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             isTouchingPlayer = false;
         }
@@ -192,8 +195,18 @@ public class EnemyBehaviour : MonoBehaviour
         //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
+            gameObject.GetComponentInChildren<ParticleSystem>().Play();
+            animator.SetBool(isDeadHash, true);
             Death();
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
+            if(enemyColor == EnemyColor.chocoWhite)
+            {
+                pool.SpawnCookieWhite(transform);
+            }
+            else if (enemyColor == EnemyColor.chocoBlack)
+            {
+                pool.SpawnCookieBlack(transform);
+            }
         }
     }
 
