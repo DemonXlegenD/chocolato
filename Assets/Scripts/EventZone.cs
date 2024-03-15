@@ -19,16 +19,9 @@ public class EventZone : MonoBehaviour
     [SerializeField] float moveSpeed;
 
     private bool canAttack = false;
-    private bool canAttackMeteorite = false;
     private bool isCoroutineRunning = false;
 
     public Vector3 newPosition;
-
-    //Getters
-    public bool GetActiveMeteore() { return canAttackMeteorite; }
-
-    //Setters
-    public bool SetActiveMeteore(bool canAttackMeteorite) { return canAttackMeteorite; }
 
     void Start()
     {
@@ -43,31 +36,23 @@ public class EventZone : MonoBehaviour
         {
             if (randomAttack == 0)
             {
-                /*                GameObject typeAttack = particuleFusion;
-                                StartCoroutine(StartTypeAttackToPlayer(typeAttack));*/
-                canAttackMeteorite = true;
-                newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, spawnCylindre.GetSpawnPosition().y + 20, spawnCylindre.GetSpawnPosition().z);
-                fusionPool.Add(PoolManager.SpawnObject(particuleAsteroid.gameObject, newPosition, particuleAsteroid.transform.rotation));
-                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
-                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;
+                GameObject typeAttack = particuleFusion;
+                StartCoroutine(StartTypeAttackToPlayer(typeAttack));
             }
             else if (randomAttack == 1)
             {
-                /*                GameObject typeAttack = particuleStorm;
-                                StartCoroutine(StartTypeAttackToPlayer(typeAttack));*/
-                canAttackMeteorite = true;
-                newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, spawnCylindre.GetSpawnPosition().y + 20, spawnCylindre.GetSpawnPosition().z);
-                fusionPool.Add(PoolManager.SpawnObject(particuleAsteroid.gameObject, newPosition, particuleAsteroid.transform.rotation));
-                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
-                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;
+                GameObject typeAttack = particuleStorm;
+                StartCoroutine(StartTypeAttackToPlayer(typeAttack));
             }
             else if (randomAttack == 2)
             {
-                canAttackMeteorite = true;
-                newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, spawnCylindre.GetSpawnPosition().y + 20, spawnCylindre.GetSpawnPosition().z);
-                fusionPool.Add(PoolManager.SpawnObject(particuleAsteroid.gameObject, newPosition, particuleAsteroid.transform.rotation));
+                // pour la météorite on set un Y supérieur pour qu'elle parte du dessus
+                newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, 20f, spawnCylindre.GetSpawnPosition().z);
+                var tempMeteor = PoolManager.SpawnObject(particuleAsteroid.gameObject, newPosition, particuleAsteroid.transform.rotation);
+                fusionPool.Add(tempMeteor);
+/*                tempMeteor.GetComponent<MeteoriteMove>().SetObject(spawnCylindre, eventZone);
                 particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
-                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;
+                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;*/
             }
             isCoroutineRunning = true;
         }
@@ -81,12 +66,17 @@ public class EventZone : MonoBehaviour
             {
                 canAttack = true;
             }
+            if (collision.gameObject.CompareTag("Asteroid"))
+            {
+                DisplayClone();
+                // Destroy la zone de chocolat en question
+            }
         }
     }
 
     void OnCollisionExit(Collision collision)
     {
-        KillClone();
+        DisplayClone();
         StopAllCoroutines();
         canAttack = false;
         isCoroutineRunning = false;
@@ -94,54 +84,20 @@ public class EventZone : MonoBehaviour
 
     IEnumerator StartTypeAttackToPlayer(GameObject typeAttack)
     {
-        while (true)
-        {
-            fusionPool.Add(PoolManager.SpawnObject(typeAttack, spawnCylindre.GetSpawnPosition(), typeAttack.transform.rotation));
+        fusionPool.Add(PoolManager.SpawnObject(typeAttack, spawnCylindre.GetSpawnPosition(), typeAttack.transform.rotation));
 
-            yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(6f);
 
-            KillClone();
-
-            randomAttack = Random.Range(0, 3);
-            isCoroutineRunning = false;
-            yield break;
-        }
+        DisplayClone();
+        randomAttack = Random.Range(0, 3);
+        isCoroutineRunning = false;
     }
 
-    private void StartTypeAttackToPlayer2(GameObject typeAttack)
-    {
-        if (canAttackMeteorite)
-        {
-            if (Vector3.Distance(typeAttack.transform.position, spawnCylindre.GetSpawnPosition()) <= finishDistanceTarget)
-            {
-                Debug.Log("arrivée");
-                KillClone();
-                randomAttack = Random.Range(0, 3);
-                canAttackMeteorite = false;
-            }
-            else
-            {
-                Debug.Log("DESTINATION " + spawnCylindre.GetSpawnPosition());
-                Debug.Log("ASTEROID " + typeAttack.transform.position);
-                Vector3 direction = (spawnCylindre.GetSpawnPosition() - typeAttack.transform.position).normalized;
-                typeAttack.transform.Translate(direction * Time.deltaTime * moveSpeed, Space.World);
-            }
-        }
-    }
-
-    private void KillClone()
+    private void DisplayClone()
     {
         foreach (var f in fusionPool)
         {
             PoolManager.ReturnObjectToPool(f);
         }
-        fusionPool.Clear();
-    }
-
-    public void ResetMeteorStatus()
-    {
-        KillClone();
-        randomAttack = Random.Range(0, 3);
-        canAttackMeteorite = false;
     }
 }

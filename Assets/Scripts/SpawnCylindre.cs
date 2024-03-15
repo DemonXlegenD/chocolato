@@ -48,6 +48,7 @@ public class SpawnCylindre : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(GetSpawnPosition());
         GetSpawnPosition();
     }
 }
