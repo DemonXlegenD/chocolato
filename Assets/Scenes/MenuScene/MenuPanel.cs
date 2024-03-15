@@ -7,27 +7,27 @@ using UnityEngine;
 public class MenuPanel : MonoBehaviour
 {
     [SerializeField] private PanelType type;
-    private bool state;
+    private bool state = false;
 
     private UIBlock2D canvas;
 
     private void Awake()
     {
-        canvas = GetComponent<UIBlock2D>(); 
+        canvas = GetComponent<UIBlock2D>();
     }
 
     private void UpdateState()
     {
-        canvas.enabled = state;
+        canvas.gameObject.SetActive(state);
     }
 
-    private void ChangeState()
+    public void ChangeState()
     {
         state = !state;
         UpdateState();
     }
 
-    private void ChangeState(bool _state)
+    public void ChangeState(bool _state)
     {
         state = _state;
         UpdateState();

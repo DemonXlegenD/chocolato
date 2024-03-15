@@ -17,6 +17,7 @@ public class CollectionEditor : Editor
         nameProp = serializedObject.FindProperty("collectionName");
     }
 
+
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
