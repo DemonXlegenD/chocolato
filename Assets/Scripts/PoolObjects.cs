@@ -5,20 +5,20 @@ using UnityEngine;
 public class PoolObjects : MonoBehaviour
 {
     [SerializeField] int maxEnemies;
-    [SerializeField] int maxBullets;
+    [SerializeField] int maxenemyBullets;
     private List<GameObject> enemies;
-    private List<GameObject> bullets;
+    private List<GameObject> enemyBullets;
     [SerializeField] GameObject bulletPrefab;
     // Start is called before the first frame update
     void Start()
     {
         enemies = new List<GameObject>();
-        bullets = new List<GameObject>();
-        for (int i = 0; i < maxBullets; i++)
+        enemyBullets = new List<GameObject>();
+        for (int i = 0; i < maxenemyBullets; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             bullet.SetActive(false);
-            bullets.Add(bullet);
+            enemyBullets.Add(bullet);
         }
     }
 
@@ -28,9 +28,9 @@ public class PoolObjects : MonoBehaviour
         
     }
 
-    public List<GameObject> GetPoolBullets()
+    public List<GameObject> GetPoolenemyBullets()
     {
-        return bullets;
+        return enemyBullets;
     }
 
     public List<GameObject> GetPoolEnemies()
@@ -40,7 +40,7 @@ public class PoolObjects : MonoBehaviour
 
     public GameObject GetFreeBullet()
     {
-        foreach (GameObject bullet in bullets)
+        foreach (GameObject bullet in enemyBullets)
         {
             if (!bullet.activeInHierarchy)
             {
@@ -50,7 +50,7 @@ public class PoolObjects : MonoBehaviour
         return null;
     }
 
-    public void SpawnBullet(Transform enemyTransform)
+    public void SpawnEnemyBullet(Transform enemyTransform)
     {
         GameObject bullet = GetFreeBullet();
         if (bullet != null)

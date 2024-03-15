@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     public void HitEnemy(GameObject enemy)
     {
-        if(chocoState == ChocoState.chocoWhite)
+        if (chocoState == ChocoState.chocoWhite)
         {
             enemy.SetActive(false);
         }
