@@ -54,10 +54,10 @@ namespace NovaSamples.UIControls
 
         [SerializeField]
         [Tooltip("The mininum value for the given slider.")]
-        private float Min = 0;
+        public float Min = 0;
         [SerializeField]
         [Tooltip("The maximum value for the given slider.")]
-        private float Max = 100;
+        public float Max = 100;
 
         [SerializeField]
         [Tooltip("The string format to use when displaying the slider value to the end user.")]

@@ -205,9 +205,9 @@ CapsuleCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b558319602118fb43b109cdbd36105d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPoint: {fileID: 0}
+  playerZone: {fileID: 2683445885508726569}
 --- !u!1001 &8133412592760665982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbed306d28d602841b47f4c390a81a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayArea: 10
+  delayMax: 10
 --- !u!4 &2137467188243828849 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7887598158650517263, guid: 49cb23c2260d2e24ba3e36d64b4d66ef,
