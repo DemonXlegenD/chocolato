@@ -10,11 +10,6 @@ public class Timer : MonoBehaviour
 
     [Header("Timer Settings")]
     public float currentTime;
-   
-    private void Start()
-    {
-      
-    }
 
     void Update()
     {
