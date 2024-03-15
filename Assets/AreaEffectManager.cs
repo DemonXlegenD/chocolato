@@ -24,7 +24,7 @@ public class AreaEffectManager : MonoBehaviour
         
     }
 
-    public bool Activate(EnemyBehaviour.EnemyType enemyType, Vector3 newPos, Vector3 endScale, float timer)
+    public bool Activate(GameObject enemy, Vector3 newPos, Vector3 endScale, float timer)
     {
         if (!activated)
         {
@@ -32,7 +32,7 @@ public class AreaEffectManager : MonoBehaviour
             explosionTrigger.SetActive(true);
             areaEffect.SetActive(true);
             transform.position = new Vector3(newPos.x, 0, newPos.z);
-            GetComponentInChildren<AreaExplosion>().enemyType = enemyType;
+            GetComponentInChildren<AreaExplosion>().enemy = enemy;
         }
         return loopTriggerEnlargement(endScale, timer);
     }
@@ -57,7 +57,6 @@ public class AreaEffectManager : MonoBehaviour
 
     public void Deactivate()
     {
-        Debug.Log("Deactivating");
         explosionTrigger.SetActive(false);
         areaEffect.SetActive(false);
         elapsedTime = 0;
