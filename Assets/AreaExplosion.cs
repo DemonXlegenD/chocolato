@@ -21,7 +21,14 @@ public class AreaExplosion : MonoBehaviour
     {
         if (explode && playersInArea.Count == 0)
         {
-           Deactivate();
+            if(transform.parent.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Kamikaze)
+            {
+                Deactivate();
+            }
+            else if(transform.parent.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Digger)
+            {
+                Chomped();
+            }
         }
     }
 
@@ -59,6 +66,14 @@ public class AreaExplosion : MonoBehaviour
         transform.parent.gameObject.SetActive(false);
         explode = false;
     }
+
+    private void Chomped()
+    {
+        gameObject.SetActive(false);
+        transform.parent.gameObject.transform.GetChild(1).gameObject.SetActive(false);
+        explode = false;
+    }
+
     public void Explode()
     {
         Debug.Log("explosion");
