@@ -1,46 +1,43 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class ChunkGenerate : MonoBehaviour
 {
-    /*[SerializeField] private collectionChunk;*/
-    const float scale = 2f;
+    [SerializeField, Range(1,20)] private int maxObstacles;
+
     static List<Chunk> terrainChunksVisibleLastUpdate = new List<Chunk>();
     public Transform viewers;
+
     public static Vector2 viewersPosition;
     public static Vector2 viewersPositionOld;
+
     int chunksVisibleInViewDst;
     Collection<Vector2, Chunk> terrainChunkCollection = new Collection<Vector2, Chunk>();
-    const float viewerMoveThresholdForChunkUpdate = 20f;
+    const float viewerMoveThresholdForChunkUpdate = 12f;
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
-    public static float maxViewDst;
+    public float maxViewDst;
 
     [SerializeField] int chunkSize;
-    [SerializeField] GameObject chunkGameobject_prefab;
-    [SerializeField] Object obstacle1_prefab;
-    [SerializeField] Object obstacle2_prefab;
+    [SerializeField] List<GameObject> prefabsChunkList = new List<GameObject>();
+
+    static ObstacleSpawner ObstacleSpawner;
+
     void Start()
     {
+        ObstacleSpawner = FindObjectOfType<ObstacleSpawner>();
         chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
         viewersPosition = new Vector2();
         viewersPositionOld = new Vector2();
-        Chunk first = new Chunk(new Vector2(1, 0), chunkSize, chunkGameobject_prefab, obstacle1_prefab, obstacle2_prefab);
+        UpdateVisibleChunks();
     }
 
     // Update is called once per frame
     void Update()
     {
-        viewersPosition = new Vector2(viewers.position.x, viewers.position.z) / 2f;
+        viewersPosition = new Vector2(viewers.position.x, viewers.position.z);
 
         if ((viewersPositionOld - viewersPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
-            Debug.Log("oui");
             viewersPositionOld = viewersPosition;
             UpdateVisibleChunks();
         }
@@ -71,7 +68,8 @@ public class ChunkGenerate : MonoBehaviour
                 }
                 else
                 {
-                    Chunk newT = new Chunk(viewedChunkCoord, chunkSize, chunkGameobject_prefab, obstacle1_prefab, obstacle2_prefab);
+                    int randomNb = Random.Range(0, prefabsChunkList.Count);
+                    Chunk newT = new Chunk(viewedChunkCoord, chunkSize, prefabsChunkList[randomNb], maxViewDst, transform, maxObstacles);
                     terrainChunkCollection.AddItem(viewedChunkCoord, newT);
                 }
             }
@@ -81,42 +79,42 @@ public class ChunkGenerate : MonoBehaviour
 
     public class Chunk
     {
+        List<GameObject> obstacles = new List<GameObject>();
+
         GameObject meshObject;
-        Object obstacle1;
-        Object obstacle2;
         readonly int size;
         Vector2 coord;
         Vector2 positionV2;
         Vector3 positionV3;
         public Bounds bounds;
+        private float maxViewDst;
+        private int maxObstaclesNumber;
 
-        public Chunk(Vector2 coord, int size, GameObject chunkGameobject_prefab, Object obstacle1_prefab, Object obstacle2_prefab)
+        public Chunk(Vector2 coord, int size, GameObject chunkGameobject_prefab, float _maxViewDst, Transform parent, int _maxObstaclesNumber)
         {
-            meshObject = chunkGameobject_prefab;
-            obstacle1 = obstacle1_prefab;
-            obstacle2 = obstacle2_prefab;
+            meshObject = Instantiate(chunkGameobject_prefab);
             this.size = size;
             this.coord = coord;
             this.positionV2 = coord * size;
             this.positionV3 = new Vector3(positionV2.x, 0, positionV2.y);
             bounds = new Bounds(positionV2, Vector2.one * size);
-
-
-
-
-            Instantiate(meshObject);
+            this.maxViewDst = _maxViewDst;
+            this.maxObstaclesNumber = _maxObstaclesNumber;
+            meshObject.name = meshObject.name + coord.ToString();
+            meshObject.transform.parent = parent;
+            meshObject.transform.position = this.positionV3;    
+            meshObject.transform.localScale = new Vector3(size / 10f, 1, size / 10f);
+            SetVisible(false);
             this.UpdateTerrainChunk();
-            //this.GenerateObstacles();
+            this.GenerateObstacles();
         }
 
         public void UpdateTerrainChunk()
         {
 
             float viewerDstFromNearestEdge = Mathf.Sqrt(bounds.SqrDistance(viewersPosition));
-            float viewerDstFromNearestEdge2 = 0;
-            bool visible = false;
-            if (viewersPosition != null) visible = viewerDstFromNearestEdge <= maxViewDst || viewerDstFromNearestEdge2 <= maxViewDst;
-            else visible = viewerDstFromNearestEdge <= maxViewDst
+     
+            bool visible = viewerDstFromNearestEdge <= maxViewDst
 ;
             if (visible)
             {
@@ -139,15 +137,14 @@ public class ChunkGenerate : MonoBehaviour
         {
             if (coord.x != 0 || coord.y != 0)
             {
-                int numberObstacles = UnityEngine.Random.Range(5, 10);
+                int numberObstacles = Random.Range(Mathf.RoundToInt(maxObstaclesNumber / 2) + 1, maxObstaclesNumber);
                 Vector2 minChunk = (coord - (Vector2.one / 2)) * this.size;
                 Vector2 maxChunk = (coord + (Vector2.one / 2)) * this.size;
                 for (int i = 0; i < numberObstacles; i++)
                 {
-                    obstacle1.Generate(minChunk, maxChunk);
-                    obstacle2.Generate(minChunk, maxChunk);
+                    GameObject newObstacle = ObstacleSpawner.SpawnObstacles(minChunk, maxChunk, meshObject);
+                    if (newObstacle != null) obstacles.Add(newObstacle);
                 }
-
             }
         }
     }

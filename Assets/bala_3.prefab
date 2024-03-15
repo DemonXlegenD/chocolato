@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5336129075365194434}
   - component: {fileID: 8659215330572363176}
   - component: {fileID: 6972835256047655734}
+  - component: {fileID: 6511691390170231443}
   m_Layer: 0
   m_Name: bala_3
   m_TagString: Untagged
@@ -100,3 +101,26 @@ MonoBehaviour:
   obstacleNB: 5
   distance: 10
   positionY: 1
+--- !u!136 &6511691390170231443
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778061001376947007}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
+  m_Height: 2
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
