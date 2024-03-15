@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
 
     [Header("Timer Settings")]
     public float currentTime;
-    public bool countDown;
+   
     private void Start()
     {
       
@@ -18,7 +18,7 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        currentTime = countDown ? currentTime -= Time.deltaTime : currentTime += Time.deltaTime;
+        currentTime = currentTime += Time.deltaTime;
         timerText.text = currentTime.ToString();
         timerText.text = currentTime.ToString("0.0");
     }
