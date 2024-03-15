@@ -42,7 +42,7 @@ public class AreaEffectManager : MonoBehaviour
         if (elapsedTime < timer)
         {
 
-            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startScale, new Vector3(6, endScale.y, 6), elapsedTime / timer);
+            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startScale,endScale, elapsedTime / timer);
             elapsedTime += Time.deltaTime;
             return false;
         }

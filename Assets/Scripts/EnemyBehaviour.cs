@@ -58,11 +58,11 @@ public class EnemyBehaviour : MonoBehaviour
     Animator animator;
     ParticleSystem part;
     int isDeadHash = Animator.StringToHash("IsDead");
-    int isRunningHash = Animator.StringToHash("IsRunning");
 
     void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+        pool = FindAnyObjectByType<PoolObjects>();
     }
     // Start is called before the first frame update
     void Start()
@@ -112,8 +112,6 @@ public class EnemyBehaviour : MonoBehaviour
         {
             if (EnemyType.Basic == enemyType && rangeContact < Vector3.Distance(player.transform.position, transform.position))
             {
-                animator.SetBool(isRunningHash, true);
-                Debug.Log("Enemy position: " + transform.position + "Player position" + targetPosition + "Move towards:" + Vector3.MoveTowards(transform.position, targetPosition, (moveSpeed * Time.fixedDeltaTime) / 5));
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, (moveSpeed * Time.fixedDeltaTime) / 5);
             }
             else if (EnemyType.Ranged == enemyType)
@@ -197,9 +195,10 @@ public class EnemyBehaviour : MonoBehaviour
         //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
+            gameObject.GetComponentInChildren<ParticleSystem>().Play();
             animator.SetBool(isDeadHash, true);
             Death();
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
             if(enemyColor == EnemyColor.chocoWhite)
             {
                 pool.SpawnCookieWhite(transform);
