@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
         colorState = colorSlider.value / 2;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
                 Dash();
             }
         }
+        TickTimers();
         if (_actionMap.FindAction("SwapColor").WasPressedThisFrame())
         {
             if (chocoState == ChocoState.chocoWhite)
@@ -104,6 +106,7 @@ public class PlayerController : MonoBehaviour
         {
             lastDirection = moveInput;
             rb.velocity = new Vector3(moveInput.x, 0, moveInput.y) * speed;
+            Debug.Log("Moving");
         }
         else
         {
@@ -128,7 +131,7 @@ public class PlayerController : MonoBehaviour
     }
     void SetColor()
     {
-        if (colorTimer <= 0)
+        if (colorTimer <= 0 && colorState > 0 && colorState < colorSlider.maxValue)
         {
             colorTimer = colorTick;
             if (chocoState == ChocoState.chocoWhite)
@@ -140,7 +143,7 @@ public class PlayerController : MonoBehaviour
                 colorState -= colorEvolve;
             }
         }
-        else
+        else if (colorTimer > 0)
         {
             colorTimer -= Time.deltaTime;
         }
@@ -153,14 +156,18 @@ public class PlayerController : MonoBehaviour
 
             if (chocoState == ChocoState.chocoWhite)
             {
-                Instantiate(prefabBullet, shootPoint.transform.position, Quaternion.identity);
+                //Instantiate(prefabBullet, shootPoint.transform.position, Quaternion.identity);
             }
             else
             {
-                animator.Play("SwingWeapon");
+                animator.SetTrigger("Swing");
             }
-            attackTimer = attackTick;
         }
+    }
+    void SetAttackTimer()
+    {
+        animator.SetTrigger("Swing");
+        attackTimer = attackTick;
     }
     void TickTimers()
     {
@@ -175,11 +182,28 @@ public class PlayerController : MonoBehaviour
             speed = baseSpeed;
             playerState = PlayerState.normal;
         }
-        if(attackTimer > 0)
+        if (attackTimer > 0)
         {
             attackTimer -= Time.deltaTime;
         }
+        else
+        {
+            Attack();
+        }
     }
+
+    public void HitEnemy(GameObject enemy)
+    {
+        if(chocoState == ChocoState.chocoWhite)
+        {
+            enemy.SetActive(false);
+        }
+        else
+        {
+
+        }
+    }
+
     private void OnEnable()
     {
         _actionMap.Enable();
