@@ -67,7 +67,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             StartCoroutine(Dig());
         }
-else
+        else
         {
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         }
@@ -78,7 +78,7 @@ else
         //StartCoroutine(Test());
         //Quand on va link l'asset au prefab faudrat mettre le nom de l'asset mais si on le met pas tout de suite commenter le
         //animator.SetBool($"{nameAnime}", true);
-        
+
     }
 
     // Update is called once per frame
@@ -93,7 +93,7 @@ else
         {
             Digging();
         }
-        if(isChomping)
+        if (isChomping)
         {
             Chomping();
         }
@@ -196,7 +196,7 @@ else
             gameObject.SetActive(false);
         }
     }
-    
+
     IEnumerator StopMoving()
     {
         //Debug.Log("Stop move");
@@ -221,7 +221,7 @@ else
         FindAnyObjectByType<AreaEffectManager>().Deactivate();
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
-FindAnyObjectByType<AreaEffectManager>().Deactivate();
+        FindAnyObjectByType<AreaEffectManager>().Deactivate();
         isDigging = true;
         startDigPos = transform.position;
         endDigPos = new Vector3(startDigPos.x, startDigPos.y - 1.5f, startDigPos.z);
@@ -234,7 +234,7 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
             transform.position = Vector3.Lerp(startDigPos, endDigPos, elapsedTime / digTimer);
             elapsedTime += Time.deltaTime;
         }
-        else if(elapsedTime >= digTimer)
+        else if (elapsedTime >= digTimer)
         {
             isDigging = false;
             isUnderground = true;
@@ -258,7 +258,7 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
         bool chomped = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
         Debug.Log("Chomping");
-        if(!chomped)
+        if (!chomped)
         {
             transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffect.elapsedTime / 1f);
         }

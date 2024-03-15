@@ -248,7 +248,6 @@ public class PlayerController : MonoBehaviour
                     break;
             }
         }
-        tempBhv.CheckHealth();
     }
 
     public void GetDamaged(float damage)
