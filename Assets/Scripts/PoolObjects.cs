@@ -191,7 +191,7 @@ public class PoolObjects : MonoBehaviour
         GameObject cookie = GetFreeLootCookiesBlack();
         if (cookie != null)
         {
-            cookie.transform.position = enemyTransform.position;
+            cookie.transform.position = new Vector3(enemyTransform.position.x,enemyTransform.position.y+0.5f,enemyTransform.position.z);
             cookie.SetActive(true);
         }
     }
