@@ -38,7 +38,7 @@ public class PoolObjects : MonoBehaviour
         return enemies;
     }
 
-    public GameObject GetFreeEnemyBullet()
+    public GameObject GetFreeBullet()
     {
         foreach (GameObject bullet in enemyBullets)
         {
@@ -52,7 +52,7 @@ public class PoolObjects : MonoBehaviour
 
     public void SpawnEnemyBullet(Transform enemyTransform)
     {
-        GameObject bullet = GetFreeEnemyBullet();
+        GameObject bullet = GetFreeBullet();
         if (bullet != null)
         {
             bullet.transform.position = enemyTransform.position;

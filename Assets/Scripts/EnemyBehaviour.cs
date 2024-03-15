@@ -44,10 +44,12 @@ public class EnemyBehaviour : MonoBehaviour
     bool canShoot = true;
     bool isExploding = false;
     bool isChomping = false;
+    bool isUnderground = false;
     float elapsedTime = 0;
-    Vector3 startScaleExplosionArea = new Vector3(1f, 0.1f, 1f);
     Vector3 startDigPos;
     Vector3 endDigPos;
+    Vector3 startChompPos;
+    Vector3 endChompPos;
     bool isDigging = false;
     [SerializeField] PoolObjects pool;
 
@@ -56,14 +58,9 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         hpActual = hpMax;
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(false);
         if (enemyType == EnemyType.Digger)
         {
             StartCoroutine(Dig());
-            transform.GetChild(0).transform.position = new Vector3(transform.GetChild(0).transform.position.x, transform.GetChild(0).transform.position.y+1.5f, transform.GetChild(0).transform.position.z);
-            transform.GetChild(1).transform.position = new Vector3(transform.GetChild(1).transform.position.x, transform.GetChild(1).transform.position.y + 1.5f, transform.GetChild(1).transform.position.z); ;
-            transform.GetChild(2).transform.position = new Vector3(transform.GetChild(2).transform.position.x, transform.GetChild(2).transform.position.y + 1.5f, transform.GetChild(2).transform.position.z); ;
         }
     }
 
@@ -116,8 +113,6 @@ public class EnemyBehaviour : MonoBehaviour
                 else
                 {
                     isExploding = true;
-                    transform.GetChild(0).gameObject.SetActive(true);
-                    transform.GetChild(1).gameObject.SetActive(true);
                 }
             }
             else if(EnemyType.Digger == enemyType)
@@ -126,16 +121,17 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     Debug.Log("move");
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
+                }
+                else if (isUnderground)
+                {
                     if (!isChomping)
                     {
                         Debug.Log("Chomp");
                         isChomping = true;
-                        transform.GetChild(0).gameObject.SetActive(true);
-                        transform.GetChild(1).gameObject.SetActive(true);
                         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
                         Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
-                        startDigPos = transform.position;
-                        endDigPos = newYPos;
+                        startChompPos = transform.position;
+                        endChompPos = newYPos;
                     }
                 }
             }
@@ -204,9 +200,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     IEnumerator Dig()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(false);
-        transform.GetChild(0).gameObject.transform.localScale = startScaleExplosionArea;
+        FindAnyObjectByType<AreaEffectManager>().Deactivate();
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
         isDigging = true;
@@ -224,6 +218,7 @@ public class EnemyBehaviour : MonoBehaviour
         else if(elapsedTime >= digTimer)
         {
             isDigging = false;
+            isUnderground = true;
             elapsedTime = 0;
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = true;
         }
@@ -231,32 +226,28 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Explode()
     {
-        if(elapsedTime < explodeTimer)
+        AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
+        bool exploded = areaEffect.Activate(enemyType, transform.position, new Vector3(6, startDigPos.y, 6), explodeTimer);
+        if (exploded)
         {
-            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startScaleExplosionArea, new Vector3(6, startScaleExplosionArea.y, 6), elapsedTime / explodeTimer);
-            elapsedTime += Time.deltaTime;
-        }
-        if(elapsedTime >= explodeTimer)
-        {
-            AreaExplosion childAreaExplosion = transform.GetChild(0).gameObject.GetComponent<AreaExplosion>();
-            childAreaExplosion.Explode();
-            elapsedTime = 0;
+            areaEffect.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
         }
     }
 
     void Chomping()
     {
+        AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
+        bool chomped = areaEffect.Activate(enemyType, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
         Debug.Log("Chomping");
-        if (elapsedTime < 1f)
+        if(!chomped)
         {
-            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startScaleExplosionArea, new Vector3(6, startScaleExplosionArea.y, 6), elapsedTime / 1f);
-            transform.position = Vector3.Lerp(startDigPos, endDigPos, elapsedTime / 1f);
-            elapsedTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffect.elapsedTime / 1f);
         }
-        else if (elapsedTime >= 1f)
+        else
         {
+            areaEffect.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
             isChomping = false;
-            elapsedTime = 0;
+            isUnderground = false;
             StartCoroutine(Dig());
         }
     }
