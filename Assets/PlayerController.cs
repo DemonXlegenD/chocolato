@@ -3,51 +3,181 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerController : MonoBehaviour
 {
+    enum PlayerState { normal, dashing, hitted };
+    enum ChocoState { chocoWhite, chocoBlack, chocoMilk };
+
     [Header("Player Input")]
-    [SerializeField] private PlayerInput _playerInput;
-    [SerializeField] private PlayerActions _playerActions;
-    [SerializeField] private InputActionAsset _inputActions;
-    [SerializeField] private InputActionMap _actionMap;
+    private PlayerInput _playerInput;
+    private PlayerActions _playerActions;
+    private InputActionAsset _inputActions;
+    private InputActionMap _actionMap;
 
     [Header("Player Stats")]
     [SerializeField] int life;
     [SerializeField] int speed;
+    [SerializeField] int baseSpeed;
     [SerializeField] int damage;
+    [SerializeField] float dashTimer;
+    [SerializeField] float dashBaseTime;
+    [SerializeField] int dashSpeed;
+    [SerializeField] Vector2 lastDirection;
+    [SerializeField] float colorState;
+    [SerializeField] float colorEvolve;
+    [SerializeField] float colorTimer;
+    [SerializeField] float colorTick;
+    [SerializeField] float attackTimer;
+    [SerializeField] float attackTick;
+
+
+    [Header("State")]
+    [SerializeField] PlayerState playerState;
+    [SerializeField] ChocoState chocoState;
 
     [Header("Components")]
     [SerializeField] Rigidbody rb;
+    [SerializeField] Slider colorSlider;
+    [SerializeField] GameObject playerBody;
+    [SerializeField] Animator animator;
+
+    [Header("Shoot")]
+    [SerializeField] GameObject shootPoint;
+    [SerializeField] GameObject prefabBullet;
 
 
     // Start is called before the first frame update
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        shootPoint = GameObject.FindWithTag("ShootPoint");
         _playerInput = GetComponent<PlayerInput>();
         _playerActions = new PlayerActions();
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
+        colorState = colorSlider.value / 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
+        {
+            Rotate();
+            if (_actionMap.FindAction("Dash").WasPressedThisFrame())
+            {
+                Dash();
+            }
+        }
+        if (_actionMap.FindAction("SwapColor").WasPressedThisFrame())
+        {
+            if (chocoState == ChocoState.chocoWhite)
+            {
+                chocoState = ChocoState.chocoBlack;
+                colorState -= colorEvolve;
+            }
+            else
+            {
+                chocoState = ChocoState.chocoWhite;
+                colorState += colorEvolve;
+            }
+            colorTimer = colorTick;
+        }
+        SetColor();
     }
     void FixedUpdate()
     {
-        Move();
+        if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
+        {
+            Move();
+        }
     }
 
     private void Move()
     {
-        Vector2 moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
-        if(moveInput != null)
+        Vector3 moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
+        moveInput.Normalize();
+        if (moveInput != Vector3.zero)
         {
-            rb.velocity = new Vector3(moveInput.x,0,moveInput.y) * speed;
+            lastDirection = moveInput;
+            rb.velocity = new Vector3(moveInput.x, 0, moveInput.y) * speed;
+        }
+        else
+        {
+            rb.velocity = Vector3.zero;
+        }
+    }
+
+    void Rotate()
+    {
+        Vector3 rotateInput = _actionMap.FindAction("Rotate").ReadValue<Vector2>();
+        rotateInput.Normalize();
+        if (rotateInput.magnitude > 0.25)
+        {
+            playerBody.transform.forward = new Vector3(rotateInput.x, 0, rotateInput.y);
+        }
+    }
+
+    void Dash()
+    {
+        dashTimer = dashBaseTime;
+        playerState = PlayerState.dashing;
+    }
+    void SetColor()
+    {
+        if (colorTimer <= 0)
+        {
+            colorTimer = colorTick;
+            if (chocoState == ChocoState.chocoWhite)
+            {
+                colorState += colorEvolve;
+            }
+            else
+            {
+                colorState -= colorEvolve;
+            }
+        }
+        else
+        {
+            colorTimer -= Time.deltaTime;
+        }
+        colorSlider.value = colorState;
+    }
+    void Attack()
+    {
+        if (attackTimer <= 0)
+        {
+
+            if (chocoState == ChocoState.chocoWhite)
+            {
+                Instantiate(prefabBullet, shootPoint.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                animator.Play("SwingWeapon");
+            }
+            attackTimer = attackTick;
+        }
+    }
+    void TickTimers()
+    {
+        if (dashTimer > 0)
+        {
+            dashTimer -= Time.deltaTime;
+            speed = dashSpeed;
+            rb.velocity = new Vector3(lastDirection.x, 0, lastDirection.y) * dashSpeed;
+        }
+        else
+        {
+            speed = baseSpeed;
+            playerState = PlayerState.normal;
+        }
+        if(attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
         }
     }
     private void OnEnable()
