@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
@@ -271,6 +272,19 @@ public class PlayerController : MonoBehaviour
             blackWeaponXpActual += 5;
         }
         CheckLevelUpWeapon();
+    }
+
+    public void AddExp(EnemyBehaviour.EnemyColor color)
+    {
+        switch(color)
+        {
+            case EnemyBehaviour.EnemyColor.chocoWhite:
+                whiteWeaponXpActual += 20;
+                break;
+            case EnemyBehaviour.EnemyColor.chocoBlack:
+                blackWeaponXpActual += 20;
+                break;
+        }
     }
     void CheckLevelUpWeapon()
     {

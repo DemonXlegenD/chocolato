@@ -39,6 +39,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Backend")]
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
+    [SerializeField] PoolObjects pool;
 
     [Header("Animation")]
     //[SerializeField] string nameAnime;
@@ -54,7 +55,6 @@ public class EnemyBehaviour : MonoBehaviour
     Vector3 startChompPos;
     Vector3 endChompPos;
     bool isDigging = false;
-    [SerializeField] PoolObjects pool;
     Animator animator;
     ParticleSystem part;
     int isDeadHash = Animator.StringToHash("IsDead");
@@ -200,6 +200,14 @@ public class EnemyBehaviour : MonoBehaviour
             animator.SetBool(isDeadHash, true);
             Death();
             gameObject.SetActive(false);
+            if(enemyColor == EnemyColor.chocoWhite)
+            {
+                pool.SpawnCookieWhite(transform);
+            }
+            else if (enemyColor == EnemyColor.chocoBlack)
+            {
+                pool.SpawnCookieBlack(transform);
+            }
         }
     }
 
