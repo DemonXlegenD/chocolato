@@ -5,17 +5,21 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI timeText;
-    [SerializeField] private float timerCounter;
-    [SerializeField] private float minutes;
-    [SerializeField] private float secondes;
+    [Header("Component")]
+    public TextMeshProUGUI timerText;
 
-   
+    [Header("Timer Settings")]
+    public float currentTime;
+    public bool countDown;
+    private void Start()
+    {
+      
+    }
+
     void Update()
     {
-        timerCounter += Time.deltaTime;
-        minutes = Mathf.FloorToInt(timerCounter / 60f); 
-        secondes = Mathf.FloorToInt(timerCounter - (minutes / 60f));
-        timeText.text = string.Format("{0:00}:{1:00}", minutes, secondes);
+        currentTime = countDown ? currentTime -= Time.deltaTime : currentTime += Time.deltaTime;
+        timerText.text = currentTime.ToString();
+        timerText.text = currentTime.ToString("0.0");
     }
 }
