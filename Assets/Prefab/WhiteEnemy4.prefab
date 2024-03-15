@@ -26,17 +26,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3d887371e62d1ec438fdd514e13e29f0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3d887371e62d1ec438fdd514e13e29f0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7477818
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3d887371e62d1ec438fdd514e13e29f0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3d887371e62d1ec438fdd514e13e29f0,
         type: 3}
@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3d887371e62d1ec438fdd514e13e29f0,
         type: 3}
       propertyPath: m_Name
-      value: toad-warrior
+      value: WhiteEnemy4
       objectReference: {fileID: 0}
     - target: {fileID: 8574611706167915169, guid: 3d887371e62d1ec438fdd514e13e29f0,
         type: 3}
@@ -87,5 +87,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d887371e62d1ec438fdd514e13e29f0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8213632398341060971}
   m_SourcePrefab: {fileID: 100100000, guid: 3d887371e62d1ec438fdd514e13e29f0, type: 3}
+--- !u!1 &4831768911621546813 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3d887371e62d1ec438fdd514e13e29f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 5750126853058158188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &-8213632398341060971
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4831768911621546813}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

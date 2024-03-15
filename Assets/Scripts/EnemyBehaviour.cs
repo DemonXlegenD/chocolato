@@ -150,7 +150,7 @@ public class EnemyBehaviour : MonoBehaviour
                         Debug.Log("Chomp");
                         isChomping = true;
                         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
-                        Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+                        Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.7f, transform.position.z);
                         startChompPos = transform.position;
                         endChompPos = newYPos;
                     }
@@ -231,13 +231,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     IEnumerator Dig()
     {
-        FindAnyObjectByType<AreaEffectManager>().Deactivate();
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
         FindAnyObjectByType<AreaEffectManager>().Deactivate();
         isDigging = true;
         startDigPos = transform.position;
-        endDigPos = new Vector3(startDigPos.x, startDigPos.y - 1.5f, startDigPos.z);
+        GetComponent<Rigidbody>().isKinematic = true;
+        endDigPos = new Vector3(startDigPos.x, startDigPos.y - 1.7f, startDigPos.z);
     }
 
     void Digging()
@@ -258,6 +258,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Explode()
     {
+        GetComponent<Rigidbody>().isKinematic = true;
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
         bool exploded = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), explodeTimer);
         if (exploded)
@@ -280,6 +281,7 @@ public class EnemyBehaviour : MonoBehaviour
             areaEffect.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
             isChomping = false;
             isUnderground = false;
+            GetComponent<Rigidbody>().isKinematic = false;
             StartCoroutine(Dig());
         }
     }
@@ -292,6 +294,6 @@ public class EnemyBehaviour : MonoBehaviour
     }
     public void Death()
     {
-        EventManager.instance.EnemyDeath(enemyColor);
+        EventManager.GetInstance().EnemyDeath(enemyColor);
     }
 }
