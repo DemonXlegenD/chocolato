@@ -166,7 +166,7 @@ public class PlayerController : MonoBehaviour
     }
     void SetAttackTimer()
     {
-        animator.SetTrigger("Swing");
+        animator.ResetTrigger("Swing");
         attackTimer = attackTick;
     }
     void TickTimers()
