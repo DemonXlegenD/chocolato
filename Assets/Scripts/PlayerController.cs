@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     [Header("Shoot")]
     [SerializeField] GameObject shootPoint;
     [SerializeField] GameObject prefabBullet;
+    [SerializeField] PoolObjects pool;
 
 
     // Start is called before the first frame update
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
                 colorState += colorEvolve;
             }
             colorTimer = colorTick;
+            attackTimer = attackTick;
         }
         SetColor();
     }
@@ -154,7 +156,8 @@ public class PlayerController : MonoBehaviour
 
             if (chocoState == ChocoState.chocoWhite)
             {
-                //Instantiate(prefabBullet, shootPoint.transform.position, Quaternion.identity);
+                SetAttackTimer();
+                pool.SpawnBullet(playerBody.transform.forward, shootPoint.transform);
             }
             else
             {

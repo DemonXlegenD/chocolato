@@ -60,5 +60,17 @@ public class PoolObjects : MonoBehaviour
             bullet.SetActive(true);
             bullet.GetComponent<Bullet>().StartBullet();
         }
+    }   
+    public void SpawnBullet(Vector3 dir, Transform spawn)
+    {
+        GameObject bullet = GetFreeBullet();
+        if (bullet != null)
+        {
+            bullet.transform.forward = dir;
+            bullet.transform.position = spawn.position;
+            bullet.SetActive(true);
+            bullet.GetComponent<Bullet>().type = Bullet.BulletType.PlayerBullet;
+            bullet.GetComponent<Bullet>().StartBullet();
+        }
     }
 }

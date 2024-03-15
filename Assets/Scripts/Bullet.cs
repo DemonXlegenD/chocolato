@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public enum BulletType { EnemyBullet, PlayerBullet }
+    public BulletType type;
+
     [SerializeField] float bulletSpeed;
     [SerializeField] float bulletDamage;
     // Start is called before the first frame update
@@ -26,17 +29,30 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (type == BulletType.EnemyBullet)
         {
-            gameObject.SetActive(false);
-            //collision.gameObject.GetComponent<PlayerController>().TakeDamage(bulletDamage);
+            if (other.gameObject.tag == "Player")
+            {
+                gameObject.SetActive(false);
+                //collision.gameObject.GetComponent<PlayerController>().TakeDamage(bulletDamage);
+            }
+        }
+        else
+        {
+            if (other.gameObject.tag == "Enemy")
+            {
+                gameObject.SetActive(false);
+            }
         }
     }
 
     public void StartBullet()
     {
         StartCoroutine(DestroyBullet());
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        transform.forward = player.transform.position - transform.position;
+        if (type == BulletType.EnemyBullet)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            transform.forward = player.transform.position - transform.position;
+        }
     }
 }
