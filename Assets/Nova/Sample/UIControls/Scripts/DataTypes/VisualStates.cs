@@ -65,6 +65,6 @@ namespace NovaSamples.UIControls
         [Tooltip("The animation to run when the control is in its pressed visual state.")]
         public string PressedAnimation;
 
-        public static readonly AnimationStates DefaultStates = new AnimationStates() { DefaultAnimation = "Normal", HoveredAnimation = "Highlighted", PressedAnimation = "Pressed"};
+        public static readonly AnimationStates DefaultStates = new AnimationStates() { DefaultAnimation = "Normal", HoveredAnimation = "Highlighted", PressedAnimation = "Pressed" };
     }
 }
