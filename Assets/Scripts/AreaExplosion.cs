@@ -6,6 +6,7 @@ public class AreaExplosion : MonoBehaviour
 {
 
     private bool explode = false;
+    public EnemyBehaviour.EnemyType enemyType;
     private List<Collider> playersInArea = new List<Collider>();
 
     int damage; 
@@ -13,7 +14,6 @@ public class AreaExplosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        damage = GetComponentInParent<EnemyBehaviour>().damage;
     }
 
     // Update is called once per frame
@@ -63,7 +63,6 @@ public class AreaExplosion : MonoBehaviour
     {
         gameObject.SetActive(false);
         transform.parent.gameObject.transform.GetChild(1).gameObject.SetActive(false);
-        transform.parent.gameObject.SetActive(false);
         explode = false;
     }
 
@@ -74,9 +73,10 @@ public class AreaExplosion : MonoBehaviour
         explode = false;
     }
 
-    public void Explode()
+    public void Explode(int _damage)
     {
         Debug.Log("explosion");
+        damage = _damage;
         explode = true;
     }
 }
