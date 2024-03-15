@@ -41,7 +41,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] float timeToStartMovingAgain;
 
     [Header("Animation")]
-    [SerializeField] string nameAnime;
+    //[SerializeField] string nameAnime;
     bool isMoving = true;
     bool isTouchingPlayer = false;
     bool canShoot = true;
@@ -75,9 +75,9 @@ public class EnemyBehaviour : MonoBehaviour
         part = GetComponentInChildren<ParticleSystem>();
         //La fonction test c'est pour les particule quand il est mort il faudrat le link 
         // le contenu dans la fonction dead
-        StartCoroutine(Test());
+        //StartCoroutine(Test());
         //Quand on va link l'asset au prefab faudrat mettre le nom de l'asset mais si on le met pas tout de suite commenter le
-        animator.SetBool($"{nameAnime}", true);
+        //animator.SetBool($"{nameAnime}", true);
         
     }
 
