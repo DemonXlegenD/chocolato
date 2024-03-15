@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Object : MonoBehaviour
 {
     [SerializeField] Transform obstacle;
     readonly List<Transform> obstacleList = new List<Transform>();
     Vector3 position;
     [SerializeField] private int obstacleNB;
-    [SerializeField] private int minObstacleX;
-    [SerializeField] private int maxObstacleX;
-    [SerializeField] private int minObstacleZ;
-    [SerializeField] private int maxObstacleZ;
     [SerializeField] private int distance;
     [SerializeField] private int positionY;
-    public void Generate()
+    public void Generate(Vector2 minChunk, Vector2 maxChunk)
     {
+        Debug.Log("vuu");
         position = new Vector3(10, positionY, 10);
         Transform item = Instantiate<Transform>(obstacle, position, Quaternion.identity);
         obstacleList.Add(item);
@@ -26,7 +23,7 @@ public class Obstacle : MonoBehaviour
 
             for (int attempts = 0; attempts < 100; attempts++)
             {
-                position = new Vector3(Random.Range(minObstacleX, maxObstacleX), positionY, Random.Range(minObstacleZ, maxObstacleZ));
+                position = new Vector3(Random.Range(minChunk.x, maxChunk.x), positionY, Random.Range(minChunk.y, maxChunk.y));
                 isValidPosition = true;
 
                 foreach (Transform obstaclePosition in obstacleList)

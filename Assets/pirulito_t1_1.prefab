@@ -97,10 +97,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle: {fileID: 490354603951773743}
-  obstacleNB: 1500
-  minObstacleX: -5000
-  maxObstacleX: 5000
-  minObstacleZ: -5000
-  maxObstacleZ: 5000
+  obstacleNB: 5
   distance: 5
   positionY: 5
