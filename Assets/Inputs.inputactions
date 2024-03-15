@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Rotate",
+                    "type": "Value",
+                    "id": "5a5c2f58-7e2a-4e0d-b127-95daa87dd943",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Shoot",
                     "type": "Value",
                     "id": "2448cd18-9637-47a6-b2e2-d9f4b59f639c",
@@ -27,6 +36,15 @@
                     "name": "Dash",
                     "type": "Button",
                     "id": "c798ad52-5e10-49cd-9683-2b4d0acb9f60",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwapColor",
+                    "type": "Button",
+                    "id": "b6df8dc4-7ea7-4b4c-bd78-e436e5a1d242",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -121,6 +139,28 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0139c717-94a0-4dbb-82e0-e51099526675",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapColor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e33a0232-0589-465e-89c0-3243cc763ccb",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
