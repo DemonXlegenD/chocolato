@@ -11,7 +11,7 @@ public class EnemyBehaviour : MonoBehaviour
         Basic,
         Ranged,
         Kamikaze,
-        Mole
+        Digger
     }
 
     enum EnemyColor
@@ -31,6 +31,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] float range;
     [SerializeField] float rangeContact;
     [SerializeField] float explodeTimer;
+    [SerializeField] float digTimer;
 
 
     [Header("Backend")]
@@ -42,6 +43,8 @@ public class EnemyBehaviour : MonoBehaviour
     bool isExploding = false;
     float elapsedTime = 0;
     Vector3 startScaleExplosionArea = new Vector3(1f, 0.1f, 1f);
+    Vector3 startDigPos;
+    bool isDigging = false;
     [SerializeField] PoolObjects pool;
 
 
@@ -56,16 +59,26 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(enemyType == EnemyType.Digger)
+        {
+            StartCoroutine(Dig());
+        }
         MoveTowardsPlayer();
         if(isExploding)
         {
             Explode();
+        }
+        if(isDigging)
+        {
+            startDigPos = transform.position;
+            Digging();
         }
     }
 
     void MoveTowardsPlayer()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+        transform.LookAt(player.transform);
         if (player != null && isMoving)
         {
             if (EnemyType.Basic == enemyType && rangeContact < Vector3.Distance(player.transform.position, transform.position))
@@ -78,7 +91,7 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.fixedDeltaTime / 5);
                 }
-                if (range < Vector3.Distance(player.transform.position, transform.position) && canShoot)
+                if (range > Vector3.Distance(player.transform.position, transform.position) && canShoot)
                 {
                     StartCoroutine(Shooted());
                 }
@@ -95,7 +108,13 @@ public class EnemyBehaviour : MonoBehaviour
                     transform.GetChild(0).gameObject.SetActive(true);
                     transform.GetChild(1).gameObject.SetActive(true);
                 }
-
+            }
+            else if(EnemyType.Digger == enemyType)
+            {
+                if (range < Vector3.Distance(player.transform.position, transform.position) && !isDigging)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed * Time.fixedDeltaTime) / 5);
+                }
             }
             if(isTouchingPlayer)
             {
@@ -133,15 +152,31 @@ public class EnemyBehaviour : MonoBehaviour
     IEnumerator Shooted()
     {
         canShoot = false;
-        GameObject bullet = pool.GetFreeBullet();
-        bullet.transform.position = transform.position;
-        bullet.transform.rotation = transform.rotation;
-        bullet.SetActive(true);
-        bullet.GetComponent<Bullet>().StartBullet();
+        pool.SpawnBullet(transform);
         StartCoroutine(StopMoving());
         yield return new WaitForSeconds(timeToStartAttackingAgain);
         canShoot = true;
         Debug.Log("Can shoot Again");
+    }
+
+    IEnumerator Dig()
+    {
+        yield return new WaitForSeconds(digTimer);
+        isDigging = true;
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+
+        transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(1).transform.position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+    }
+
+    void Digging()
+    {
+        if (elapsedTime < digTimer)
+        {
+            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startDigPos, new Vector3(startDigPos.x, startDigPos.y-1, startDigPos.z), elapsedTime / explodeTimer);
+            elapsedTime += Time.deltaTime;
+        }
     }
 
     void Explode()
@@ -155,6 +190,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             AreaExplosion childAreaExplosion = transform.GetChild(0).gameObject.GetComponent<AreaExplosion>();
             childAreaExplosion.Explode();
+            elapsedTime = 0;
         }
     }
 }

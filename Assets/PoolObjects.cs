@@ -49,4 +49,16 @@ public class PoolObjects : MonoBehaviour
         }
         return null;
     }
+
+    public void SpawnBullet(Transform enemyTransform)
+    {
+        GameObject bullet = GetFreeBullet();
+        if (bullet != null)
+        {
+            bullet.transform.position = enemyTransform.position;
+            bullet.transform.rotation = enemyTransform.rotation;
+            bullet.SetActive(true);
+            bullet.GetComponent<Bullet>().StartBullet();
+        }
+    }
 }
