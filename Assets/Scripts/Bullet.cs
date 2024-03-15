@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    private PlayerController playerController;
     public enum BulletType { EnemyBullet, PlayerBullet }
     public BulletType type;
 
     [SerializeField] float bulletSpeed;
     [SerializeField] float bulletDamage;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        playerController = FindAnyObjectByType<PlayerController>();
     }
 
     private IEnumerator DestroyBullet()
@@ -41,8 +43,7 @@ public class Bullet : MonoBehaviour
         {
             if (other.gameObject.tag == "Enemy")
             {
-                other.gameObject.GetComponent<EnemyBehaviour>().Death();
-
+                playerController.HitEnemy(other.gameObject,gameObject);
             }
         }
     }

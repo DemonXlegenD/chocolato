@@ -26,7 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] public EnemyColor enemyColor;
     [SerializeField] float moveSpeed;
     [SerializeField] int hpMax;
-    private int hpActual;
+    private float hpActual;
     [SerializeField] public int damage;
     [SerializeField] Slider healthBar;
     [SerializeField] float range;
@@ -173,12 +173,13 @@ else
         return enemyColor;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         hpActual -= damage;
-        healthBar.value = hpActual;
+        //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
+            Death();
             gameObject.SetActive(false);
         }
     }
@@ -256,7 +257,6 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
             StartCoroutine(Dig());
         }
     }
-
     public void Death()
     {
         EventManager.instance.EnemyDeath(enemyColor);
