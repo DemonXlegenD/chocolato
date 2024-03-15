@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7818479044711032302}
   - component: {fileID: 6002416194107340900}
-  - component: {fileID: 1815264749230142006}
   m_Layer: 0
   m_Name: generator
   m_TagString: Untagged
@@ -51,26 +50,3 @@ MonoBehaviour:
   chunkSize: 240
   prefabsChunkList:
   - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
---- !u!114 &1815264749230142006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7583117602334716470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3aee68743fa6d74e92bb8911e328068, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  spawnRadius: 5
-  minDistanceBetweenObstacles: 2
-  obstaclePrefabs:
-  - {fileID: 2383096733436344169, guid: 4b755ee8cb55e6746988158a8f0b2f9f, type: 3}
-  - {fileID: 2617953667580082892, guid: ed6f1651b9ea51d4bb312cb93f9247dc, type: 3}
-  forbiddenZones: []
-  bufferDistance: 1.5
-  maxTries: 100
