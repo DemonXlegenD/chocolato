@@ -4012,16 +4012,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd66702f10985e949b36d71cebe1da08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 2
+  enemyType: 1
   moveSpeed: 3
   hpMax: 100
   damage: 5
   healthBar: {fileID: 0}
-  range: 1
+  range: 8
   rangeContact: 1
   explodeTimer: 1.5
   digTimer: 0
+<<<<<<< Updated upstream
   timeToStartAttackingAgain: 5
+=======
+  timeToStartAttackingAgain: 2
+>>>>>>> Stashed changes
   timeToStartMovingAgain: 1
   pool: {fileID: 1339474015}
 --- !u!54 &1056235598

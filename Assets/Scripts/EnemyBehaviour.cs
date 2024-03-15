@@ -142,11 +142,11 @@ public class EnemyBehaviour : MonoBehaviour
 
     IEnumerator StopMoving()
     {
-        Debug.Log("Stop move");
+        //Debug.Log("Stop move");
         isMoving = false;
         yield return new WaitForSeconds(timeToStartMovingAgain);
         isMoving = true;
-        Debug.Log("Can move Again");
+        //Debug.Log("Can move Again");
     }
 
     IEnumerator Shooted()
@@ -156,7 +156,7 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(StopMoving());
         yield return new WaitForSeconds(timeToStartAttackingAgain);
         canShoot = true;
-        Debug.Log("Can shoot Again");
+        //Debug.Log("Can shoot Again");
     }
 
     IEnumerator Dig()
