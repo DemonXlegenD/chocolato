@@ -6,6 +6,7 @@ public class AreaExplosion : MonoBehaviour
 {
 
     private bool explode = false;
+    public GameObject enemy;
     private List<Collider> playersInArea = new List<Collider>();
 
     int damage; 
@@ -13,7 +14,6 @@ public class AreaExplosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        damage = GetComponentInParent<EnemyBehaviour>().damage;
     }
 
     // Update is called once per frame
@@ -21,11 +21,11 @@ public class AreaExplosion : MonoBehaviour
     {
         if (explode && playersInArea.Count == 0)
         {
-            if(transform.parent.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Kamikaze)
+            if(enemy.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Kamikaze)
             {
                 Deactivate();
             }
-            else if(transform.parent.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Digger)
+            else if(enemy.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Digger)
             {
                 Chomped();
             }
@@ -54,8 +54,14 @@ public class AreaExplosion : MonoBehaviour
         {
             //other.GetComponent<PlayerController>().TakeDamage(damage);
             explode = false;
-            Debug.Log("player hit by explosion");
-            Deactivate();
+            if (enemy.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Kamikaze)
+            {
+                Deactivate();
+            }
+            else if (enemy.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Digger)
+            {
+                Chomped();
+            }
         }
     }
 
@@ -63,7 +69,7 @@ public class AreaExplosion : MonoBehaviour
     {
         gameObject.SetActive(false);
         transform.parent.gameObject.transform.GetChild(1).gameObject.SetActive(false);
-        transform.parent.gameObject.SetActive(false);
+        enemy.SetActive(false);
         explode = false;
     }
 
@@ -74,9 +80,9 @@ public class AreaExplosion : MonoBehaviour
         explode = false;
     }
 
-    public void Explode()
+    public void Explode(int _damage)
     {
-        Debug.Log("explosion");
+        damage = _damage;
         explode = true;
     }
 }
