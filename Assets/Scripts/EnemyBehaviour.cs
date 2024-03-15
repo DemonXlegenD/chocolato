@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    enum EnemyType
+    public enum EnemyType
     {
         Basic,
         Ranged,
@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
         Digger
     }
 
-    enum EnemyColor
+    public enum EnemyColor
     {
         chocoWhite,
         chocoBlack
@@ -22,7 +22,8 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     [Header("Enemy Stats")]
-    [SerializeField] EnemyType enemyType;
+    [SerializeField] public EnemyType enemyType;
+    [SerializeField] public EnemyColor enemyColor;
     [SerializeField] float moveSpeed;
     [SerializeField] int hpMax;
     private int hpActual;
@@ -52,23 +53,23 @@ public class EnemyBehaviour : MonoBehaviour
     void Start()
     {
         hpActual = hpMax;
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(false);
+        /*transform.GetChild(0).gameObject.SetActive(false);
+        transform.GetChild(1).gameObject.SetActive(false);*/
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(enemyType == EnemyType.Digger)
+        if (enemyType == EnemyType.Digger)
         {
             StartCoroutine(Dig());
         }
         MoveTowardsPlayer();
-        if(isExploding)
+        if (isExploding)
         {
             Explode();
         }
-        if(isDigging)
+        if (isDigging)
         {
             startDigPos = transform.position;
             Digging();
@@ -96,9 +97,9 @@ public class EnemyBehaviour : MonoBehaviour
                     StartCoroutine(Shooted());
                 }
             }
-            else if(EnemyType.Kamikaze == enemyType)
+            else if (EnemyType.Kamikaze == enemyType)
             {
-                if(range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
+                if (range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, moveSpeed * Time.fixedDeltaTime / 5);
                 }
@@ -109,14 +110,14 @@ public class EnemyBehaviour : MonoBehaviour
                     transform.GetChild(1).gameObject.SetActive(true);
                 }
             }
-            else if(EnemyType.Digger == enemyType)
+            else if (EnemyType.Digger == enemyType)
             {
                 if (range < Vector3.Distance(player.transform.position, transform.position) && !isDigging)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, player.transform.position, (moveSpeed * Time.fixedDeltaTime) / 5);
                 }
             }
-            if(isTouchingPlayer)
+            if (isTouchingPlayer)
             {
                 StartCoroutine(StopMoving());
             }
@@ -174,23 +175,28 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (elapsedTime < digTimer)
         {
-            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startDigPos, new Vector3(startDigPos.x, startDigPos.y-1, startDigPos.z), elapsedTime / explodeTimer);
+            transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startDigPos, new Vector3(startDigPos.x, startDigPos.y - 1, startDigPos.z), elapsedTime / explodeTimer);
             elapsedTime += Time.deltaTime;
         }
     }
 
     void Explode()
     {
-        if(elapsedTime < explodeTimer)
+        if (elapsedTime < explodeTimer)
         {
             transform.GetChild(0).gameObject.transform.localScale = Vector3.Lerp(startScaleExplosionArea, new Vector3(6, startScaleExplosionArea.y, 6), elapsedTime / explodeTimer);
             elapsedTime += Time.deltaTime;
         }
-        if(elapsedTime >= explodeTimer)
+        if (elapsedTime >= explodeTimer)
         {
             AreaExplosion childAreaExplosion = transform.GetChild(0).gameObject.GetComponent<AreaExplosion>();
             childAreaExplosion.Explode();
             elapsedTime = 0;
         }
+    }
+
+    public void Death()
+    {
+        EventManager.instance.EnemyDeath(enemyColor);
     }
 }

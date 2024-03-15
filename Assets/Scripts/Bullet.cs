@@ -41,7 +41,8 @@ public class Bullet : MonoBehaviour
         {
             if (other.gameObject.tag == "Enemy")
             {
-                gameObject.SetActive(false);
+                other.gameObject.GetComponent<EnemyBehaviour>().Death();
+
             }
         }
     }

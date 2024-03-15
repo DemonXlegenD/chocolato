@@ -7,7 +7,7 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager instance;
 
-    public UnityEvent onEnemyDeath = new UnityEvent();
+    public EnemyDeathEvent onEnemyDeath = new EnemyDeathEvent();
 
     void SetInstance()
     {
@@ -19,8 +19,14 @@ public class EventManager : MonoBehaviour
     {
         SetInstance();
     }
-    public void EnemyDeath()
+
+    public void EnemyDeath(EnemyBehaviour.EnemyColor color)
     {
-        onEnemyDeath.Invoke();
+        onEnemyDeath.Invoke(color);
     }
+}
+
+[System.Serializable]
+public class EnemyDeathEvent : UnityEvent<EnemyBehaviour.EnemyColor>
+{
 }
