@@ -232,7 +232,7 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
     void Explode()
     {
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
-        bool exploded = areaEffect.Activate(enemyType, transform.position, new Vector3(6, startDigPos.y, 6), explodeTimer);
+        bool exploded = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), explodeTimer);
         if (exploded)
         {
             areaEffect.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
@@ -242,7 +242,7 @@ FindAnyObjectByType<AreaEffectManager>().Deactivate();
     void Chomping()
     {
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
-        bool chomped = areaEffect.Activate(enemyType, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
+        bool chomped = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
         Debug.Log("Chomping");
         if(!chomped)
         {
