@@ -22,8 +22,8 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     [Header("Enemy Stats")]
-    [SerializeField] EnemyType enemyType;
-    [SerializeField] EnemyColor enemyColor;
+    [SerializeField] public EnemyType enemyType;
+    [SerializeField] public EnemyColor enemyColor;
     [SerializeField] float moveSpeed;
     [SerializeField] int hpMax;
     private int hpActual;
@@ -67,7 +67,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             StartCoroutine(Dig());
         }
-        else
+else
         {
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         }
@@ -84,12 +84,12 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       MoveTowardsPlayer();
-        if(isExploding)
+        MoveTowardsPlayer();
+        if (isExploding)
         {
             Explode();
         }
-        if(isDigging)
+        if (isDigging)
         {
             Digging();
         }
@@ -121,9 +121,9 @@ public class EnemyBehaviour : MonoBehaviour
                     StartCoroutine(Shooted());
                 }
             }
-            else if(EnemyType.Kamikaze == enemyType)
+            else if (EnemyType.Kamikaze == enemyType)
             {
-                if(range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
+                if (range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
                 {
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.fixedDeltaTime / 5);
                 }
@@ -132,16 +132,18 @@ public class EnemyBehaviour : MonoBehaviour
                     isExploding = true;
                 }
             }
-            else if(EnemyType.Digger == enemyType)
+            else if (EnemyType.Digger == enemyType)
             {
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) && !isDigging)
                 {
+                    Debug.Log("move");
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
                 }
                 else if (isUnderground)
                 {
                     if (!isChomping)
                     {
+                        Debug.Log("Chomp");
                         isChomping = true;
                         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
                         Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
@@ -150,7 +152,7 @@ public class EnemyBehaviour : MonoBehaviour
                     }
                 }
             }
-            if(isTouchingPlayer)
+            if (isTouchingPlayer)
             {
                 StartCoroutine(StopMoving());
             }
@@ -196,9 +198,11 @@ public class EnemyBehaviour : MonoBehaviour
     
     IEnumerator StopMoving()
     {
+        //Debug.Log("Stop move");
         isMoving = false;
         yield return new WaitForSeconds(timeToStartMovingAgain);
         isMoving = true;
+        //Debug.Log("Can move Again");
     }
 
     IEnumerator Shooted()
@@ -208,13 +212,15 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(StopMoving());
         yield return new WaitForSeconds(timeToStartAttackingAgain);
         canShoot = true;
+        //Debug.Log("Can shoot Again");
     }
 
     IEnumerator Dig()
     {
+        FindAnyObjectByType<AreaEffectManager>().Deactivate();
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
-        FindAnyObjectByType<AreaEffectManager>().Deactivate();
+FindAnyObjectByType<AreaEffectManager>().Deactivate();
         isDigging = true;
         startDigPos = transform.position;
         endDigPos = new Vector3(startDigPos.x, startDigPos.y - 1.5f, startDigPos.z);
@@ -250,7 +256,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
         bool chomped = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
-
+        Debug.Log("Chomping");
         if(!chomped)
         {
             transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffect.elapsedTime / 1f);
@@ -269,5 +275,9 @@ public class EnemyBehaviour : MonoBehaviour
         part.Play();
         yield return new WaitForSeconds(2f);
         part.Stop();
+    }
+    public void Death()
+    {
+        EventManager.instance.EnemyDeath(enemyColor);
     }
 }

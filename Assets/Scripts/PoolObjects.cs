@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PoolObjects : MonoBehaviour
 {
@@ -37,6 +38,18 @@ public class PoolObjects : MonoBehaviour
     {
         return enemies;
     }
+
+
+
+
+
+    [System.Serializable]
+    public class EnemyDeathEvent : UnityEvent<int>
+    {
+    }
+
+
+
 
     public GameObject GetFreeBullet()
     {

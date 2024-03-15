@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private InputActionMap _actionMap;
 
     [Header("Player Stats")]
-    [SerializeField] int life;
+    [SerializeField] float life;
     [SerializeField] int speed;
     [SerializeField] int baseSpeed;
     [SerializeField] int damage;
@@ -30,7 +30,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float colorTimer;
     [SerializeField] float colorTick;
     [SerializeField] float attackTimer;
-    [SerializeField] float attackTick;
+
+
+    [Header("Player Weapons")]
+    [SerializeField] int whiteWeaponLevel;
+    [SerializeField] float whiteWeaponXpActual;
+    [SerializeField] float whiteWeaponXpMax;
+    [SerializeField] float whiteWeaponDmg;
+    [SerializeField] float whiteAttackTick;
+    [SerializeField] int blackWeaponLevel;
+    [SerializeField] float blackWeaponXpActual;
+    [SerializeField] float blackWeaponXpMax;
+    [SerializeField] float blackWeaponDmg;
+    [SerializeField] float blackAttackTick;
+
 
 
     [Header("State")]
@@ -86,7 +99,7 @@ public class PlayerController : MonoBehaviour
                 colorState += colorEvolve;
             }
             colorTimer = colorTick;
-            attackTimer = attackTick;
+            SetAttackTimer();
         }
         SetColor();
     }
@@ -106,7 +119,6 @@ public class PlayerController : MonoBehaviour
         {
             lastDirection = moveInput;
             rb.velocity = new Vector3(moveInput.x, 0, moveInput.y) * speed;
-            Debug.Log("Moving");
         }
         else
         {
@@ -167,8 +179,15 @@ public class PlayerController : MonoBehaviour
     }
     void SetAttackTimer()
     {
-        animator.ResetTrigger("Swing");
-        attackTimer = attackTick;
+        if (chocoState == ChocoState.chocoWhite)
+        {
+            attackTimer = whiteAttackTick;
+        }
+        else
+        {
+            attackTimer = blackAttackTick;
+            animator.ResetTrigger("Swing");
+        }
     }
     void TickTimers()
     {
@@ -198,19 +217,63 @@ public class PlayerController : MonoBehaviour
         if (chocoState == ChocoState.chocoWhite)
         {
             enemy.SetActive(false);
-        }
-        else
-        {
 
+            switch (enemy.GetComponent<EnemyBehaviour>().enemyColor)
+            {
+                case EnemyBehaviour.EnemyColor.chocoWhite: enemy.SetActive(true); break;
+            }
+        }
+    }
+
+    public void GetDamaged(float damage)
+    {
+        life -= damage;
+    }
+
+    void GetHealed(float heal)
+    {
+        life += heal;
+    }
+
+    void OnEnemyDeath(EnemyBehaviour.EnemyColor color)
+    {
+        if (color == EnemyBehaviour.EnemyColor.chocoWhite)
+        {
+            whiteWeaponXpActual += 5;
+        }
+        else if (color == EnemyBehaviour.EnemyColor.chocoBlack)
+        {
+            blackWeaponXpActual += 5;
+        }
+        CheckLevelUpWeapon();
+    }
+    void CheckLevelUpWeapon()
+    {
+        if (whiteWeaponXpActual >= whiteWeaponXpMax)
+        {
+            whiteWeaponLevel++;
+            whiteWeaponXpActual = whiteWeaponXpActual - whiteWeaponXpMax;
+            whiteWeaponXpMax += 30;
+            whiteAttackTick -= (whiteAttackTick * 10 / 100);
+        }
+        else if (blackWeaponXpActual >= blackWeaponXpMax)
+        {
+            blackWeaponLevel++;
+            blackWeaponXpActual = blackWeaponXpActual - blackWeaponXpMax;
+            blackWeaponXpMax += 30;
+            blackAttackTick -= (blackAttackTick * 10 / 100);
         }
     }
 
     private void OnEnable()
     {
+        EventManager.instance.onEnemyDeath.AddListener(OnEnemyDeath);
         _actionMap.Enable();
     }
+
     private void OnDisable()
     {
+        EventManager.instance.onEnemyDeath.RemoveListener(OnEnemyDeath);
         _actionMap.Disable();
     }
 }

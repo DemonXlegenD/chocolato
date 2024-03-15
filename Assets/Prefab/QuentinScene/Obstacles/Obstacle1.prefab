@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2209489427138666450}
+  - component: {fileID: -1791828699162630042}
   m_Layer: 0
   m_Name: Obstacle1
   m_TagString: Untagged
@@ -32,6 +33,18 @@ Transform:
   - {fileID: 2533482884466292390}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1791828699162630042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383096733436344169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ee8c8d3925d13846bc7a76cef73eb57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &978969816619656423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,14 +133,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6972835256047655734, guid: 6dde86f8d1ca17047a5fd2bb2bcd040f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7778061001376947007, guid: 6dde86f8d1ca17047a5fd2bb2bcd040f,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 906402702646637815}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6dde86f8d1ca17047a5fd2bb2bcd040f, type: 3}
 --- !u!4 &2533482884466292390 stripped
 Transform:
@@ -135,26 +145,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 978969816619656423}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7378240453479890904 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7778061001376947007, guid: 6dde86f8d1ca17047a5fd2bb2bcd040f,
-    type: 3}
-  m_PrefabInstance: {fileID: 978969816619656423}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &906402702646637815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7378240453479890904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27797b38e49763a47840df4774a553f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obstacle: {fileID: 3367921343391896129, guid: 6dde86f8d1ca17047a5fd2bb2bcd040f,
-    type: 3}
-  obstacleNB: 500
-  distance: 5
-  positionY: 0
