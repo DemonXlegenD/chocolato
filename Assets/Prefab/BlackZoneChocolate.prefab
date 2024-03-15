@@ -145,17 +145,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventZone: {fileID: 1725638507943719765}
+  spawnCylindre: {fileID: 4721511130209719970}
   particuleFusion: {fileID: 8310623284194164287, guid: 1a7e03824f5fc074cbc3fa4dadf3efd5,
     type: 3}
   particuleStorm: {fileID: 2967121852436527815, guid: 38e417873286aef4b8308e5faf9e3a02,
     type: 3}
   particuleAsteroid: {fileID: 8003495884289897023, guid: c5219cfc0bf6ac8438cdbd39924fac11,
     type: 3}
+  particuleAsteroidMesh: {fileID: 4564258666506977473, guid: c5219cfc0bf6ac8438cdbd39924fac11,
+    type: 3}
   fusionPool: []
-  spawnCylindre: {fileID: 4721511130209719970}
   finishDistanceTarget: 0.5
   moveSpeed: 0.1
-  newPosition: {x: 0, y: 0, z: 0}
+  whiteMaterial: {fileID: 2100000, guid: d051d739de68bd047aaef7a527cd033e, type: 2}
+  blackMaterial: {fileID: 2100000, guid: d14897e3dc9e06d4fade64ff368079d1, type: 2}
 --- !u!114 &4721511130209719970
 MonoBehaviour:
   m_ObjectHideFlags: 0

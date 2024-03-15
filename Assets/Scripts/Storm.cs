@@ -18,7 +18,7 @@ public class Storm : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                // TakeDaamge()
+                // TakeDaMAGE()
                 Debug.Log("sa touche");
                 rb.AddForce(3 * Time.deltaTime * Vector3.back);
             }

@@ -21,17 +21,29 @@ public class EventZone : MonoBehaviour
     private bool canAttack = false;
     private bool isCoroutineRunning = false;
 
-    public Vector3 newPosition;
+    private string stockNameZone;
+
+    //Getters
+    public string GetActiveNameZone() { return stockNameZone; }
+
+    //Setters
+    public string SetActiveNameZone (string stockNameZone) { return stockNameZone; }
+
+private Vector3 newPosition;
 
     void Start()
     {
         eventZone = GetComponent<EventZone>();
 
         randomAttack = Random.Range(0, 3);
+
+        particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
     }
 
     private void Update()
     {
+        Debug.Log(eventZone.gameObject.name);
+        SetActiveNameZone(eventZone.gameObject.name);
         if (canAttack && !isCoroutineRunning)
         {
             if (randomAttack == 0)
@@ -50,9 +62,9 @@ public class EventZone : MonoBehaviour
                 newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, 20f, spawnCylindre.GetSpawnPosition().z);
                 var tempMeteor = PoolManager.SpawnObject(particuleAsteroid.gameObject, newPosition, particuleAsteroid.transform.rotation);
                 fusionPool.Add(tempMeteor);
-/*                tempMeteor.GetComponent<MeteoriteMove>().SetObject(spawnCylindre, eventZone);
+                tempMeteor.GetComponent<MeteoriteMove>().SetObject(spawnCylindre, eventZone);
                 particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
-                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;*/
+                particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;
             }
             isCoroutineRunning = true;
         }
@@ -60,6 +72,8 @@ public class EventZone : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        stockNameZone = this.gameObject.name;
+        SetActiveNameZone(stockNameZone);
         if (eventZone != null)
         {
             if (collision.gameObject.CompareTag("Player"))

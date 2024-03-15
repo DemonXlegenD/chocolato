@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 322887720341021318}
   - component: {fileID: 5950440852220116705}
   - component: {fileID: 8659978446071473682}
+  - component: {fileID: -8489976829029990211}
+  - component: {fileID: -1108553197554098826}
   m_Layer: 0
   m_Name: WhiteZoneChocolate
   m_TagString: Untagged
@@ -130,3 +132,43 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &-8489976829029990211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802395827449562751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200d94d66643ad24eb0e427b90576b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventZone: {fileID: -8489976829029990211}
+  spawnCylindre: {fileID: -1108553197554098826}
+  particuleFusion: {fileID: 8310623284194164287, guid: 1a7e03824f5fc074cbc3fa4dadf3efd5,
+    type: 3}
+  particuleStorm: {fileID: 2967121852436527815, guid: 38e417873286aef4b8308e5faf9e3a02,
+    type: 3}
+  particuleAsteroid: {fileID: 8003495884289897023, guid: c5219cfc0bf6ac8438cdbd39924fac11,
+    type: 3}
+  particuleAsteroidMesh: {fileID: 4564258666506977473, guid: c5219cfc0bf6ac8438cdbd39924fac11,
+    type: 3}
+  fusionPool: []
+  finishDistanceTarget: 0.5
+  moveSpeed: 0.1
+  whiteMaterial: {fileID: 2100000, guid: d051d739de68bd047aaef7a527cd033e, type: 2}
+  blackMaterial: {fileID: 2100000, guid: d14897e3dc9e06d4fade64ff368079d1, type: 2}
+--- !u!114 &-1108553197554098826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4802395827449562751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d4d96fde2b7464ba8411be08dfa1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cylinderTransform: {fileID: 230593959398152029}

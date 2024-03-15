@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1299844656788319300}
   - component: {fileID: 630983763061695541}
   - component: {fileID: 7582118378986801171}
+  - component: {fileID: 800904820340720418}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Asteroid
@@ -178,7 +179,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 5
-  m_PreviewTimeScale: 0.5
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -239,3 +240,20 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &800904820340720418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8003495884289897023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e8b5482aa83a246aa71cdb385b19a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particuleAsteroidMesh: {fileID: 4564258666506977473}
+  eventZone: {fileID: 0}
+  spawnCylindre: {fileID: 0}
+  whiteMaterial: {fileID: 2100000, guid: d051d739de68bd047aaef7a527cd033e, type: 2}
+  blackMaterial: {fileID: 2100000, guid: d14897e3dc9e06d4fade64ff368079d1, type: 2}
