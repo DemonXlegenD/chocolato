@@ -33,18 +33,23 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Player Weapons")]
-    [SerializeField] int whiteWeaponLevel;
+    [SerializeField] int whiteWeaponLevel = 1;
     [SerializeField] float whiteWeaponXpActual;
     [SerializeField] float whiteWeaponXpMax;
     [SerializeField] float whiteWeaponDmg;
+    [SerializeField] float whiteWeaponBaseDmg = 10;
     [SerializeField] float whiteAttackTick;
-    [SerializeField] int blackWeaponLevel;
+    [SerializeField] int blackWeaponLevel = 1;
     [SerializeField] float blackWeaponXpActual;
     [SerializeField] float blackWeaponXpMax;
     [SerializeField] float blackWeaponDmg;
+    [SerializeField] float blackWeaponBaseDmg = 20;
     [SerializeField] float blackAttackTick;
 
-
+    [Header("Materials")]
+    [SerializeField] MeshRenderer playerMesh;
+    [SerializeField] Material whiteMat;
+    [SerializeField] Material blackMat;
 
     [Header("State")]
     [SerializeField] PlayerState playerState;
@@ -65,6 +70,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        playerMesh = GetComponentInChildren<MeshRenderer>();
+        playerMesh.material = whiteMat;
         rb = GetComponent<Rigidbody>();
         shootPoint = GameObject.FindWithTag("ShootPoint");
         _playerInput = GetComponent<PlayerInput>();
@@ -72,6 +79,8 @@ public class PlayerController : MonoBehaviour
         _actionMap = _inputActions.FindActionMap("Player");
         colorState = colorSlider.value / 2;
         animator = GetComponent<Animator>();
+        blackWeaponDmg = blackWeaponBaseDmg;
+        whiteWeaponDmg = whiteWeaponBaseDmg;
     }
 
     // Update is called once per frame
@@ -89,12 +98,14 @@ public class PlayerController : MonoBehaviour
         if (_actionMap.FindAction("SwapColor").WasPressedThisFrame())
         {
             if (chocoState == ChocoState.chocoWhite)
-            {
+            {   
+                playerMesh.material = blackMat;
                 chocoState = ChocoState.chocoBlack;
                 colorState -= colorEvolve;
             }
             else
             {
+                playerMesh.material = whiteMat;
                 chocoState = ChocoState.chocoWhite;
                 colorState += colorEvolve;
             }
@@ -173,7 +184,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                animator.SetTrigger("Swing");
+                animator.Play("SwingWeapon");
             }
         }
     }
@@ -212,17 +223,32 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void HitEnemy(GameObject enemy)
+    public void HitEnemy(GameObject enemy, GameObject bullet = null)
     {
-        if (chocoState == ChocoState.chocoWhite)
+        var tempBhv = enemy.GetComponent<EnemyBehaviour>();
+        if (chocoState == ChocoState.chocoBlack)
         {
-            enemy.SetActive(false);
-
-            switch (enemy.GetComponent<EnemyBehaviour>().enemyColor)
+            switch (tempBhv.enemyColor)
             {
-                case EnemyBehaviour.EnemyColor.chocoWhite: enemy.SetActive(true); break;
+                case EnemyBehaviour.EnemyColor.chocoWhite:
+                    Debug.Log("oui");
+                    tempBhv.TakeDamage(blackWeaponDmg);
+                    enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50,ForceMode.Impulse);
+                    break;
             }
         }
+        else
+        {
+            switch (tempBhv.enemyColor)
+            {
+                case EnemyBehaviour.EnemyColor.chocoBlack:
+                    Debug.Log("oui");
+                    tempBhv.TakeDamage(whiteWeaponDmg);
+                    enemy.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 5, ForceMode.Impulse);
+                    break;
+            }
+        }
+        tempBhv.CheckHealth();
     }
 
     public void GetDamaged(float damage)
@@ -254,14 +280,16 @@ public class PlayerController : MonoBehaviour
             whiteWeaponLevel++;
             whiteWeaponXpActual = whiteWeaponXpActual - whiteWeaponXpMax;
             whiteWeaponXpMax += 30;
-            whiteAttackTick -= (whiteAttackTick * 10 / 100);
+            whiteAttackTick -= (whiteAttackTick * 15 / 100);
+            whiteWeaponDmg += whiteWeaponBaseDmg * (whiteWeaponLevel-1);
         }
         else if (blackWeaponXpActual >= blackWeaponXpMax)
         {
             blackWeaponLevel++;
             blackWeaponXpActual = blackWeaponXpActual - blackWeaponXpMax;
             blackWeaponXpMax += 30;
-            blackAttackTick -= (blackAttackTick * 10 / 100);
+            blackAttackTick -= (blackAttackTick * 15 / 100);
+            blackWeaponDmg += blackWeaponBaseDmg * (blackWeaponLevel-1);
         }
     }
 

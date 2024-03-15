@@ -12,7 +12,7 @@ public class SwordBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.tag == "Enemy")
         {
             playerController.HitEnemy(other.gameObject);
         }
