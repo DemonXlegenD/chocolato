@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+   public enum GameState
+    {
+        IsPlaying, IsLoading
+    }
 public class GameManager : MonoBehaviour
 {
-
+ 
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -23,6 +26,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameState _state = GameState.IsPlaying;
+
     private string previousLoadedScene = null;
 
     private void Awake()
@@ -41,13 +46,15 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.Log("Le jeu commence !");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void ChangeScene(string _sceneName)
     {
         previousLoadedScene = SceneManager.GetActiveScene().name;
+
         SceneManager.LoadScene(_sceneName);
+        
     }
 
     public void LoadPreviousScene()

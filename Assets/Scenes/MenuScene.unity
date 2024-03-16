@@ -1904,6 +1904,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7676113023556329036, guid: 7d3c722f54dfacd469b30b8e2c3ee82a,
+        type: 3}
+      propertyPath: loadingBar
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676113023556329036, guid: 7d3c722f54dfacd469b30b8e2c3ee82a,
+        type: 3}
+      propertyPath: loadingCoockies
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3511,8 +3521,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: -4916019461444808234, guid: e7fdcc8756a250e4884cca02196139b4,
-        type: 2}
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 7896120682137049013, guid: 72572c5d1c571424d9605c2e8e923c6c,
         type: 3}
       propertyPath: m_fontAsset
@@ -3568,6 +3577,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -42.226562
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004065923798874576, guid: 72572c5d1c571424d9605c2e8e923c6c,
+        type: 3}
+      propertyPath: OnClicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: Quentin
       objectReference: {fileID: 0}
     - target: {fileID: 8004065923798874579, guid: 72572c5d1c571424d9605c2e8e923c6c,
         type: 3}

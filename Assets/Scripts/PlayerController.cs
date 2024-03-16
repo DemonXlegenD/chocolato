@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     enum PlayerState { normal, dashing, hitted };
     enum ChocoState { chocoWhite, chocoBlack, chocoMilk };
 
+    private GameManager gameManager;
     [Header("Player Input")]
     private PlayerInput _playerInput;
     private InputActionAsset _inputActions;
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        gameManager = GameManager.Instance;  
         playerMesh = GetComponentInChildren<MeshRenderer>();
         playerMesh.material = whiteMat;
         rb = GetComponent<Rigidbody>();
@@ -111,7 +113,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
+        if(gameManager._state == GameState.IsPlaying)
+        {
+  if (_actionMap.FindAction("Pause").WasPressedThisFrame())
         {
             if (!menuPause.IsPause) menuPause.PauseGame();
             else menuPause.ResumeGame();
@@ -132,6 +136,8 @@ public class PlayerController : MonoBehaviour
         SetColor();
 
         SetArms();
+        }
+      
     }
 
     private void SetArms()

@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class Timer : MonoBehaviour
 {
+    private GameManager gameManager;
     private PlayerInput _playerInput;
     private InputActionAsset _inputActions;
     private InputActionMap _actionMap;
@@ -26,6 +27,7 @@ public class Timer : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = GameManager.Instance;  
         _playerInput = FindAnyObjectByType<PlayerInput>();
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
@@ -38,9 +40,11 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
+        if(gameManager._state == GameState.IsPlaying)
+        {
         currentTime += Time.deltaTime;
         timerText.text = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
-
+        }
     }
     public void GameEnd()
     {

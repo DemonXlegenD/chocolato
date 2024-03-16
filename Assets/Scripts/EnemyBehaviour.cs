@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +18,7 @@ public class EnemyBehaviour : MonoBehaviour
         chocoBlack
     }
 
-
+    private GameManager gameManager;
     [Header("Enemy Stats")]
     [SerializeField] public EnemyType enemyType;
     [SerializeField] public EnemyColor enemyColor;
@@ -62,6 +60,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Awake()
     {
+        gameManager = GameManager.Instance;
         animator = GetComponentInChildren<Animator>();
         pool = FindAnyObjectByType<PoolObjects>();
     }
@@ -89,19 +88,23 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MoveTowardsPlayer();
-        if (isExploding)
+        if (gameManager._state == GameState.IsPlaying)
         {
-            Explode();
+            MoveTowardsPlayer();
+            if (isExploding)
+            {
+                Explode();
+            }
+            if (isDigging)
+            {
+                Digging();
+            }
+            if (isChomping)
+            {
+                Chomping();
+            }
         }
-        if (isDigging)
-        {
-            Digging();
-        }
-        if (isChomping)
-        {
-            Chomping();
-        }
+
     }
 
     void MoveTowardsPlayer()
@@ -113,7 +116,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             if (EnemyType.Basic == enemyType && rangeContact < Vector3.Distance(player.transform.position, transform.position))
             {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, (moveSpeed * Time.fixedDeltaTime) / 5);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.fixedDeltaTime / 5);
             }
             else if (EnemyType.Ranged == enemyType)
             {
@@ -142,7 +145,7 @@ public class EnemyBehaviour : MonoBehaviour
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) && !isDigging)
                 {
                     //Debug.Log("move");
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.fixedDeltaTime / 5);
                 }
                 else if (isUnderground)
                 {
@@ -200,7 +203,7 @@ public class EnemyBehaviour : MonoBehaviour
             animator.SetBool(isDeadHash, true);
             Death();
             //gameObject.SetActive(false);
-            if(enemyColor == EnemyColor.chocoWhite)
+            if (enemyColor == EnemyColor.chocoWhite)
             {
                 pool.SpawnCookieWhite(transform);
             }
@@ -234,7 +237,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
-        if(areaEffectManager != null)
+        if (areaEffectManager != null)
         {
             areaEffectManager.Deactivate();
         }
@@ -263,13 +266,13 @@ public class EnemyBehaviour : MonoBehaviour
     void Explode()
     {
         GetComponent<Rigidbody>().isKinematic = true;
-        if(areaEffectManager == null)
+        if (areaEffectManager == null)
         {
             areaEffectManager = pool.GetFreeAreaEffect().GetComponent<AreaEffectManager>();
         }
         else
         {
-            bool exploded = areaEffectManager.Activate(gameObject, new Vector3(transform.position.x,0.3f,transform.position.z), new Vector3(6, 0.01f, 6), explodeTimer);
+            bool exploded = areaEffectManager.Activate(gameObject, new Vector3(transform.position.x, 0.3f, transform.position.z), new Vector3(6, 0.01f, 6), explodeTimer);
             if (exploded)
             {
                 areaEffectManager.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
