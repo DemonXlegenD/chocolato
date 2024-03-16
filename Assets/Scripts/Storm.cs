@@ -11,7 +11,6 @@ public class Storm : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             // TakeDamage()
-            Debug.Log("sa touche");
             other.transform.Translate(new Vector3(other.transform.position.x - transform.position.x,0, other.transform.position.z - transform.position.z).normalized * strength);
         }
     }

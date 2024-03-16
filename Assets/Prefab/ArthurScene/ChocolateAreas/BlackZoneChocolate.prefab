@@ -146,6 +146,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eventZone: {fileID: 4526682852659131876}
   spawnCylindre: {fileID: 8134903417916479838}
+  rbPlayer: {fileID: 5935088812571130618, guid: 3808f0d49e456ef488e2dbba7f5ff36c,
+    type: 3}
   particuleFusion: {fileID: 8310623284194164287, guid: 1a7e03824f5fc074cbc3fa4dadf3efd5,
     type: 3}
   particuleStorm: {fileID: 2967121852436527815, guid: 38e417873286aef4b8308e5faf9e3a02,

@@ -36,7 +36,7 @@ private Vector3 newPosition;
     {
         eventZone = GetComponent<EventZone>();
 
-        randomAttack = 1;// Random.Range(0, 3);
+        randomAttack = Random.Range(0, 3);
 
         particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
     }
@@ -111,7 +111,7 @@ private Vector3 newPosition;
         yield return new WaitForSeconds(6f);
 
         DisplayClone();
-        randomAttack = 1;// Random.Range(0, 3);
+        randomAttack = Random.Range(0, 3);
         isCoroutineRunning = false;
     }
 
