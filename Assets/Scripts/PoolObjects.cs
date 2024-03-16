@@ -11,11 +11,13 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] int maxRangedEnemy;
     [SerializeField] int maxKamikazeEnemy;
     [SerializeField] int maxDiggerEnemy;
-    [SerializeField] int maxenemyBullets;
+    [SerializeField] int maxEnemyBullets;
     [SerializeField] int maxAreaEffect;
+    [SerializeField] int maxPlayerBullets;
 
     [Header("Pools")]
     private List<GameObject> enemyBullets;
+    private List<GameObject> playerBullets;
     private List<GameObject> lootCookiesBlack;
     private List<GameObject> lootCookiesWhite;
     private List<GameObject> basicEnemies;
@@ -48,6 +50,7 @@ public class PoolObjects : MonoBehaviour
     void Awake()
     {
         enemyBullets = new List<GameObject>();
+        playerBullets = new List<GameObject>();
         lootCookiesBlack = new List<GameObject>();
         lootCookiesWhite = new List<GameObject>();
         basicEnemies = new List<GameObject>();
@@ -56,11 +59,17 @@ public class PoolObjects : MonoBehaviour
         diggerEnemies = new List<GameObject>();
         areaEffects = new List<GameObject>();
 
-        for (int i = 0; i < maxenemyBullets; i++)
+        for (int i = 0; i < maxEnemyBullets; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             bullet.SetActive(false);
             enemyBullets.Add(bullet);
+        }
+        for (int i = 0; i < maxPlayerBullets; i++)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            bullet.SetActive(false);
+            playerBullets.Add(bullet);
         }
         for (int i = 0; i < maxCookies; i++)
         {
@@ -180,7 +189,7 @@ public class PoolObjects : MonoBehaviour
 
 
 
-    public GameObject GetFreeBullet()
+    public GameObject GetFreeEnemyBullet()
     {
         foreach (GameObject bullet in enemyBullets)
         {
@@ -192,6 +201,17 @@ public class PoolObjects : MonoBehaviour
         return null;
     }
 
+    public GameObject GetFreePlayerBullet()
+    {
+        foreach (GameObject bullet in playerBullets)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                return bullet;
+            }
+        }
+        return null;
+    }
 
     public GameObject GetFreeLootCookiesWhite()
     {
@@ -329,7 +349,7 @@ public class PoolObjects : MonoBehaviour
 
     public void SpawnEnemyBullet(Transform enemyTransform)
     {
-        GameObject bullet = GetFreeBullet();
+        GameObject bullet = GetFreeEnemyBullet();
         if (bullet != null)
         {
             bullet.transform.position = enemyTransform.position;
@@ -338,9 +358,9 @@ public class PoolObjects : MonoBehaviour
             bullet.GetComponent<Bullet>().StartBullet();
         }
     }   
-    public void SpawnBullet(Vector3 dir, Transform spawn)
+    public void SpawnPlayerBullet(Vector3 dir, Transform spawn)
     {
-        GameObject bullet = GetFreeBullet();
+        GameObject bullet = GetFreePlayerBullet();
         if (bullet != null)
         {
             bullet.transform.forward = dir;

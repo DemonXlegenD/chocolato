@@ -1852,6 +1852,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &360889235 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1379846738120483730, guid: ee36ae3c515aa0140bab83ed4d28c495,
+    type: 3}
+  m_PrefabInstance: {fileID: 1573113194}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31090035f878d25458dfefd537d31e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &365273587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7163,6 +7175,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8794920920028297474, guid: 3808f0d49e456ef488e2dbba7f5ff36c,
         type: 3}
+      propertyPath: pool
+      value: 
+      objectReference: {fileID: 360889235}
+    - target: {fileID: 8794920920028297474, guid: 3808f0d49e456ef488e2dbba7f5ff36c,
+        type: 3}
       propertyPath: Slider
       value: 
       objectReference: {fileID: 1295660216}
@@ -7971,6 +7988,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1379846738120483730, guid: ee36ae3c515aa0140bab83ed4d28c495,
+        type: 3}
+      propertyPath: maxEnemyBullets
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1379846738120483730, guid: ee36ae3c515aa0140bab83ed4d28c495,
+        type: 3}
+      propertyPath: maxPlayerBullets
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1379846738120483730, guid: ee36ae3c515aa0140bab83ed4d28c495,
+        type: 3}
+      propertyPath: totalEnemiesWave1
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1822995032732114436, guid: ee36ae3c515aa0140bab83ed4d28c495,
         type: 3}
       propertyPath: m_Name

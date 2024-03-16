@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
             if (chocoState == ChocoState.chocoWhite)
             {
                 SetAttackTimer();
-                pool.SpawnBullet(playerBody.transform.forward, shootPoint.transform);
+                pool.SpawnPlayerBullet(playerBody.transform.forward, shootPoint.transform);
             }
             else
             {

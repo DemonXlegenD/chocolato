@@ -144,13 +144,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 200d94d66643ad24eb0e427b90576b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeZone: {fileID: 4526682852659131876}
+  eventZone: {fileID: 4526682852659131876}
+  spawnCylindre: {fileID: 8134903417916479838}
   particuleFusion: {fileID: 8310623284194164287, guid: 1a7e03824f5fc074cbc3fa4dadf3efd5,
     type: 3}
   particuleStorm: {fileID: 2967121852436527815, guid: 38e417873286aef4b8308e5faf9e3a02,
     type: 3}
+  particuleAsteroid: {fileID: 8003495884289897023, guid: c5219cfc0bf6ac8438cdbd39924fac11,
+    type: 3}
   fusionPool: []
-  spawnCylindre: {fileID: 8134903417916479838}
+  finishDistanceTarget: 0.5
+  moveSpeed: 0.1
 --- !u!114 &8134903417916479838
 MonoBehaviour:
   m_ObjectHideFlags: 0
