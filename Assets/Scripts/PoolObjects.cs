@@ -275,6 +275,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!basicEnemy.activeInHierarchy && basicEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                basicEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return basicEnemy;
             }
         }
@@ -287,6 +288,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!basicEnemy.activeInHierarchy && basicEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                basicEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return basicEnemy;
             }
         }
@@ -299,6 +301,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!rangedEnemy.activeInHierarchy && rangedEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                rangedEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return rangedEnemy;
             }
         }
@@ -311,6 +314,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!rangedEnemy.activeInHierarchy && rangedEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                rangedEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return rangedEnemy;
             }
         }
@@ -323,6 +327,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!kamikazeEnemy.activeInHierarchy && kamikazeEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                kamikazeEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return kamikazeEnemy;
             }
         }
@@ -335,6 +340,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!kamikazeEnemy.activeInHierarchy && kamikazeEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                kamikazeEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return kamikazeEnemy;
             }
         }
@@ -347,6 +353,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!diggerEnemy.activeInHierarchy && diggerEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                diggerEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return diggerEnemy;
             }
         }
@@ -359,6 +366,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!diggerEnemy.activeInHierarchy && diggerEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                diggerEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return diggerEnemy;
             }
         }

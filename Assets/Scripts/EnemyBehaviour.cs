@@ -46,6 +46,7 @@ public class EnemyBehaviour : MonoBehaviour
     bool isRunning = false;
     bool phase2Activated = false;
     bool phase3Activated = false;
+    bool isDead = false;
 
     [Header("Animation")]
     //[SerializeField] string nameAnime;
@@ -63,7 +64,7 @@ public class EnemyBehaviour : MonoBehaviour
     bool isDigging = false;
     Animator animator;
     ParticleSystem part;
-    int isDeadHash = Animator.StringToHash("IsDead");
+    //int isDeadHash = Animator.StringToHash("IsDead");
 
     void Awake()
     {
@@ -128,6 +129,8 @@ public class EnemyBehaviour : MonoBehaviour
         {
             if (areaEffectManager != null)
             {
+                isExploding = false;
+                isDead = false;
                 areaEffectManager.Deactivate();
                 areaEffectManager = null;
             }
@@ -227,6 +230,23 @@ public class EnemyBehaviour : MonoBehaviour
         return enemyColor;
     }
 
+    public void ResetEnemy()
+    {
+        //animator.SetBool(isDeadHash, false);
+        hpActual = hpMax;
+        isMoving = true;
+        isTouchingPlayer = false;
+        canShoot = true;
+        isExploding = false;
+        isChomping = false;
+        isUnderground = false;
+        isRunning = false;
+        phase2Activated = false;
+        phase3Activated = false;
+        isDead = false;
+        isDigging = false;
+    }
+
     public void TakeDamage(float damage)
     {
         hpActual -= damage;
@@ -235,9 +255,15 @@ public class EnemyBehaviour : MonoBehaviour
         {
             gameObject.GetComponentInChildren<ParticleSystem>().Play();
             isExploding = false;
-            animator.SetBool(isDeadHash, true);
+            isDead = true;
+            //animator.SetBool(isDeadHash, true);
             Death();
-            //gameObject.SetActive(false);
+            if (areaEffectManager != null)
+            {
+                areaEffectManager.Deactivate();
+                areaEffectManager = null;
+            }
+            gameObject.SetActive(false);
             if(enemyColor == EnemyColor.chocoWhite)
             {
                 pool.SpawnCookieWhite(transform);

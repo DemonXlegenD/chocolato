@@ -186,7 +186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyType: 2
-  enemyColor: 1
+  enemyColor: 0
   moveSpeed: 4
   hpMax: 10
   damage: 5
@@ -266,6 +266,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WhiteEnemy4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4831768911621546813, guid: bc4bad86731834e4b96b00a5784a3b6d,
+        type: 3}
+      propertyPath: m_TagString
+      value: EnemyRenderer
       objectReference: {fileID: 0}
     - target: {fileID: 5207907834582940039, guid: bc4bad86731834e4b96b00a5784a3b6d,
         type: 3}
