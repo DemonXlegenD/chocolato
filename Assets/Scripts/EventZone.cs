@@ -7,6 +7,7 @@ public class EventZone : MonoBehaviour
 {
     [SerializeField] private EventZone eventZone;
     [SerializeField] private SpawnCylindre spawnCylindre;
+    [SerializeField] private GameObject rbPlayer;
 
     [SerializeField] GameObject particuleFusion;
     [SerializeField] GameObject particuleStorm;
@@ -35,7 +36,7 @@ private Vector3 newPosition;
     {
         eventZone = GetComponent<EventZone>();
 
-        randomAttack = Random.Range(0, 3);
+        randomAttack = 1;// Random.Range(0, 3);
 
         particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
     }
@@ -69,31 +70,39 @@ private Vector3 newPosition;
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider other)
     {
-        stockNameZone = this.gameObject.name;
-        SetActiveNameZone(stockNameZone);
-        if (eventZone != null)
+        if(other.gameObject.tag == "Player")
         {
-            if (collision.gameObject.CompareTag("Player"))
+            stockNameZone = this.gameObject.name;
+            SetActiveNameZone(stockNameZone);
+            if (eventZone != null)
             {
-                canAttack = true;
+                if (other.gameObject.tag == "Player")
+                {
+                    canAttack = true;
+                }
+                if (other.gameObject.tag == "Asteroid")
+                {
+                    DisplayClone();
+                    // Destroy la zone de chocolat en question
+                }
             }
-            if (collision.gameObject.CompareTag("Asteroid"))
-            {
-                DisplayClone();
-                // Destroy la zone de chocolat en question
-            }
+        }
+       
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            DisplayClone();
+            StopAllCoroutines();
+            canAttack = false;
+            isCoroutineRunning = false;
         }
     }
 
-    void OnCollisionExit(Collision collision)
-    {
-        DisplayClone();
-        StopAllCoroutines();
-        canAttack = false;
-        isCoroutineRunning = false;
-    }
 
     IEnumerator StartTypeAttackToPlayer(GameObject typeAttack)
     {
@@ -102,7 +111,7 @@ private Vector3 newPosition;
         yield return new WaitForSeconds(6f);
 
         DisplayClone();
-        randomAttack = Random.Range(0, 3);
+        randomAttack = 1;// Random.Range(0, 3);
         isCoroutineRunning = false;
     }
 
