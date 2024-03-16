@@ -15,17 +15,18 @@ public class Timer : MonoBehaviour
     public float startTimer = 0;
     public UnityEvent GamePaused;
     public UnityEvent GameResumed;
-    private bool _isPaused;
+    public UnityEvent GameEnded;
+
 
     [Header("Component")]
-    public TextMeshProUGUI timerText;
+    public TextMeshPro timerText;
 
     [Header("Timer Settings")]
     public float currentTime;
 
     private void Awake()
     {
-        _playerInput = GetComponent<PlayerInput>();
+        _playerInput = FindAnyObjectByType<PlayerInput>();
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
     }
@@ -37,25 +38,8 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        currentTime = currentTime += Time.deltaTime;
-        timerText.text = currentTime.ToString();
-        timerText.text = currentTime.ToString("0.0");
-
-
-        if (_actionMap.FindAction("Pause").WasPerformedThisFrame())
-        {
-            _isPaused = !_isPaused;
-        }
-        if (_isPaused)
-        {
-            Time.timeScale = 0;
-            GamePaused.Invoke();
-        }
-        else
-        {
-            Time.timeScale = 1;
-            GameResumed.Invoke();
-        }
+        currentTime += Time.deltaTime;
+        timerText.text = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
 
     }
     public void GameEnd()

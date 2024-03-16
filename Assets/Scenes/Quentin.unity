@@ -2465,7 +2465,6 @@ MonoBehaviour:
       m_values:
       - {fileID: 246444311}
       - {fileID: 1147352575}
-  playerInput: {fileID: 2009159868}
   menuBlock: {fileID: 1622230301}
 --- !u!1 &610426441
 GameObject:
@@ -5172,6 +5171,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+--- !u!1 &1001909887 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 530356926616085777, guid: 7d3c722f54dfacd469b30b8e2c3ee82a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1187751290}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1026242540 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8438892594822831696, guid: cd60a284f8096c3458c9e34f4da59f66,
@@ -6139,7 +6144,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 530356926616085777, guid: 7d3c722f54dfacd469b30b8e2c3ee82a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1187751293}
   m_SourcePrefab: {fileID: 100100000, guid: 7d3c722f54dfacd469b30b8e2c3ee82a, type: 3}
 --- !u!114 &1187751291 stripped
 MonoBehaviour:
@@ -6147,12 +6156,36 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1187751290}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1001909887}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbcf7183c1fec02469b7f7064ff3ab53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1187751293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001909887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90a1469b11342848859e1efd00ec008, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTimer: 0
+  GamePaused:
+    m_PersistentCalls:
+      m_Calls: []
+  GameResumed:
+    m_PersistentCalls:
+      m_Calls: []
+  GameEnded:
+    m_PersistentCalls:
+      m_Calls: []
+  timerText: {fileID: 840466400}
+  currentTime: 0
 --- !u!1 &1229994270
 GameObject:
   m_ObjectHideFlags: 0
@@ -11080,18 +11113,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2009159868 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5951118171981193545, guid: 3808f0d49e456ef488e2dbba7f5ff36c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1372960217}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2093159968
 GameObject:
   m_ObjectHideFlags: 0

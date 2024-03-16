@@ -12,7 +12,9 @@ public class MenuPause : MonoBehaviour
     private GameManager gameManager;
     // Start is called before the first frame update
 
-    [SerializeField] private PlayerInput playerInput;
+    private PlayerInput _playerInput;
+    private InputActionAsset _inputActions;
+    private InputActionMap _actionMap;
     [SerializeField] private UIBlock menuBlock;
 
     private bool IsPause = false;
@@ -20,13 +22,16 @@ public class MenuPause : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.Instance;
+        _playerInput = FindAnyObjectByType<PlayerInput>();
+        _inputActions = _playerInput.actions;
+        _actionMap = _inputActions.FindActionMap("Player");
         ClosePanel();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
         {
             if (!IsPause) PauseGame();
             else ResumeGame();
@@ -57,7 +62,6 @@ public class MenuPause : MonoBehaviour
     public void PauseGame()
     {
         IsPause = true;
-        playerInput.enabled = false;
         menuBlock.gameObject.SetActive(false);
         OpenPanel(PanelType.Main);
         Time.timeScale = 0f;
@@ -67,7 +71,6 @@ public class MenuPause : MonoBehaviour
     public void ResumeGame()
     {
         IsPause = false;
-        playerInput.enabled = true;
         menuBlock.gameObject.SetActive(true);
         ClosePanel();
         Time.timeScale = 1f;
@@ -76,7 +79,6 @@ public class MenuPause : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
-        playerInput.enabled = true;
         menuBlock.gameObject.SetActive(true);
         gameManager.ChangeScene("MenuScene");
     }
