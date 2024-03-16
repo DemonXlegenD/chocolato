@@ -54,9 +54,9 @@ MonoBehaviour:
   maxPlayerBullets: 100
   bulletPrefab: {fileID: 4356965762799517794, guid: 760a5068a8db84b49afe2028011d412a,
     type: 3}
-  cookieBlackPrefab: {fileID: 2983797281684359641, guid: ae193872c14da2342ad1503100221190,
+  cookieBlackPrefab: {fileID: 490064732366666317, guid: 1d51ffc936bfdfe46adcde170653ed4c,
     type: 3}
-  cookieWhitePrefab: {fileID: 2983797281684359641, guid: bf67c962082cdff4690f06fe27d8fda4,
+  cookieWhitePrefab: {fileID: 4052885172208821021, guid: 77c3505667971914f86fb61db86a73f5,
     type: 3}
   basicWhite: {fileID: 4601449402225838442, guid: 824cd08800016a241a3b646b53cc1e69,
     type: 3}
