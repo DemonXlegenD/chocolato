@@ -11,13 +11,15 @@ public class EnemyBehaviour : MonoBehaviour
         Basic,
         Ranged,
         Kamikaze,
-        Digger
+        Digger,
+        Boss 
     }
 
     public enum EnemyColor
     {
         chocoWhite,
-        chocoBlack
+        chocoBlack,
+        any
     }
 
 
@@ -41,6 +43,9 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] float timeToStartMovingAgain;
     [SerializeField] PoolObjects pool;
     AreaEffectManager areaEffectManager;
+    bool isRunning = false;
+    bool phase2Activated = false;
+    bool phase3Activated = false;
 
     [Header("Animation")]
     //[SerializeField] string nameAnime;
@@ -102,6 +107,31 @@ public class EnemyBehaviour : MonoBehaviour
         {
             Chomping();
         }
+        if(enemyType == EnemyType.Boss)
+        {
+            int tmp = hpMax / 4;
+            if(hpActual <= tmp*2 && !phase2Activated)
+            {
+                phase2Activated = true;
+                moveSpeed *= 2f;
+            }
+            if(hpActual <= tmp*1 && !phase3Activated)
+            {
+                phase3Activated = true;
+            }
+            if(phase3Activated && canShoot)
+            {
+                StartCoroutine(ShootedBoss());
+            }
+        }
+        if(hpActual <= 0)
+        {
+            if (areaEffectManager != null)
+            {
+                areaEffectManager.Deactivate();
+                areaEffectManager = null;
+            }
+        }
     }
 
     void MoveTowardsPlayer()
@@ -157,6 +187,13 @@ public class EnemyBehaviour : MonoBehaviour
                     }
                 }
             }
+            else if (EnemyType.Boss == enemyType)
+            {
+                if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)))
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
+                }
+            }
             if (isTouchingPlayer)
             {
                 StartCoroutine(StopMoving());
@@ -197,6 +234,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (hpActual <= 0)
         {
             gameObject.GetComponentInChildren<ParticleSystem>().Play();
+            isExploding = false;
             animator.SetBool(isDeadHash, true);
             Death();
             //gameObject.SetActive(false);
@@ -207,6 +245,13 @@ public class EnemyBehaviour : MonoBehaviour
             else if (enemyColor == EnemyColor.chocoBlack)
             {
                 pool.SpawnCookieBlack(transform);
+            }
+            else if (enemyColor == EnemyColor.any)
+            {
+                Transform tmp = transform;
+                tmp.position = new Vector3(tmp.position.x , 0, tmp.position.z);
+                pool.SpawnCookieBlackOffSet(tmp);
+                pool.SpawnCookieWhite(tmp);
             }
         }
     }
@@ -230,14 +275,24 @@ public class EnemyBehaviour : MonoBehaviour
         //Debug.Log("Can shoot Again");
     }
 
+    IEnumerator ShootedBoss()
+    {
+        canShoot = false;
+        pool.SpawnBossBullet(transform);
+        StartCoroutine(StopMoving());
+        yield return new WaitForSeconds(timeToStartAttackingAgain);
+        canShoot = true;
+        //Debug.Log("Can shoot Again");
+    }
     IEnumerator Dig()
     {
-        gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
-        yield return new WaitForSeconds(digCooldown);
-        if(areaEffectManager != null)
+        if (areaEffectManager != null)
         {
             areaEffectManager.Deactivate();
+            areaEffectManager = null;
         }
+        gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
+        yield return new WaitForSeconds(digCooldown);
         isDigging = true;
         startDigPos = transform.position;
         GetComponent<Rigidbody>().isKinematic = true;
@@ -258,6 +313,11 @@ public class EnemyBehaviour : MonoBehaviour
             elapsedTime = 0;
             gameObject.GetComponentInChildren<TrailRenderer>().enabled = true;
         }
+    }
+
+    public float GetHp()
+    {
+        return hpActual;
     }
 
     void Explode()

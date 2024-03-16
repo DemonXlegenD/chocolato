@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Nova;
 
 public class PlayerController : MonoBehaviour
 {
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject playerBody;
     [SerializeField] Animator animator;
 
+
     [Header("Shoot")]
     [SerializeField] GameObject shootPoint;
     [SerializeField] GameObject prefabBullet;
@@ -78,6 +80,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider xpDarkWeapon;
     [SerializeField] Slider hpPlayer;
     [SerializeField] LoadDash dashSlider;
+    [SerializeField] MenuPause menuPause;
+    [SerializeField] TextMeshPro expText;
+    [SerializeField] UIBlock center;
+
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip musicChill;
+    [SerializeField] AudioClip musicVnr;
+
+    [Header("Others")]
+    [SerializeField] Color whiteColor;
+    [SerializeField] Color blackColor;
 
     private bool canSwitchWeapon = false;
     private bool canDash = false;
@@ -106,6 +119,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
+        {
+            if (!menuPause.IsPause) menuPause.PauseGame();
+            else menuPause.ResumeGame();
+        }
         if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
         {
             Rotate();
@@ -114,7 +132,7 @@ public class PlayerController : MonoBehaviour
                 Dash();
             }
         }
-        
+
         SwapColor();
 
         TickTimers();
@@ -236,11 +254,12 @@ public class PlayerController : MonoBehaviour
             if (chocoState == ChocoState.chocoWhite)
             {
                 SetAttackTimer();
+                
                 pool.SpawnPlayerBullet(playerBody.transform.forward, shootPoint.transform);
             }
             else
             {
-                animator.Play("SwingWeapon");
+                animator.SetTrigger("Swing");
             }
         }
     }
@@ -291,6 +310,9 @@ public class PlayerController : MonoBehaviour
                     tempBhv.TakeDamage(blackWeaponDmg);
                     enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
                     break;
+                case EnemyBehaviour.EnemyColor.any:
+                    tempBhv.TakeDamage(blackWeaponDmg);
+                    break;
             }
         }
         else
@@ -301,6 +323,9 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("oui");
                     tempBhv.TakeDamage(whiteWeaponDmg);
                     enemy.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 5, ForceMode.Impulse);
+                    break;
+                case EnemyBehaviour.EnemyColor.any:
+                    tempBhv.TakeDamage(whiteWeaponDmg);
                     break;
             }
         }
@@ -336,13 +361,23 @@ public class PlayerController : MonoBehaviour
 
     public void AddExp(EnemyBehaviour.EnemyColor color)
     {
-        switch(color)
+        switch (color)
         {
             case EnemyBehaviour.EnemyColor.chocoWhite:
                 whiteWeaponXpActual += 20;
+                var temp  = Instantiate(expText, center.transform);
+                temp.text = "+ 20 white xp";
+                temp.color = whiteColor;
                 break;
             case EnemyBehaviour.EnemyColor.chocoBlack:
                 blackWeaponXpActual += 20;
+                var temp2  = Instantiate(expText, center.transform);
+                temp2.text = "+ 20 black xp";
+                temp2.color = blackColor;
+                break;
+            case EnemyBehaviour.EnemyColor.any:
+                whiteWeaponXpActual += 100;
+                blackWeaponXpActual += 100;
                 break;
         }
     }
@@ -353,6 +388,7 @@ public class PlayerController : MonoBehaviour
             whiteWeaponLevel++;
             whiteWeaponXpActual = whiteWeaponXpActual - whiteWeaponXpMax;
             whiteWeaponXpMax += 30;
+            xpWhiteWeapon.Max = whiteWeaponXpMax;
             whiteAttackTick -= whiteAttackTick * 15 / 100;
             whiteWeaponDmg += whiteWeaponBaseDmg * (whiteWeaponLevel - 1);
         }
@@ -361,22 +397,28 @@ public class PlayerController : MonoBehaviour
             blackWeaponLevel++;
             blackWeaponXpActual = blackWeaponXpActual - blackWeaponXpMax;
             blackWeaponXpMax += 30;
+            xpDarkWeapon.Max = blackWeaponXpMax;
             blackAttackTick -= blackAttackTick * 15 / 100;
             blackWeaponDmg += blackWeaponBaseDmg * (blackWeaponLevel - 1);
         }
-        xpWhiteWeapon.Max = whiteWeaponXpMax;
-        xpDarkWeapon.Max = blackWeaponXpMax;
     }
 
+    void CheckDeath()
+    {
+        if(life <= 0 || colorState <= 0 || colorState >= 100)
+        {
+
+        }
+    }
     private void OnEnable()
     {
-        EventManager.GetInstance().onEnemyDeath.AddListener(OnEnemyDeath);
         _actionMap.Enable();
+        EventManager.GetInstance().onEnemyDeath.AddListener(OnEnemyDeath);
     }
 
     private void OnDisable()
     {
-        EventManager.GetInstance().onEnemyDeath.RemoveListener(OnEnemyDeath);
         _actionMap.Disable();
+        EventManager.GetInstance().onEnemyDeath.RemoveListener(OnEnemyDeath);
     }
 }
