@@ -8,6 +8,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Nova;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider xpWhiteWeapon;
     [SerializeField] Slider xpDarkWeapon;
     [SerializeField] Slider hpPlayer;
+    [SerializeField] TextMeshPro hpUi;
     [SerializeField] LoadDash dashSlider;
     [SerializeField] MenuPause menuPause;
     [SerializeField] TextMeshPro expText;
@@ -140,6 +142,8 @@ public class PlayerController : MonoBehaviour
         SetColor();
 
         SetArms();
+
+        CheckDeath();
     }
 
     private void SetArms()
@@ -328,6 +332,7 @@ public class PlayerController : MonoBehaviour
     {
         life -= damage;
         hpPlayer.Value = life;
+        hpUi.text = life.ToString();
     }
 
     void GetHealed(float heal)
@@ -396,7 +401,7 @@ public class PlayerController : MonoBehaviour
     {
         if(life <= 0 || colorState <= 0 || colorState >= 100)
         {
-
+            SceneManager.LoadScene(0);
         }
     }
     private void OnEnable()
