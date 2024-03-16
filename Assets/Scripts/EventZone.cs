@@ -37,7 +37,7 @@ private Vector3 newPosition;
 
         randomAttack = Random.Range(0, 3);
 
-        //particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
+        particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
     }
 
     private void Update()

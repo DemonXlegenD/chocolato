@@ -141,14 +141,14 @@ public class EnemyBehaviour : MonoBehaviour
             {
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) && !isDigging)
                 {
-                    Debug.Log("move");
+                    //Debug.Log("move");
                     transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
                 }
                 else if (isUnderground)
                 {
                     if (!isChomping)
                     {
-                        Debug.Log("Chomp");
+                        //Debug.Log("Chomp");
                         isChomping = true;
                         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
                         Vector3 newYPos = new Vector3(transform.position.x, transform.position.y + 1.7f, transform.position.z);

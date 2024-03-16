@@ -45,7 +45,7 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] int totalEnemiesWave4;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         enemyBullets = new List<GameObject>();
         lootCookiesBlack = new List<GameObject>();
