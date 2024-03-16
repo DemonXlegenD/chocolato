@@ -8,6 +8,8 @@ TagManager:
   - ShootPoint
   - Obstacle
   - Asteorid
+  - Asteroid
+  - Storm
   layers:
   - Default
   - TransparentFX
