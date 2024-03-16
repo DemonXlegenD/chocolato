@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3739222479695953730}
   - component: {fileID: 8116010137548785351}
   - component: {fileID: 3097454749061701660}
+  - component: {fileID: 7309330379760691048}
+  - component: {fileID: 821878367677134410}
   m_Layer: 0
   m_Name: WhiteZoneChocolate
   m_TagString: Obstacle
@@ -130,3 +132,39 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7309330379760691048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415813423338087297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 200d94d66643ad24eb0e427b90576b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventZone: {fileID: 7309330379760691048}
+  spawnCylindre: {fileID: 821878367677134410}
+  particuleFusion: {fileID: 8310623284194164287, guid: 1a7e03824f5fc074cbc3fa4dadf3efd5,
+    type: 3}
+  particuleStorm: {fileID: 2967121852436527815, guid: 38e417873286aef4b8308e5faf9e3a02,
+    type: 3}
+  particuleAsteroid: {fileID: 8003495884289897023, guid: c5219cfc0bf6ac8438cdbd39924fac11,
+    type: 3}
+  fusionPool: []
+  finishDistanceTarget: 0.5
+  moveSpeed: 0.1
+--- !u!114 &821878367677134410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415813423338087297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d4d96fde2b7464ba8411be08dfa1e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cylinderTransform: {fileID: 7544572161749470691}

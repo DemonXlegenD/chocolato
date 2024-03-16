@@ -108,7 +108,7 @@ namespace Nova.InternalNamespace_16
                 }
                 catch (Exception e)
                 {
-                    UnityEngine.Debug.LogException(e);
+                    UnityEngine.Debug.LogException(e);  
                 }
             }
         }

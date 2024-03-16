@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class PoolObjects : MonoBehaviour
 {
+<<<<<<< HEAD
     static PoolObjects instance;
     public static PoolObjects GetInstance()
     {
@@ -15,12 +16,24 @@ public class PoolObjects : MonoBehaviour
 
 
     [SerializeField] int maxEnemies;
+=======
+    [Header("Max Pool")]
+>>>>>>> master
     [SerializeField] int maxCookies;
-    [SerializeField] int maxenemyBullets;
-    private List<GameObject> enemies;
+    [SerializeField] int maxBasicEnemy;
+    [SerializeField] int maxRangedEnemy;
+    [SerializeField] int maxKamikazeEnemy;
+    [SerializeField] int maxDiggerEnemy;
+    [SerializeField] int maxEnemyBullets;
+    [SerializeField] int maxAreaEffect;
+    [SerializeField] int maxPlayerBullets;
+
+    [Header("Pools")]
     private List<GameObject> enemyBullets;
+    private List<GameObject> playerBullets;
     private List<GameObject> lootCookiesBlack;
     private List<GameObject> lootCookiesWhite;
+<<<<<<< HEAD
     [Header("White Entities")]
     [SerializeField] GameObject enemyWhiteNormal;
     [SerializeField] GameObject enemyWhiteKamikaze;
@@ -33,35 +46,141 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] GameObject enemyBlackDigger;
 
     [Header("Le reste")]
+=======
+    private List<GameObject> basicEnemies;
+    private List<GameObject> rangedEnemies;
+    private List<GameObject> kamikazeEnemies;
+    private List<GameObject> diggerEnemies;
+    private List<GameObject> areaEffects;
+
+    [Header("Prefabs")]
+>>>>>>> master
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject cookieBlackPrefab;
     [SerializeField] GameObject cookieWhitePrefab;
+    [SerializeField] GameObject basicWhite;
+    [SerializeField] GameObject basicBlack;
+    [SerializeField] GameObject rangedWhite;
+    [SerializeField] GameObject rangedBlack;
+    [SerializeField] GameObject kamikazeWhite;
+    [SerializeField] GameObject kamikazeBlack;
+    [SerializeField] GameObject diggerWhite;
+    [SerializeField] GameObject diggerBlack;
+    [SerializeField] GameObject areaEffectPrefab;
+
+    [Header("Waves")]
+    [SerializeField] int totalEnemiesWave1;
+    [SerializeField] int totalEnemiesWave2;
+    [SerializeField] int totalEnemiesWave3;
+    [SerializeField] int totalEnemiesWave4;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        enemies = new List<GameObject>();
         enemyBullets = new List<GameObject>();
+        playerBullets = new List<GameObject>();
         lootCookiesBlack = new List<GameObject>();
         lootCookiesWhite = new List<GameObject>();
-        for (int i = 0; i < maxenemyBullets; i++)
+        basicEnemies = new List<GameObject>();
+        rangedEnemies = new List<GameObject>();
+        kamikazeEnemies = new List<GameObject>();
+        diggerEnemies = new List<GameObject>();
+        areaEffects = new List<GameObject>();
+
+        for (int i = 0; i < maxEnemyBullets; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             bullet.SetActive(false);
             enemyBullets.Add(bullet);
         }
+        for (int i = 0; i < maxPlayerBullets; i++)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            bullet.SetActive(false);
+            playerBullets.Add(bullet);
+        }
         for (int i = 0; i < maxCookies; i++)
         {
-            if(i < maxCookies/2) 
+            if (i < maxCookies / 2)
             {
                 GameObject cookie = Instantiate(cookieBlackPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 cookie.SetActive(false);
                 lootCookiesBlack.Add(cookie);
             }
-            else 
+            else
             {
                 GameObject cookie = Instantiate(cookieWhitePrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
                 cookie.SetActive(false);
                 lootCookiesWhite.Add(cookie);
+            }
+        }
+        for(int i = 0; i < maxAreaEffect; i++)
+        {
+            GameObject areaEffect = Instantiate(areaEffectPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            areaEffect.SetActive(false);
+            areaEffects.Add(areaEffect);
+        }
+        for (int i = 0; i < maxBasicEnemy; i++)
+        {
+            if (i < maxBasicEnemy / 2)
+            {
+                GameObject basicEnemy = Instantiate(basicWhite, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                basicEnemy.SetActive(false);
+                basicEnemies.Add(basicEnemy);
+            }
+            else
+            {
+                GameObject basicEnemy = Instantiate(basicBlack, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                basicEnemy.SetActive(false);
+                basicEnemies.Add(basicEnemy);
+            }
+        }
+        for (int i = 0; i < maxRangedEnemy; i++)
+        {
+            if (i < maxRangedEnemy/2)
+            {
+                GameObject rangedEnemy = Instantiate(rangedWhite, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                rangedEnemy.SetActive(false);
+                rangedEnemies.Add(rangedEnemy);
+
+            }
+            else
+            {
+                GameObject rangedEnemy = Instantiate(rangedBlack, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                rangedEnemy.SetActive(false);
+                rangedEnemies.Add(rangedEnemy);
+            }
+        }
+        for (int i = 0; i < maxKamikazeEnemy; i++)
+        {
+            if (i < maxKamikazeEnemy/2)
+            {
+                GameObject kamikazeEnemy = Instantiate(kamikazeWhite, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                kamikazeEnemy.SetActive(false);
+                kamikazeEnemies.Add(kamikazeEnemy);
+
+            }
+            else 
+            {
+                GameObject kamikazeEnemy = Instantiate(kamikazeBlack, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                kamikazeEnemy.SetActive(false);
+                kamikazeEnemies.Add(kamikazeEnemy);
+            }
+        }
+        for (int i = 0; i < maxDiggerEnemy; i++)
+        {
+            if (i < maxDiggerEnemy / 2)
+            {
+                GameObject diggerEnemy = Instantiate(diggerWhite, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                diggerEnemy.SetActive(false);
+                diggerEnemies.Add(diggerEnemy);
+
+            }
+            else 
+            {
+                GameObject diggerEnemy = Instantiate(diggerBlack, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+                diggerEnemy.SetActive(false);
+                diggerEnemies.Add(diggerEnemy);
             }
         }
     }
@@ -69,11 +188,6 @@ public class PoolObjects : MonoBehaviour
     public List<GameObject> GetPoolenemyBullets()
     {
         return enemyBullets;
-    }
-
-    public List<GameObject> GetPoolEnemies()
-    {
-        return enemies;
     }
 
     public List<GameObject> GetPoolLootCookiesBlack()
@@ -99,7 +213,14 @@ public class PoolObjects : MonoBehaviour
         return tempEnemy;
     }
 
+<<<<<<< HEAD
     public GameObject GetFreeBullet()
+=======
+
+
+
+    public GameObject GetFreeEnemyBullet()
+>>>>>>> master
     {
         foreach (GameObject bullet in enemyBullets)
         {
@@ -114,6 +235,17 @@ public class PoolObjects : MonoBehaviour
         return tempBullet;
     }
 
+    public GameObject GetFreePlayerBullet()
+    {
+        foreach (GameObject bullet in playerBullets)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                return bullet;
+            }
+        }
+        return null;
+    }
 
     public GameObject GetFreeLootCookiesWhite()
     {
@@ -145,16 +277,126 @@ public class PoolObjects : MonoBehaviour
         return tempCookie;
     }
 
+<<<<<<< HEAD
 
     public void SpawnEnemy(Transform transform)
     {
         GameObject enemy = GetFreeEnemy();
+=======
+    public GameObject GetFreeBasicWhite()
+    {
+        foreach (GameObject basicEnemy in basicEnemies)
+        {
+            if (!basicEnemy.activeInHierarchy && basicEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
+            {
+                return basicEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeBasicBlack()
+    {
+        foreach (GameObject basicEnemy in basicEnemies)
+        {
+            if (!basicEnemy.activeInHierarchy && basicEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
+            {
+                return basicEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeRangedWhite()
+    {
+        foreach (GameObject rangedEnemy in rangedEnemies)
+        {
+            if (!rangedEnemy.activeInHierarchy && rangedEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
+            {
+                return rangedEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeRangedBlack()
+    {
+        foreach (GameObject rangedEnemy in rangedEnemies)
+        {
+            if (!rangedEnemy.activeInHierarchy && rangedEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
+            {
+                return rangedEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeKamikazeWhite()
+    {
+        foreach (GameObject kamikazeEnemy in kamikazeEnemies)
+        {
+            if (!kamikazeEnemy.activeInHierarchy && kamikazeEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
+            {
+                return kamikazeEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeKamikazeBlack()
+    {
+        foreach (GameObject kamikazeEnemy in kamikazeEnemies)
+        {
+            if (!kamikazeEnemy.activeInHierarchy && kamikazeEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
+            {
+                return kamikazeEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeDiggerWhite()
+    {
+        foreach (GameObject diggerEnemy in diggerEnemies)
+        {
+            if (!diggerEnemy.activeInHierarchy && diggerEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
+            {
+                return diggerEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeDiggerBlack()
+    {
+        foreach (GameObject diggerEnemy in diggerEnemies)
+        {
+            if (!diggerEnemy.activeInHierarchy && diggerEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
+            {
+                return diggerEnemy;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeAreaEffect()
+    {
+        foreach (GameObject areaEffect in areaEffects)
+        {
+            if (!areaEffect.activeInHierarchy)
+            {
+                areaEffect.SetActive(true);
+                return areaEffect;
+            }
+        }
+        return null;
+>>>>>>> master
     }
 
 
     public void SpawnEnemyBullet(Transform enemyTransform)
     {
-        GameObject bullet = GetFreeBullet();
+        GameObject bullet = GetFreeEnemyBullet();
         if (bullet != null)
         {
             bullet.transform.position = enemyTransform.position;
@@ -163,9 +405,9 @@ public class PoolObjects : MonoBehaviour
             bullet.GetComponent<Bullet>().StartBullet();
         }
     }   
-    public void SpawnBullet(Vector3 dir, Transform spawn)
+    public void SpawnPlayerBullet(Vector3 dir, Transform spawn)
     {
-        GameObject bullet = GetFreeBullet();
+        GameObject bullet = GetFreePlayerBullet();
         if (bullet != null)
         {
             bullet.transform.forward = dir;
@@ -195,4 +437,196 @@ public class PoolObjects : MonoBehaviour
             cookie.SetActive(true);
         }
     }
+
+    public void StartWave1()
+    {
+        for(int i = 0; i < totalEnemiesWave1; i++)
+        {
+            float angle_offset = Random.value * Mathf.PI * 2;
+            float x = Mathf.Sin(angle_offset);
+            float y = Mathf.Cos(angle_offset);
+            Vector2 offset_direction = new Vector2(x, y);
+            float new_magnitude = Random.Range(20f, 2 * 20f);
+            offset_direction *= new_magnitude;
+            GameObject player = FindObjectOfType<PlayerController>().gameObject;
+            Vector3 newPos =  new Vector3(player.transform.position.x + offset_direction.x,0 , player.transform.position.z + offset_direction.y);
+
+           
+            if(i % 2 == 0)
+            {
+                GameObject basicEnemy = GetFreeBasicBlack();
+                if (basicEnemy != null)
+                {
+                    basicEnemy.transform.position = newPos;
+                    basicEnemy.SetActive(true);
+                }
+            }
+            else
+            {
+                GameObject basicEnemy = GetFreeBasicWhite();
+                if (basicEnemy != null)
+                {
+                    basicEnemy.transform.position = newPos;
+                    basicEnemy.SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void StartWave2()
+    {
+        for (int i = 0; i < totalEnemiesWave2; i++)
+        {
+            float angle_offset = Random.value * Mathf.PI * 2;
+            float x = Mathf.Sin(angle_offset);
+            float y = Mathf.Cos(angle_offset);
+            Vector2 offset_direction = new Vector2(x, y);
+            float new_magnitude = Random.Range(20f, 2 * 20f);
+            offset_direction *= new_magnitude;
+            GameObject player = FindObjectOfType<PlayerController>().gameObject;
+            Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+
+            if (i % 4 == 0)
+            {
+                GameObject rangedEnemy = GetFreeRangedBlack();
+                if (rangedEnemy != null)
+                {
+                    rangedEnemy.transform.position = newPos;
+                    rangedEnemy.SetActive(true);
+                }
+            }
+            else if (i % 4 == 1)
+            {
+                GameObject rangedEnemy = GetFreeRangedWhite();
+                if (rangedEnemy != null)
+                {
+                    rangedEnemy.transform.position = newPos;
+                    rangedEnemy.SetActive(true);
+                }
+            }
+            else if (i % 4 == 2)
+            {
+                GameObject basicEnemy = GetFreeBasicBlack();
+                if (basicEnemy != null)
+                {
+                    basicEnemy.transform.position = newPos;
+                    basicEnemy.SetActive(true);
+                }
+            }
+            else
+            {
+                GameObject basicEnemy = GetFreeBasicWhite();
+                if (basicEnemy != null)
+                {
+                    basicEnemy.transform.position = newPos;
+                    basicEnemy.SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void StartWave3()
+    {
+        for (int i = 0; i < totalEnemiesWave3; i++)
+        {
+            float angle_offset = Random.value * Mathf.PI * 2;
+            float x = Mathf.Sin(angle_offset);
+            float y = Mathf.Cos(angle_offset);
+            Vector2 offset_direction = new Vector2(x, y);
+            float new_magnitude = Random.Range(20f, 2 * 20f);
+            offset_direction *= new_magnitude;
+            GameObject player = FindObjectOfType<PlayerController>().gameObject;
+            Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+
+            if (i % 4 == 0)
+            {
+                GameObject rangedEnemy = GetFreeRangedBlack();
+                if (rangedEnemy != null)
+                {
+                    rangedEnemy.transform.position = newPos;
+                    rangedEnemy.SetActive(true);
+                }
+            }
+            else if (i % 4 == 1)
+            {
+                GameObject rangedEnemy = GetFreeRangedWhite();
+                if (rangedEnemy != null)
+                {
+                    rangedEnemy.transform.position = newPos;
+                    rangedEnemy.SetActive(true);
+                }
+            }
+            else if (i % 4 == 2)
+            {
+                GameObject kamikazeEnemy = GetFreeKamikazeBlack();
+                if (kamikazeEnemy != null)
+                {
+                    kamikazeEnemy.transform.position = newPos;
+                    kamikazeEnemy.SetActive(true);
+                }
+            }
+            else
+            {
+                GameObject kamikazeEnemy = GetFreeKamikazeWhite();
+                if (kamikazeEnemy != null)
+                {
+                    kamikazeEnemy.transform.position = newPos;
+                    kamikazeEnemy.SetActive(true);
+                }
+            }
+        }
+    }
+
+    public void StartWave4()
+    {
+        for(int i = 0; i < totalEnemiesWave4; i++)
+        {
+            float angle_offset = Random.value * Mathf.PI * 2;
+            float x = Mathf.Sin(angle_offset);
+            float y = Mathf.Cos(angle_offset);
+            Vector2 offset_direction = new Vector2(x, y);
+            float new_magnitude = Random.Range(20f, 2 * 20f);
+            offset_direction *= new_magnitude;
+            GameObject player = FindObjectOfType<PlayerController>().gameObject;
+            Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+
+            if (i % 4 == 0)
+            {
+                GameObject diggerEnemy = GetFreeDiggerBlack();
+                if (diggerEnemy != null)
+                {
+                    diggerEnemy.transform.position = newPos;
+                    diggerEnemy.SetActive(true);
+                }
+            }
+            else if (i % 4 == 1)
+            {
+                GameObject diggerEnemy = GetFreeDiggerWhite();
+                if (diggerEnemy != null)
+                {
+                    diggerEnemy.transform.position = newPos;
+                    diggerEnemy.SetActive(true);
+                }
+            }
+            else if (i % 4 == 2)
+            {
+                GameObject kamikazeEnemy = GetFreeKamikazeBlack();
+                if (kamikazeEnemy != null)
+                {
+                    kamikazeEnemy.transform.position = newPos;
+                    kamikazeEnemy.SetActive(true);
+                }
+            }
+            else
+            {
+                GameObject kamikazeEnemy = GetFreeKamikazeWhite();
+                if (kamikazeEnemy != null)
+                {
+                    kamikazeEnemy.transform.position = newPos;
+                    kamikazeEnemy.SetActive(true);
+                }
+            }
+        }
+    }
+    
 }

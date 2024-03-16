@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
         previousLoadedScene = SceneManager.GetActiveScene().name;
     }
 
+<<<<<<< HEAD
     private void Update()
     {
         if (Input.GetKey(KeyCode.Escape))
@@ -64,6 +65,8 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;   
     }
+=======
+>>>>>>> master
     public void StartGame()
     {
         Debug.Log("Le jeu commence !");

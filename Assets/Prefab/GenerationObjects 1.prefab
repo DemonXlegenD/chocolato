@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1822995032732114436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3726857473797510364}
+  - component: {fileID: 1379846738120483730}
+  m_Layer: 0
+  m_Name: GenerationObjects 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3726857473797510364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822995032732114436}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.706688, y: -0.76919746, z: -0.19657598}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1379846738120483730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822995032732114436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31090035f878d25458dfefd537d31e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCookies: 100
+  maxBasicEnemy: 100
+  maxRangedEnemy: 100
+  maxKamikazeEnemy: 100
+  maxDiggerEnemy: 100
+  maxEnemyBullets: 100
+  maxAreaEffect: 200
+  maxPlayerBullets: 100
+  bulletPrefab: {fileID: 4356965762799517794, guid: 760a5068a8db84b49afe2028011d412a,
+    type: 3}
+  cookieBlackPrefab: {fileID: 2983797281684359641, guid: ae193872c14da2342ad1503100221190,
+    type: 3}
+  cookieWhitePrefab: {fileID: 2983797281684359641, guid: bf67c962082cdff4690f06fe27d8fda4,
+    type: 3}
+  basicWhite: {fileID: 4601449402225838442, guid: 824cd08800016a241a3b646b53cc1e69,
+    type: 3}
+  basicBlack: {fileID: 8112020207876492815, guid: 2759546b4657a5f4b8076bd65205738b,
+    type: 3}
+  rangedWhite: {fileID: 8201983664589114758, guid: b88985c7fdad109498268897293c6027,
+    type: 3}
+  rangedBlack: {fileID: 2764221279410770459, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
+    type: 3}
+  kamikazeWhite: {fileID: 3332175828411359072, guid: 08b2961cb2db81d40ab33f6040428558,
+    type: 3}
+  kamikazeBlack: {fileID: 4777610765181203667, guid: b5bb530ebffac424b9e29114ff69477c,
+    type: 3}
+  diggerWhite: {fileID: 906834973023878681, guid: b295ec15215ac74469c01258f70fcd84,
+    type: 3}
+  diggerBlack: {fileID: 4736284889036735115, guid: 7464ae8da7dd787429331191511e4fc3,
+    type: 3}
+  areaEffectPrefab: {fileID: 8089545930396983193, guid: 6ee6ce71e39f3db42b7635e43339a0d8,
+    type: 3}
+  totalEnemiesWave1: 20
+  totalEnemiesWave2: 20
+  totalEnemiesWave3: 20
+  totalEnemiesWave4: 20

@@ -629,6 +629,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1251007201742245898}
   - component: {fileID: 4339331917663335394}
+  - component: {fileID: 3492502515072181975}
   m_Layer: 0
   m_Name: BlackEnemy4
   m_TagString: Untagged
@@ -644,10 +645,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6071677613655577405}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.99453694, z: -0, w: 0.10438534}
+  m_LocalRotation: {x: 0, y: -0.99453646, z: 0, w: 0.104389615}
   m_LocalPosition: {x: -24.801, y: 1.7477816, z: -1.961}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8223399532479600268}
   - {fileID: 2599103642375823758}
@@ -674,6 +675,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3492502515072181975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071677613655577405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2419200422e98449a39b39f795deed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6071702416722375283
 GameObject:
   m_ObjectHideFlags: 0

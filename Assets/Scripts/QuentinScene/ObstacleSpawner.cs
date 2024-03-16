@@ -45,7 +45,7 @@ public class ObstacleSpawner : MonoBehaviour
         {
             randomPoint = new Vector3(Random.Range(chunkMin.x, chunkMax.x), 0, Random.Range(chunkMin.y, chunkMax.y));
         }
-        Debug.Log("Random " +randomPoint);
+        //Debug.Log("Random " +randomPoint);
         return randomPoint;
     }
 

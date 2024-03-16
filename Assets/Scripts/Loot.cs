@@ -23,6 +23,7 @@ public class Loot : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             FindObjectOfType<PlayerController>().AddExp(color);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -29,6 +29,7 @@ public class ChunkGenerate : MonoBehaviour
         viewersPosition = new Vector2();
         viewersPositionOld = new Vector2();
         UpdateVisibleChunks();
+        FindObjectOfType<PoolObjects>().StartWave4();
     }
 
     // Update is called once per frame

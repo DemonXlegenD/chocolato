@@ -53,7 +53,11 @@
                 {
                     "name": "Pause",
                     "type": "Button",
+<<<<<<< HEAD
                     "id": "1b9bcb21-1527-41b3-8745-b0613a392924",
+=======
+                    "id": "b70d0bcb-30de-4932-88c7-ed5b0296c86d",
+>>>>>>> master
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -173,7 +177,11 @@
                 },
                 {
                     "name": "",
+<<<<<<< HEAD
                     "id": "ca82ed0f-5a8a-40bc-bf38-96a6d987f130",
+=======
+                    "id": "b9304595-ca18-4cef-86ce-6b6bda517c26",
+>>>>>>> master
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
@@ -181,6 +189,20 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
+<<<<<<< HEAD
+=======
+                },
+                {
+                    "name": "",
+                    "id": "3c98ae13-e05d-4337-86e5-e8f26cb01e05",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+>>>>>>> master
                 }
             ]
         },
@@ -237,6 +259,15 @@
                     "name": "MenuDeselect",
                     "type": "Button",
                     "id": "17fb23ea-2534-427f-b04c-6a5e17b5fcee",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "6025edc9-ae4c-4770-a639-d2b7fa66df89",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -439,6 +470,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "MenuDeselect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d5f6af91-749f-4a5d-a28f-101103cb4d9d",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b12095b1-2ad8-47d6-ac5b-b38c2274ba60",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
