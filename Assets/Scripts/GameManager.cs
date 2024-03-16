@@ -39,16 +39,6 @@ public class GameManager : MonoBehaviour
         previousLoadedScene = SceneManager.GetActiveScene().name;
     }
 
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            if (SceneManager.GetActiveScene().name == "MenuScene") Quit();
-            else ChangeScene("MenuScene");
-        }
-
-    }
-
     public void StartGame()
     {
         Debug.Log("Le jeu commence !");
