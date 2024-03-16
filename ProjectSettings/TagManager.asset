@@ -10,6 +10,7 @@ TagManager:
   - Asteorid
   - Asteroid
   - Storm
+  - EnemyRenderer
   layers:
   - Default
   - TransparentFX

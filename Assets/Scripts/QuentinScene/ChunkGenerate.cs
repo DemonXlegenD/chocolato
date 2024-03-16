@@ -61,32 +61,33 @@ public class ChunkGenerate : MonoBehaviour
             viewersPositionOld = viewersPosition;
             UpdateVisibleChunks();
         }
-        timerVague += Time.deltaTime;
-        timerEnemies += Time.deltaTime;
+        /*        timerVague += Time.deltaTime;
+                timerEnemies += Time.deltaTime;
 
-        if (timerVague >= 30 && finVague && !BossFigth)
-        {
-            SetSpawnVague();
-            finVague = false;
-            timerVague = 0;
-            NbVague += 1;
-        }
-        if (NbVague >= 5)
-        {
-            BossFigth = true;
-            FindObjectOfType<PoolObjects>().StartBoss();
-            if (FindObjectOfType<PoolObjects>().GetPoolBoss().gameObject.GetComponent<EnemyBehaviour>().GetHp() <= 0)
-            {
-                BossFigth = false;
-                NBminiVague += 1;
-                NbVague = 0;
-            }
-        }
-        if (timerEnemies >= 10 && !BossFigth)
-        {
-            CurrentSpawnVague();
-            timerEnemies = 0;
-        }
+                if (timerVague >= 30 && finVague && !BossFigth)
+                {
+                    SetSpawnVague();
+                    finVague = false;
+                    timerVague = 0;
+                    NbVague += 1;
+                }
+                if (NbVague >= 5)
+                {
+                    BossFigth = true;
+                    FindObjectOfType<PoolObjects>().StartBoss();
+                    if (FindObjectOfType<PoolObjects>().GetPoolBoss().gameObject.GetComponent<EnemyBehaviour>().GetHp() <= 0)
+                    {
+                        BossFigth = false;
+                        NBminiVague += 1;
+                        NbVague = 0;
+                    }
+                }
+                if (timerEnemies >= 10 && !BossFigth)
+                {
+                    CurrentSpawnVague();
+                    timerEnemies = 0;
+                }*/
+        FindObjectOfType<PoolObjects>().StartWave4();
     }
 
     void UpdateVisibleChunks()

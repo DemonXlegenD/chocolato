@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
         xpDarkWeapon.Value = blackWeaponXpActual;
         xpDarkWeapon.Max = blackWeaponXpMax;
         hpPlayer.Value = life;
+        pool = FindObjectOfType<PoolObjects>();
     }
 
     // Update is called once per frame
