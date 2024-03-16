@@ -168,6 +168,7 @@ public class PoolObjects : MonoBehaviour
             }
         }
         boss = Instantiate(bossFinal, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        boss.SetActive(false);
     }
 
     // Update is called once per frame
@@ -641,14 +642,14 @@ public class PoolObjects : MonoBehaviour
 
     public void StartBoss()
     {
-            float angle_offset = Random.value * Mathf.PI * 2;
-            float x = Mathf.Sin(angle_offset);
-            float y = Mathf.Cos(angle_offset);
-            Vector2 offset_direction = new Vector2(x, y);
-            float new_magnitude = Random.Range(20f, 2 * 20f);
-            offset_direction *= new_magnitude;
-            GameObject player = FindObjectOfType<PlayerController>().gameObject;
-            Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+        float angle_offset = Random.value * Mathf.PI * 2;
+        float x = Mathf.Sin(angle_offset);
+        float y = Mathf.Cos(angle_offset);
+        Vector2 offset_direction = new Vector2(x, y);
+        float new_magnitude = Random.Range(20f, 2 * 20f);
+        offset_direction *= new_magnitude;
+        GameObject player = FindObjectOfType<PlayerController>().gameObject;
+        Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
 
 
         GameObject boss = GetFreeBoss();
