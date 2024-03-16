@@ -15,9 +15,14 @@ public class MenuController : MonoBehaviour
 
     private GameManager gameManager;
     // Start is called before the first frame update
+    private AudioSource audioSource;
+
+    public AudioClip mainMenuMusic;
+    public AudioClip scoreMusic;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         gameManager = GameManager.Instance;
         OpenPanel(PanelType.Main);
 
@@ -41,6 +46,30 @@ public class MenuController : MonoBehaviour
         }
         currentPanel = panelsCollection.GetItemBykey(_panelType);
         currentPanel.ChangeState(true);
+        ChangeMusic();
+    }
+
+    public void ChangeMusic()
+    {
+
+        if (currentPanel.GetPanelType() == PanelType.Main)
+        {
+            audioSource.clip = mainMenuMusic;
+            if (audioSource.clip != null && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else if (currentPanel.GetPanelType() == PanelType.Score)
+        {
+            audioSource.clip = scoreMusic;
+            if (audioSource.clip != null && !audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+
+
     }
 
     public void Quit()

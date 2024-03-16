@@ -78,6 +78,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider xpDarkWeapon;
     [SerializeField] Slider hpPlayer;
     [SerializeField] LoadDash dashSlider;
+    [SerializeField] MenuPause menuPause;
+
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip musicChill;
+    [SerializeField] AudioClip musicVnr;
 
     private bool canSwitchWeapon = false;
     private bool canDash = false;
@@ -106,6 +111,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
+        {
+            if (!menuPause.IsPause) menuPause.PauseGame();
+            else menuPause.ResumeGame();
+        }
         if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
         {
             Rotate();
@@ -114,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 Dash();
             }
         }
-        
+
         SwapColor();
 
         TickTimers();
@@ -336,7 +346,7 @@ public class PlayerController : MonoBehaviour
 
     public void AddExp(EnemyBehaviour.EnemyColor color)
     {
-        switch(color)
+        switch (color)
         {
             case EnemyBehaviour.EnemyColor.chocoWhite:
                 whiteWeaponXpActual += 20;
