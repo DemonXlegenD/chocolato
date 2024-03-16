@@ -1,5 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ChunkGenerate : MonoBehaviour
 {
@@ -20,6 +23,14 @@ public class ChunkGenerate : MonoBehaviour
     [SerializeField] int chunkSize;
     [SerializeField] List<GameObject> prefabsChunkList = new List<GameObject>();
 
+    float timerVague;
+    float timerEnemies;
+    int NBminiVague;
+    int NbCurrent;
+    bool canSpawn;
+    int decompteNbEnemi;
+    bool finVague = true;
+
     static ObstacleSpawner ObstacleSpawner;
 
     void Start()
@@ -29,7 +40,10 @@ public class ChunkGenerate : MonoBehaviour
         viewersPosition = new Vector2();
         viewersPositionOld = new Vector2();
         UpdateVisibleChunks();
-        FindObjectOfType<PoolObjects>().StartWave4();
+        canSpawn = true;
+        NBminiVague = 3;
+        NbCurrent = 2;
+        decompteNbEnemi = 4;
     }
 
     // Update is called once per frame
@@ -41,6 +55,21 @@ public class ChunkGenerate : MonoBehaviour
         {
             viewersPositionOld = viewersPosition;
             UpdateVisibleChunks();
+        }
+        timerVague += Time.deltaTime;
+        timerEnemies += Time.deltaTime;
+
+        if (timerVague >= 30 && finVague)
+        {
+            SetSpawnVague();
+            finVague = false;
+            timerVague = 0;
+            NBminiVague += 1;
+        }
+        if(timerEnemies >= 10)
+        {
+            CurrentSpawnVague();
+            timerEnemies = 0;
         }
     }
 
@@ -77,6 +106,93 @@ public class ChunkGenerate : MonoBehaviour
         }
 
     }
+
+    private void SetSpawnVague()
+    {
+        int rand = Random.Range(1, 4);
+
+        if(canSpawn) 
+        {
+
+            for (int i = 0; i < NBminiVague; i++)
+            {
+                if (decompteNbEnemi > 0)
+                {
+                    SetVague(rand);
+                    decompteNbEnemi--;
+
+                }
+                else if (decompteNbEnemi > 0 && i < NBminiVague)
+                {
+                    SetVague(rand);
+                    canSpawn = false;
+                    StartCoroutine(TimerMiniVague());
+                }
+                else 
+                {
+                    StartCoroutine(TimerMiniVague());
+                }
+            }
+        }
+        finVague = true;
+    }
+
+    private void CurrentSpawnVague()
+    {
+        int rand = Random.Range(1, 4);
+
+        if (canSpawn)
+        {
+
+            for (int i = 0; i < NbCurrent; i++)
+            {
+                if (decompteNbEnemi > 0)
+                {
+                    SetVague(rand);
+                    decompteNbEnemi--;
+
+                }
+                else if (decompteNbEnemi > 0 && i < NBminiVague)
+                {
+                    SetVague(rand);
+                    canSpawn = false;
+                    StartCoroutine(TimerMiniVague());
+                }
+                else
+                {
+                    StartCoroutine(TimerMiniVague());
+                }
+            }
+        }
+    }
+
+    private void SetVague(int rand)
+    {
+        if (rand == 1)
+        {
+            FindObjectOfType<PoolObjects>().StartWave1();
+        }
+        if (rand == 2)
+        {
+            FindObjectOfType<PoolObjects>().StartWave2();
+        }
+        if (rand == 3)
+        {
+            FindObjectOfType<PoolObjects>().StartWave3();
+        }
+        if (rand == 4)
+        {
+            FindObjectOfType<PoolObjects>().StartWave4();
+        }
+    }
+
+    private IEnumerator TimerMiniVague()
+    {
+        yield return new WaitForSeconds(5);
+        canSpawn = true;
+        decompteNbEnemi = 4;
+    }
+
 
     [System.Serializable]
     public class Chunk

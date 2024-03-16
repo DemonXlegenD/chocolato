@@ -389,7 +389,7 @@ Transform:
   m_GameObject: {fileID: 594672982829373434}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -998.33325, z: 0}
+  m_LocalPosition: {x: 0, y: -456.15118, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1586,7 +1586,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 14.02, z: -0.00000011920929}
-  m_LocalScale: {x: 0.00050059275, y: 0.00050059275, z: 0.00050059275}
+  m_LocalScale: {x: 0.00094469305, y: 0.00094469305, z: 0.00094469305}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2396164144835747620}
@@ -1625,7 +1625,7 @@ MonoBehaviour:
         Raw: 1920
         Type: 0
       Y:
-        Raw: 2306.6665
+        Raw: 1222.3024
         Type: 0
       Z:
         Raw: 0
@@ -1782,7 +1782,7 @@ MonoBehaviour:
     LightingModel: 0
     ShadowCastingMode: 2
     ReceiveShadows: 1
-  PreviewSize: {x: 1, y: 1, z: 0}
+  PreviewSize: {x: 1920, y: 2306.6665, z: 0}
 --- !u!114 &5862262464202369017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2079,7 +2079,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -129.11337, y: 1026.302}
+  m_AnchoredPosition: {x: -129.11337, y: 484.11993}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7004987702514100286
@@ -3077,6 +3077,10 @@ MonoBehaviour:
   xpDarkWeapon: {fileID: 5789056745020529118}
   hpPlayer: {fileID: 3457801935617088353}
   dashSlider: {fileID: 1284689665893981760}
+  expText: {fileID: 4790357882110178995, guid: ebfdec6a1df36ed41b6cf29593403725, type: 3}
+  center: {fileID: 1176740730634462286}
+  whiteColor: {r: 0.882353, g: 0.83921576, b: 0.7568628, a: 0}
+  blackColor: {r: 0.20000002, g: 0.07058824, b: 0.003921569, a: 0}
 --- !u!136 &251400130115665830
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3571,7 +3575,7 @@ Transform:
   m_GameObject: {fileID: 7197893406769713876}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -998.33325, z: 0}
+  m_LocalPosition: {x: 0, y: -456.15118, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4034,7 +4038,7 @@ Transform:
   m_GameObject: {fileID: 7663787673470636698}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1058.3333, z: 0}
+  m_LocalPosition: {x: 0, y: -516.1512, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4257,7 +4261,7 @@ Transform:
   m_GameObject: {fileID: 8165945940301614931}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1058.3333, z: 0}
+  m_LocalPosition: {x: 0, y: 516.1512, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4968,7 +4972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -127.674416, y: 1090.9895}
+  m_AnchoredPosition: {x: -127.674416, y: 548.80743}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3466280299061568085
@@ -6855,7 +6859,7 @@ PrefabInstance:
     - target: {fileID: 8438892594822831696, guid: cd60a284f8096c3458c9e34f4da59f66,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 958.95825
+      value: 416.77618
       objectReference: {fileID: 0}
     - target: {fileID: 8438892594822831696, guid: cd60a284f8096c3458c9e34f4da59f66,
         type: 3}
@@ -7988,7 +7992,7 @@ PrefabInstance:
     - target: {fileID: 3548921347783560382, guid: 0dcaf5fef09c8f74b86092975c85f900,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -912.83325
+      value: -370.65118
       objectReference: {fileID: 0}
     - target: {fileID: 3548921347783560382, guid: 0dcaf5fef09c8f74b86092975c85f900,
         type: 3}

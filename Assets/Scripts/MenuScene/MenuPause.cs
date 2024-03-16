@@ -17,9 +17,9 @@ public class MenuPause : MonoBehaviour
     private InputActionMap _actionMap;
     [SerializeField] private UIBlock menuBlock;
 
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
 
-    private bool IsPause = false;
+    public bool IsPause = false;
 
     private void Start()
     {
@@ -63,8 +63,8 @@ public class MenuPause : MonoBehaviour
 
     public void PauseGame()
     {
-        audioSource.Pause();
         IsPause = true;
+        audioSource.Pause();
         menuBlock.gameObject.SetActive(false);
         OpenPanel(PanelType.Main);
         Time.timeScale = 0f;
@@ -73,8 +73,8 @@ public class MenuPause : MonoBehaviour
 
     public void ResumeGame()
     {
-        audioSource.UnPause();
         IsPause = false;
+        audioSource.UnPause();
         menuBlock.gameObject.SetActive(true);
         ClosePanel();
         Time.timeScale = 1f;

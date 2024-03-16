@@ -27,6 +27,7 @@ public class PoolObjects : MonoBehaviour
     private List<GameObject> diggerEnemies;
     private List<GameObject> areaEffects;
     private List<GameObject> bossBullets;
+    private GameObject boss;
 
     [Header("Prefabs")]
     [SerializeField] GameObject bulletPrefab;
@@ -41,6 +42,7 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] GameObject diggerWhite;
     [SerializeField] GameObject diggerBlack;
     [SerializeField] GameObject areaEffectPrefab;
+    [SerializeField] GameObject bossFinal;
 
     [Header("Waves")]
     [SerializeField] int totalEnemiesWave1;
@@ -165,6 +167,7 @@ public class PoolObjects : MonoBehaviour
                 diggerEnemies.Add(diggerEnemy);
             }
         }
+        boss = Instantiate(bossFinal, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
     }
 
     // Update is called once per frame
@@ -186,6 +189,12 @@ public class PoolObjects : MonoBehaviour
     public List<GameObject> GetPoolLootCookiesWhite()
     {
         return lootCookiesWhite;
+    }
+
+
+    public GameObject GetPoolBoss()
+    { 
+        return boss;
     }
 
 
@@ -368,6 +377,11 @@ public class PoolObjects : MonoBehaviour
         return null;
     }
 
+    public GameObject GetFreeBoss()
+    {
+        boss.SetActive(true);
+        return boss;
+    }
 
     public void SpawnEnemyBullet(Transform enemyTransform)
     {
@@ -624,5 +638,21 @@ public class PoolObjects : MonoBehaviour
             }
         }
     }
-    
+
+    public void StartBoss()
+    {
+            float angle_offset = Random.value * Mathf.PI * 2;
+            float x = Mathf.Sin(angle_offset);
+            float y = Mathf.Cos(angle_offset);
+            Vector2 offset_direction = new Vector2(x, y);
+            float new_magnitude = Random.Range(20f, 2 * 20f);
+            offset_direction *= new_magnitude;
+            GameObject player = FindObjectOfType<PlayerController>().gameObject;
+            Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+
+
+        GameObject boss = GetFreeBoss();
+        boss.transform.position = newPos;
+        boss.SetActive(true);
+    }
 }
