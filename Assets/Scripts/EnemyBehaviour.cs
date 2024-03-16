@@ -260,6 +260,11 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    public float GetHp()
+    {
+        return hpActual;
+    }
+
     void Explode()
     {
         GetComponent<Rigidbody>().isKinematic = true;
