@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviour
             if (chocoState == ChocoState.chocoWhite)
             {
                 SetAttackTimer();
+                
                 pool.SpawnPlayerBullet(playerBody.transform.forward, shootPoint.transform);
             }
             else
@@ -291,6 +292,9 @@ public class PlayerController : MonoBehaviour
                     tempBhv.TakeDamage(blackWeaponDmg);
                     enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
                     break;
+                case EnemyBehaviour.EnemyColor.any:
+                    tempBhv.TakeDamage(blackWeaponDmg);
+                    break;
             }
         }
         else
@@ -301,6 +305,9 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("oui");
                     tempBhv.TakeDamage(whiteWeaponDmg);
                     enemy.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * 5, ForceMode.Impulse);
+                    break;
+                case EnemyBehaviour.EnemyColor.any:
+                    tempBhv.TakeDamage(whiteWeaponDmg);
                     break;
             }
         }
@@ -343,6 +350,10 @@ public class PlayerController : MonoBehaviour
                 break;
             case EnemyBehaviour.EnemyColor.chocoBlack:
                 blackWeaponXpActual += 20;
+                break;
+            case EnemyBehaviour.EnemyColor.any:
+                whiteWeaponXpActual += 100;
+                blackWeaponXpActual += 100;
                 break;
         }
     }

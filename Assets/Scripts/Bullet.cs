@@ -44,6 +44,7 @@ public class Bullet : MonoBehaviour
         {
             if (other.gameObject.tag == "Enemy")
             {
+                gameObject.SetActive(false);
                 playerController.HitEnemy(other.gameObject,gameObject);
             }
         }

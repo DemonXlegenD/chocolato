@@ -14,6 +14,7 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] int maxEnemyBullets;
     [SerializeField] int maxAreaEffect;
     [SerializeField] int maxPlayerBullets;
+    [SerializeField] int maxBossBullets;
 
     [Header("Pools")]
     private List<GameObject> enemyBullets;
@@ -25,6 +26,7 @@ public class PoolObjects : MonoBehaviour
     private List<GameObject> kamikazeEnemies;
     private List<GameObject> diggerEnemies;
     private List<GameObject> areaEffects;
+    private List<GameObject> bossBullets;
 
     [Header("Prefabs")]
     [SerializeField] GameObject bulletPrefab;
@@ -58,6 +60,7 @@ public class PoolObjects : MonoBehaviour
         kamikazeEnemies = new List<GameObject>();
         diggerEnemies = new List<GameObject>();
         areaEffects = new List<GameObject>();
+        bossBullets = new List<GameObject>();
 
         for (int i = 0; i < maxEnemyBullets; i++)
         {
@@ -70,6 +73,13 @@ public class PoolObjects : MonoBehaviour
             GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             bullet.SetActive(false);
             playerBullets.Add(bullet);
+        }
+        for (int i = 0; i < maxBossBullets; i++)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            bullet.SetActive(false);
+            bullet.transform.localScale = new Vector3(4, 4, 4);
+            bossBullets.Add(bullet);
         }
         for (int i = 0; i < maxCookies; i++)
         {
@@ -204,6 +214,18 @@ public class PoolObjects : MonoBehaviour
     public GameObject GetFreePlayerBullet()
     {
         foreach (GameObject bullet in playerBullets)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                return bullet;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeBossBullet()
+    {
+        foreach (GameObject bullet in bossBullets)
         {
             if (!bullet.activeInHierarchy)
             {
@@ -371,12 +393,24 @@ public class PoolObjects : MonoBehaviour
         }
     }
 
+    public void SpawnBossBullet(Transform enemyTransform)
+    {
+        GameObject bullet = GetFreeBossBullet();
+        if (bullet != null)
+        {
+            bullet.transform.position = enemyTransform.position;
+            bullet.transform.rotation = enemyTransform.rotation;
+            bullet.SetActive(true);
+            bullet.GetComponent<Bullet>().StartBullet();
+        }
+    }
+
     public void SpawnCookieWhite(Transform enemyTransform)
     {
         GameObject cookie = GetFreeLootCookiesWhite();
         if (cookie != null)
         {
-            cookie.transform.position = enemyTransform.position;
+            cookie.transform.position = new Vector3(enemyTransform.position.x, enemyTransform.position.y + 0.5f, enemyTransform.position.z);
             cookie.SetActive(true);
         }
     }
@@ -387,6 +421,15 @@ public class PoolObjects : MonoBehaviour
         if (cookie != null)
         {
             cookie.transform.position = new Vector3(enemyTransform.position.x,enemyTransform.position.y+0.5f,enemyTransform.position.z);
+            cookie.SetActive(true);
+        }
+    }
+    public void SpawnCookieBlackOffSet(Transform enemyTransform)
+    {
+        GameObject cookie = GetFreeLootCookiesBlack();
+        if (cookie != null)
+        {
+            cookie.transform.position = new Vector3(enemyTransform.position.x + 1f, enemyTransform.position.y + 0.5f, enemyTransform.position.z);
             cookie.SetActive(true);
         }
     }
