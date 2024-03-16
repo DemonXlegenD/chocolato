@@ -153,6 +153,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6792951429110388695}
     m_Modifications:
+    - target: {fileID: 1379846738120483730, guid: ee36ae3c515aa0140bab83ed4d28c495,
+        type: 3}
+      propertyPath: playerBulletPrefab
+      value: 
+      objectReference: {fileID: 365415494170737073, guid: 8a833745e77507d49ab911f1e74427fc,
+        type: 3}
     - target: {fileID: 1822995032732114436, guid: ee36ae3c515aa0140bab83ed4d28c495,
         type: 3}
       propertyPath: m_Name
