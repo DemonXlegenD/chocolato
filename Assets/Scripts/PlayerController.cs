@@ -79,12 +79,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider hpPlayer;
     [SerializeField] LoadDash dashSlider;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip chillMusique;
+    public AudioClip venereMusique;
+
+
     private bool canSwitchWeapon = false;
     private bool canDash = false;
 
     // Start is called before the first frame update
     void Awake()
     {
+        audioSource.clip = chillMusique;
+        if(audioSource.clip!=null) audioSource.Play();
         playerMesh = GetComponentInChildren<MeshRenderer>();
         playerMesh.material = whiteMat;
         rb = GetComponent<Rigidbody>();
