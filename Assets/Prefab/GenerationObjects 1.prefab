@@ -49,8 +49,9 @@ MonoBehaviour:
   maxRangedEnemy: 100
   maxKamikazeEnemy: 100
   maxDiggerEnemy: 100
-  maxenemyBullets: 100
+  maxEnemyBullets: 100
   maxAreaEffect: 200
+  maxPlayerBullets: 100
   bulletPrefab: {fileID: 4356965762799517794, guid: 760a5068a8db84b49afe2028011d412a,
     type: 3}
   cookieBlackPrefab: {fileID: 2983797281684359641, guid: ae193872c14da2342ad1503100221190,

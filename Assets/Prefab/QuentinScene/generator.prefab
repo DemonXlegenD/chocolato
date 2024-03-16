@@ -44,9 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927f9df7bc9be284a95a3fb6e587df0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxObstacles: 0
+  maxObstacles: 20
   viewers: {fileID: 0}
-  maxViewDst: 600
+  maxViewDst: 500
   chunkSize: 240
   prefabsChunkList:
   - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
+  - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
+  - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
+  - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
+  - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
+  - {fileID: 2470913948208434807, guid: d8554cbe9dc33d141bfcb182daf17fd6, type: 3}
+  - {fileID: 1636841994512735364, guid: 6d20f74d3a6f00c448e584f52ed3b0c2, type: 3}
+  - {fileID: 8722073721692849398, guid: a2116d438ea2ea040af349c0aec09970, type: 3}
