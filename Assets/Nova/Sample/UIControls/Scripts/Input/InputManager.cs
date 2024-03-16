@@ -1,5 +1,6 @@
 using Nova;
 using UnityEngine;
+using UnityEngine.InputSystem;
 #if !ENABLE_LEGACY_INPUT_MANAGER
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
@@ -49,13 +50,11 @@ namespace NovaSamples.UIControls
         [Tooltip("Move navigation focus at this rate (in seconds) while its corresponding key is pressed.")]
         private float updateNavigationEveryXSeconds = 0.25f;
 
-        [Header("Navigation Keys")]
-        public KeyCode UpKey = KeyCode.UpArrow;
-        public KeyCode DownKey = KeyCode.DownArrow;
-        public KeyCode LeftKey = KeyCode.LeftArrow;
-        public KeyCode RightKey = KeyCode.RightArrow;
-        public KeyCode SelectKey = KeyCode.Return;
-        public KeyCode DeselectKey = KeyCode.Escape;
+
+        [Header("Player Input")]
+        private PlayerInput _playerInput;
+        private InputActionAsset _inputActions;
+        private InputActionMap _actionMap;
 
         /// <summary>
         /// The camera to use for mouse and touch input.
@@ -124,6 +123,13 @@ namespace NovaSamples.UIControls
         private void OnDisable()
         {
             Navigation.OnNavigationFocusChanged -= HandleNavigationFocusChanged;
+        }
+
+        private void Awake()
+        {
+            _playerInput = GetComponent<PlayerInput>();
+            _inputActions = _playerInput.actions;
+            _actionMap = _inputActions.FindActionMap("Menu");
         }
 
         private void Update()
@@ -230,10 +236,10 @@ namespace NovaSamples.UIControls
                 Interaction.Update update = new Interaction.Update(ray, GetTouchID(touch));
 
                 // Get the current touch phase
-                TouchPhase touchPhase = touch.phase;
+                UnityEngine.InputSystem.TouchPhase touchPhase = (UnityEngine.InputSystem.TouchPhase)touch.phase;
 
                 // If the touch phase hasn't ended and hasn't been canceled, then pointerDown == true.
-                bool pointerDown = touchPhase != TouchPhase.Canceled && touchPhase != TouchPhase.Ended;
+                bool pointerDown = touchPhase != UnityEngine.InputSystem.TouchPhase.Canceled && touchPhase != UnityEngine.InputSystem.TouchPhase.Ended;
 
                 // Feed the update and pressed state to Nova's Interaction APIs
                 Interaction.Point(update, pointerDown);
@@ -254,23 +260,14 @@ namespace NovaSamples.UIControls
         #endregion
 
         #region Navigation
-#if ENABLE_LEGACY_INPUT_MANAGER
         private bool KeyboardPresent => true;
-        private bool NavigateUp => Input.GetKey(UpKey);
-        private bool NavigateDown => Input.GetKey(DownKey);
-        private bool NavigateLeft => Input.GetKey(LeftKey);
-        private bool NavigateRight => Input.GetKey(RightKey);
-        private bool Select => Input.GetKeyUp(SelectKey);
-        private bool Deselect => Input.GetKeyUp(DeselectKey);
-#else
-        private bool KeyboardPresent => Keyboard.current != null;
-        private bool NavigateUp => Keyboard.current[GetKey(UpKey)].isPressed;
-        private bool NavigateDown => Keyboard.current[GetKey(DownKey)].isPressed;
-        private bool NavigateLeft => Keyboard.current[GetKey(LeftKey)].isPressed;
-        private bool NavigateRight => Keyboard.current[GetKey(RightKey)].isPressed;
-        private bool Select => Keyboard.current[GetKey(SelectKey)].wasReleasedThisFrame;
-        private bool Deselect => Keyboard.current[GetKey(DeselectKey)].wasReleasedThisFrame;
-#endif
+        private bool NavigateUp => _actionMap.FindAction("MenuUp").WasPressedThisFrame();
+        private bool NavigateDown => _actionMap.FindAction("MenuDown").WasPressedThisFrame();
+        private bool NavigateLeft => _actionMap.FindAction("MenuLeft").WasPressedThisFrame();
+        private bool NavigateRight => _actionMap.FindAction("MenuRight").WasPressedThisFrame();
+        private bool Select => _actionMap.FindAction("MenuSelect").WasPressedThisFrame();
+        private bool Deselect => _actionMap.FindAction("MenuDeselect").WasPressedThisFrame();
+
         private const uint NavigationID = 3;
         private float prevNavTime = 0;
 

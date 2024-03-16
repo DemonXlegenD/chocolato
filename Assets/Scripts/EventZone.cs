@@ -42,7 +42,6 @@ private Vector3 newPosition;
 
     private void Update()
     {
-        Debug.Log(eventZone.gameObject.name);
         SetActiveNameZone(eventZone.gameObject.name);
         if (canAttack && !isCoroutineRunning)
         {
