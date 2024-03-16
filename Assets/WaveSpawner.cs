@@ -26,6 +26,8 @@ public class WaveSpawner : MonoBehaviour
     public float i;
     bool waveIsDone = true;
     
+
+
     public void Init()
     {
         poolObjects = PoolObjects.GetInstance();
@@ -38,6 +40,7 @@ public class WaveSpawner : MonoBehaviour
             StartCoroutine(waveSpawner());
         }
     }
+
     IEnumerator waveSpawner()
     {
         for (i = 0; i < enemyCount; i++)

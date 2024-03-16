@@ -58,13 +58,5 @@ public class Timer : MonoBehaviour
         }
 
     }
-    public void GameEnd()
-    {
-        
-    }
 
-    public void QuitGameButton()
-    {
-        
-    }
 }
