@@ -11,7 +11,7 @@ public class EventZone : MonoBehaviour
 
     [SerializeField] GameObject particuleFusion;
     [SerializeField] GameObject particuleStorm;
-    [SerializeField] GameObject particuleAsteroid;
+    //[SerializeField] GameObject particuleAsteroid;
     [SerializeField] List<GameObject> fusionPool;
 
     private int randomAttack;
@@ -30,7 +30,7 @@ public class EventZone : MonoBehaviour
     //Setters
     public string SetActiveNameZone (string stockNameZone) { return stockNameZone; }
 
-private Vector3 newPosition;
+    //private Vector3 newPosition;
 
     void Start()
     {
@@ -38,7 +38,7 @@ private Vector3 newPosition;
 
         randomAttack = Random.Range(0, 3);
 
-        particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
+        //particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
     }
 
     private void Update()
@@ -56,7 +56,7 @@ private Vector3 newPosition;
                 GameObject typeAttack = particuleStorm;
                 StartCoroutine(StartTypeAttackToPlayer(typeAttack));
             }
-            else if (randomAttack == 2)
+           /* else if (randomAttack == 2)
             {
                 // pour la météorite on set un Y supérieur pour qu'elle parte du dessus
                 newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, 20f, spawnCylindre.GetSpawnPosition().z);
@@ -65,7 +65,7 @@ private Vector3 newPosition;
                 tempMeteor.GetComponent<MeteoriteMove>().SetObject(spawnCylindre, eventZone);
                 particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
                 particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;
-            }
+            }*/
             isCoroutineRunning = true;
         }
     }
@@ -83,11 +83,11 @@ private Vector3 newPosition;
                 {
                     canAttack = true;
                 }
-                if (other.gameObject.tag == "Asteroid")
+               /* if (other.gameObject.tag == "Asteroid")
                 {
                     DisplayClone();
                     // Destroy la zone de chocolat en question
-                }
+                }*/
             }
         }
        
