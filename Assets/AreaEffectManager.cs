@@ -26,6 +26,7 @@ public class AreaEffectManager : MonoBehaviour
 
     public bool Activate(GameObject enemy, Vector3 newPos, Vector3 endScale, float timer)
     {
+        Debug.Log("Activate");
         if (!activated)
         {
             activated = true;

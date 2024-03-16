@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
             if (chocoState == ChocoState.chocoWhite)
             {
                 SetAttackTimer();
-                pool.SpawnBullet(playerBody.transform.forward, shootPoint.transform);
+                //pool.SpawnBullet(playerBody.transform.forward, shootPoint.transform);
             }
             else
             {
@@ -370,13 +370,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.GetInstance().onEnemyDeath.AddListener(OnEnemyDeath);
+        //EventManager.GetInstance().onEnemyDeath.AddListener(OnEnemyDeath);
         _actionMap.Enable();
     }
 
     private void OnDisable()
     {
-        EventManager.GetInstance().onEnemyDeath.RemoveListener(OnEnemyDeath);
+        //EventManager.GetInstance().onEnemyDeath.RemoveListener(OnEnemyDeath);
         _actionMap.Disable();
     }
 }

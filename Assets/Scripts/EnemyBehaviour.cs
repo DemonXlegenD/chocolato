@@ -40,6 +40,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
     [SerializeField] PoolObjects pool;
+    AreaEffectManager areaEffectManager;
 
     [Header("Animation")]
     //[SerializeField] string nameAnime;
@@ -233,7 +234,10 @@ public class EnemyBehaviour : MonoBehaviour
     {
         gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
         yield return new WaitForSeconds(digCooldown);
-        FindAnyObjectByType<AreaEffectManager>().Deactivate();
+        if(areaEffectManager != null)
+        {
+            areaEffectManager.Deactivate();
+        }
         isDigging = true;
         startDigPos = transform.position;
         GetComponent<Rigidbody>().isKinematic = true;
@@ -259,30 +263,41 @@ public class EnemyBehaviour : MonoBehaviour
     void Explode()
     {
         GetComponent<Rigidbody>().isKinematic = true;
-        AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
-        bool exploded = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), explodeTimer);
-        if (exploded)
+        if(areaEffectManager == null)
         {
-            areaEffect.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
+            areaEffectManager = pool.GetFreeAreaEffect().GetComponent<AreaEffectManager>();
+        }
+        else
+        {
+            bool exploded = areaEffectManager.Activate(gameObject, new Vector3(transform.position.x,0.3f,transform.position.z), new Vector3(6, 0.01f, 6), explodeTimer);
+            if (exploded)
+            {
+                areaEffectManager.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
+            }
         }
     }
 
     void Chomping()
     {
-        AreaEffectManager areaEffect = FindAnyObjectByType<AreaEffectManager>();
-        bool chomped = areaEffect.Activate(gameObject, transform.position, new Vector3(6, startDigPos.y, 6), 1f);
-        Debug.Log("Chomping");
-        if (!chomped)
+        if (areaEffectManager == null)
         {
-            transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffect.elapsedTime / 1f);
+            areaEffectManager = pool.GetFreeAreaEffect().GetComponent<AreaEffectManager>();
         }
         else
         {
-            areaEffect.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
-            isChomping = false;
-            isUnderground = false;
-            GetComponent<Rigidbody>().isKinematic = false;
-            StartCoroutine(Dig());
+            bool chomped = areaEffectManager.Activate(gameObject, new Vector3(transform.position.x, 0.3f, transform.position.z), new Vector3(6, 0.01f, 6), 1f);
+            if (!chomped)
+            {
+                transform.position = Vector3.Lerp(startChompPos, endChompPos, areaEffectManager.elapsedTime / 1f);
+            }
+            else
+            {
+                areaEffectManager.gameObject.transform.GetChild(0).gameObject.GetComponent<AreaExplosion>().Explode(damage);
+                isChomping = false;
+                isUnderground = false;
+                GetComponent<Rigidbody>().isKinematic = false;
+                StartCoroutine(Dig());
+            }
         }
     }
 
