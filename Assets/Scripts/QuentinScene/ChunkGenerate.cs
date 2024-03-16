@@ -1,5 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ChunkGenerate : MonoBehaviour
 {
@@ -20,6 +23,16 @@ public class ChunkGenerate : MonoBehaviour
     [SerializeField] int chunkSize;
     [SerializeField] List<GameObject> prefabsChunkList = new List<GameObject>();
 
+    float timerVague;
+    float timerEnemies;
+    int NBminiVague;
+    int NbCurrent;
+    bool canSpawn;
+    int decompteNbEnemi;
+    int NbVague;
+    bool BossFigth;
+    bool finVague;
+
     static ObstacleSpawner ObstacleSpawner;
 
     void Start()
@@ -29,7 +42,13 @@ public class ChunkGenerate : MonoBehaviour
         viewersPosition = new Vector2();
         viewersPositionOld = new Vector2();
         UpdateVisibleChunks();
-        FindObjectOfType<PoolObjects>().StartWave4();
+        canSpawn = true;
+        NBminiVague = 3;
+        NbCurrent = 1;
+        BossFigth = false;
+        decompteNbEnemi = 4;
+        finVague = true;
+        NbVague = 0;
     }
 
     // Update is called once per frame
@@ -41,6 +60,32 @@ public class ChunkGenerate : MonoBehaviour
         {
             viewersPositionOld = viewersPosition;
             UpdateVisibleChunks();
+        }
+        timerVague += Time.deltaTime;
+        timerEnemies += Time.deltaTime;
+
+        if (timerVague >= 30 && finVague && !BossFigth)
+        {
+            SetSpawnVague();
+            finVague = false;
+            timerVague = 0;
+            NbVague += 1;
+        }
+        if (NbVague >= 5)
+        {
+            BossFigth = true;
+            FindObjectOfType<PoolObjects>().StartBoss();
+            if (FindObjectOfType<PoolObjects>().GetPoolBoss().gameObject.GetComponent<EnemyBehaviour>().GetHp() <= 0)
+            {
+                BossFigth = false;
+                NBminiVague += 1;
+                NbVague = 0;
+            }
+        }
+        if (timerEnemies >= 10 && !BossFigth)
+        {
+            CurrentSpawnVague();
+            timerEnemies = 0;
         }
     }
 
@@ -77,6 +122,93 @@ public class ChunkGenerate : MonoBehaviour
         }
 
     }
+
+    private void SetSpawnVague()
+    {
+        int rand = Random.Range(1, 4);
+
+        if(canSpawn) 
+        {
+
+            for (int i = 0; i < NBminiVague; i++)
+            {
+                if (decompteNbEnemi > 0)
+                {
+                    SetVague(rand);
+                    decompteNbEnemi--;
+
+                }
+                else if (decompteNbEnemi > 0 && i < NBminiVague)
+                {
+                    SetVague(rand);
+                    canSpawn = false;
+                    StartCoroutine(TimerMiniVague());
+                }
+                else 
+                {
+                    StartCoroutine(TimerMiniVague());
+                }
+            }
+        }
+        finVague = true;
+    }
+
+    private void CurrentSpawnVague()
+    {
+        int rand = Random.Range(1, 4);
+
+        if (canSpawn)
+        {
+
+            for (int i = 0; i < NbCurrent; i++)
+            {
+                if (decompteNbEnemi > 0)
+                {
+                    SetVague(rand);
+                    decompteNbEnemi--;
+
+                }
+                else if (decompteNbEnemi > 0 && i < NBminiVague)
+                {
+                    SetVague(rand);
+                    canSpawn = false;
+                    StartCoroutine(TimerMiniVague());
+                }
+                else
+                {
+                    StartCoroutine(TimerMiniVague());
+                }
+            }
+        }
+    }
+
+    private void SetVague(int rand)
+    {
+        if (rand == 1)
+        {
+            FindObjectOfType<PoolObjects>().StartWave1();
+        }
+        if (rand == 2)
+        {
+            FindObjectOfType<PoolObjects>().StartWave2();
+        }
+        if (rand == 3)
+        {
+            FindObjectOfType<PoolObjects>().StartWave3();
+        }
+        if (rand == 4)
+        {
+            FindObjectOfType<PoolObjects>().StartWave4();
+        }
+    }
+
+    private IEnumerator TimerMiniVague()
+    {
+        yield return new WaitForSeconds(5);
+        canSpawn = true;
+        decompteNbEnemi = 4;
+    }
+
 
     [System.Serializable]
     public class Chunk

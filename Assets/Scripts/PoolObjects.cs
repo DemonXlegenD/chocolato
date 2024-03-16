@@ -14,6 +14,7 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] int maxEnemyBullets;
     [SerializeField] int maxAreaEffect;
     [SerializeField] int maxPlayerBullets;
+    [SerializeField] int maxBossBullets;
 
     [Header("Pools")]
     private List<GameObject> enemyBullets;
@@ -25,6 +26,8 @@ public class PoolObjects : MonoBehaviour
     private List<GameObject> kamikazeEnemies;
     private List<GameObject> diggerEnemies;
     private List<GameObject> areaEffects;
+    private List<GameObject> bossBullets;
+    private GameObject boss;
 
     [Header("Prefabs")]
     [SerializeField] GameObject bulletPrefab;
@@ -39,6 +42,8 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] GameObject diggerWhite;
     [SerializeField] GameObject diggerBlack;
     [SerializeField] GameObject areaEffectPrefab;
+    [SerializeField] GameObject bossFinal;
+    [SerializeField] GameObject playerBulletPrefab;
 
     [Header("Waves")]
     [SerializeField] int totalEnemiesWave1;
@@ -58,6 +63,7 @@ public class PoolObjects : MonoBehaviour
         kamikazeEnemies = new List<GameObject>();
         diggerEnemies = new List<GameObject>();
         areaEffects = new List<GameObject>();
+        bossBullets = new List<GameObject>();
 
         for (int i = 0; i < maxEnemyBullets; i++)
         {
@@ -67,9 +73,16 @@ public class PoolObjects : MonoBehaviour
         }
         for (int i = 0; i < maxPlayerBullets; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            GameObject bullet = Instantiate(playerBulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             bullet.SetActive(false);
             playerBullets.Add(bullet);
+        }
+        for (int i = 0; i < maxBossBullets; i++)
+        {
+            GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            bullet.SetActive(false);
+            bullet.transform.localScale = new Vector3(4, 4, 4);
+            bossBullets.Add(bullet);
         }
         for (int i = 0; i < maxCookies; i++)
         {
@@ -155,6 +168,8 @@ public class PoolObjects : MonoBehaviour
                 diggerEnemies.Add(diggerEnemy);
             }
         }
+        boss = Instantiate(bossFinal, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        boss.SetActive(false);
     }
 
     // Update is called once per frame
@@ -176,6 +191,12 @@ public class PoolObjects : MonoBehaviour
     public List<GameObject> GetPoolLootCookiesWhite()
     {
         return lootCookiesWhite;
+    }
+
+
+    public GameObject GetPoolBoss()
+    { 
+        return boss;
     }
 
 
@@ -204,6 +225,18 @@ public class PoolObjects : MonoBehaviour
     public GameObject GetFreePlayerBullet()
     {
         foreach (GameObject bullet in playerBullets)
+        {
+            if (!bullet.activeInHierarchy)
+            {
+                return bullet;
+            }
+        }
+        return null;
+    }
+
+    public GameObject GetFreeBossBullet()
+    {
+        foreach (GameObject bullet in bossBullets)
         {
             if (!bullet.activeInHierarchy)
             {
@@ -243,6 +276,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!basicEnemy.activeInHierarchy && basicEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                basicEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return basicEnemy;
             }
         }
@@ -255,6 +289,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!basicEnemy.activeInHierarchy && basicEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                basicEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return basicEnemy;
             }
         }
@@ -267,6 +302,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!rangedEnemy.activeInHierarchy && rangedEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                rangedEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return rangedEnemy;
             }
         }
@@ -279,6 +315,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!rangedEnemy.activeInHierarchy && rangedEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                rangedEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return rangedEnemy;
             }
         }
@@ -291,6 +328,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!kamikazeEnemy.activeInHierarchy && kamikazeEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                kamikazeEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return kamikazeEnemy;
             }
         }
@@ -303,6 +341,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!kamikazeEnemy.activeInHierarchy && kamikazeEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                kamikazeEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return kamikazeEnemy;
             }
         }
@@ -315,6 +354,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!diggerEnemy.activeInHierarchy && diggerEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoWhite)
             {
+                diggerEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return diggerEnemy;
             }
         }
@@ -327,6 +367,7 @@ public class PoolObjects : MonoBehaviour
         {
             if (!diggerEnemy.activeInHierarchy && diggerEnemy.GetComponent<EnemyBehaviour>().enemyColor == EnemyBehaviour.EnemyColor.chocoBlack)
             {
+                diggerEnemy.GetComponent<EnemyBehaviour>().ResetEnemy();
                 return diggerEnemy;
             }
         }
@@ -346,6 +387,11 @@ public class PoolObjects : MonoBehaviour
         return null;
     }
 
+    public GameObject GetFreeBoss()
+    {
+        boss.SetActive(true);
+        return boss;
+    }
 
     public void SpawnEnemyBullet(Transform enemyTransform)
     {
@@ -371,12 +417,24 @@ public class PoolObjects : MonoBehaviour
         }
     }
 
+    public void SpawnBossBullet(Transform enemyTransform)
+    {
+        GameObject bullet = GetFreeBossBullet();
+        if (bullet != null)
+        {
+            bullet.transform.position = enemyTransform.position;
+            bullet.transform.rotation = enemyTransform.rotation;
+            bullet.SetActive(true);
+            bullet.GetComponent<Bullet>().StartBullet();
+        }
+    }
+
     public void SpawnCookieWhite(Transform enemyTransform)
     {
         GameObject cookie = GetFreeLootCookiesWhite();
         if (cookie != null)
         {
-            cookie.transform.position = enemyTransform.position;
+            cookie.transform.position = new Vector3(enemyTransform.position.x, enemyTransform.position.y + 0.5f, enemyTransform.position.z);
             cookie.SetActive(true);
         }
     }
@@ -387,6 +445,15 @@ public class PoolObjects : MonoBehaviour
         if (cookie != null)
         {
             cookie.transform.position = new Vector3(enemyTransform.position.x,enemyTransform.position.y+0.5f,enemyTransform.position.z);
+            cookie.SetActive(true);
+        }
+    }
+    public void SpawnCookieBlackOffSet(Transform enemyTransform)
+    {
+        GameObject cookie = GetFreeLootCookiesBlack();
+        if (cookie != null)
+        {
+            cookie.transform.position = new Vector3(enemyTransform.position.x + 1f, enemyTransform.position.y + 0.5f, enemyTransform.position.z);
             cookie.SetActive(true);
         }
     }
@@ -581,5 +648,21 @@ public class PoolObjects : MonoBehaviour
             }
         }
     }
-    
+
+    public void StartBoss()
+    {
+        float angle_offset = Random.value * Mathf.PI * 2;
+        float x = Mathf.Sin(angle_offset);
+        float y = Mathf.Cos(angle_offset);
+        Vector2 offset_direction = new Vector2(x, y);
+        float new_magnitude = Random.Range(20f, 2 * 20f);
+        offset_direction *= new_magnitude;
+        GameObject player = FindObjectOfType<PlayerController>().gameObject;
+        Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+
+
+        GameObject boss = GetFreeBoss();
+        boss.transform.position = newPos;
+        boss.SetActive(true);
+    }
 }

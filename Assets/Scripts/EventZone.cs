@@ -7,10 +7,11 @@ public class EventZone : MonoBehaviour
 {
     [SerializeField] private EventZone eventZone;
     [SerializeField] private SpawnCylindre spawnCylindre;
+    [SerializeField] private GameObject rbPlayer;
 
     [SerializeField] GameObject particuleFusion;
     [SerializeField] GameObject particuleStorm;
-    [SerializeField] GameObject particuleAsteroid;
+    //[SerializeField] GameObject particuleAsteroid;
     [SerializeField] List<GameObject> fusionPool;
 
     private int randomAttack;
@@ -29,7 +30,7 @@ public class EventZone : MonoBehaviour
     //Setters
     public string SetActiveNameZone (string stockNameZone) { return stockNameZone; }
 
-private Vector3 newPosition;
+    //private Vector3 newPosition;
 
     void Start()
     {
@@ -37,7 +38,7 @@ private Vector3 newPosition;
 
         randomAttack = Random.Range(0, 3);
 
-        particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
+        //particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
     }
 
     private void Update()
@@ -55,7 +56,7 @@ private Vector3 newPosition;
                 GameObject typeAttack = particuleStorm;
                 StartCoroutine(StartTypeAttackToPlayer(typeAttack));
             }
-            else if (randomAttack == 2)
+           /* else if (randomAttack == 2)
             {
                 // pour la météorite on set un Y supérieur pour qu'elle parte du dessus
                 newPosition = new Vector3(spawnCylindre.GetSpawnPosition().x, 20f, spawnCylindre.GetSpawnPosition().z);
@@ -64,36 +65,44 @@ private Vector3 newPosition;
                 tempMeteor.GetComponent<MeteoriteMove>().SetObject(spawnCylindre, eventZone);
                 particuleAsteroid.GetComponentInChildren<MeteoriteMove>().eventZone = eventZone;
                 particuleAsteroid.GetComponentInChildren<MeteoriteMove>().spawnCylindre = spawnCylindre;
-            }
+            }*/
             isCoroutineRunning = true;
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+
+    private void OnTriggerEnter(Collider other)
     {
-        stockNameZone = this.gameObject.name;
-        SetActiveNameZone(stockNameZone);
-        if (eventZone != null)
+        if(other.gameObject.tag == "Player")
         {
-            if (collision.gameObject.CompareTag("Player"))
+            stockNameZone = this.gameObject.name;
+            SetActiveNameZone(stockNameZone);
+            if (eventZone != null)
             {
-                canAttack = true;
+                if (other.gameObject.tag == "Player")
+                {
+                    canAttack = true;
+                }
+               /* if (other.gameObject.tag == "Asteroid")
+                {
+                    DisplayClone();
+                    // Destroy la zone de chocolat en question
+                }*/
             }
-            if (collision.gameObject.CompareTag("Asteroid"))
-            {
-                DisplayClone();
-                // Destroy la zone de chocolat en question
-            }
+        }
+       
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            DisplayClone();
+            StopAllCoroutines();
+            canAttack = false;
+            isCoroutineRunning = false;
         }
     }
 
-    void OnCollisionExit(Collision collision)
-    {
-        DisplayClone();
-        StopAllCoroutines();
-        canAttack = false;
-        isCoroutineRunning = false;
-    }
 
     IEnumerator StartTypeAttackToPlayer(GameObject typeAttack)
     {

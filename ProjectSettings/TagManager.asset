@@ -8,6 +8,9 @@ TagManager:
   - ShootPoint
   - Obstacle
   - Asteorid
+  - Asteroid
+  - Storm
+  - EnemyRenderer
   layers:
   - Default
   - TransparentFX
