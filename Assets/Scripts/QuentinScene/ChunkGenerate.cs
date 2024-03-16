@@ -29,7 +29,9 @@ public class ChunkGenerate : MonoBehaviour
     int NbCurrent;
     bool canSpawn;
     int decompteNbEnemi;
-    bool finVague = true;
+    int NbVague;
+    bool BossFigth;
+    bool finVague;
 
     static ObstacleSpawner ObstacleSpawner;
 
@@ -42,8 +44,11 @@ public class ChunkGenerate : MonoBehaviour
         UpdateVisibleChunks();
         canSpawn = true;
         NBminiVague = 3;
-        NbCurrent = 2;
+        NbCurrent = 1;
+        BossFigth = false;
         decompteNbEnemi = 4;
+        finVague = true;
+        NbVague = 4;
     }
 
     // Update is called once per frame
@@ -57,16 +62,27 @@ public class ChunkGenerate : MonoBehaviour
             UpdateVisibleChunks();
         }
         timerVague += Time.deltaTime;
-        timerEnemies += Time.deltaTime;
+        /*timerEnemies += Time.deltaTime;*/
 
-        if (timerVague >= 30 && finVague)
+        if (timerVague >= 30 && finVague && !BossFigth)
         {
             SetSpawnVague();
             finVague = false;
             timerVague = 0;
-            NBminiVague += 1;
+            NbVague += 1;
         }
-        if(timerEnemies >= 10)
+        if(NbVague >= 5)
+        {
+            BossFigth = true;
+            FindObjectOfType<PoolObjects>().StartBoss();
+            if (FindObjectOfType<PoolObjects>().GetPoolBoss().gameObject.GetComponent<EnemyBehaviour>().GetHp() <= 0)
+            {
+                BossFigth = false;
+                NBminiVague += 1;
+                NbVague = 0;
+            }
+        }
+        if(timerEnemies >= 10 && !BossFigth)
         {
             CurrentSpawnVague();
             timerEnemies = 0;
