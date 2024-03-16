@@ -43,6 +43,7 @@ public class PoolObjects : MonoBehaviour
     [SerializeField] GameObject diggerBlack;
     [SerializeField] GameObject areaEffectPrefab;
     [SerializeField] GameObject bossFinal;
+    [SerializeField] GameObject playerBulletPrefab;
 
     [Header("Waves")]
     [SerializeField] int totalEnemiesWave1;
@@ -72,7 +73,7 @@ public class PoolObjects : MonoBehaviour
         }
         for (int i = 0; i < maxPlayerBullets; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            GameObject bullet = Instantiate(playerBulletPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             bullet.SetActive(false);
             playerBullets.Add(bullet);
         }
