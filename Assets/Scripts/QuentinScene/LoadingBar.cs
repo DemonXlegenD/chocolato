@@ -21,6 +21,13 @@ public class LoadingBar : MonoBehaviour
 
     private void Start()
     {
+
+        StartCoroutine(Tadaronne());
+    }
+
+    IEnumerator Tadaronne()
+    {
+        yield return new WaitForSeconds(2f);
         StartLoading();
     }
 

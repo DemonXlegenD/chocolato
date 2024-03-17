@@ -79,6 +79,8 @@ MonoBehaviour:
     type: 3}
   bossFinal: {fileID: 2776737282432347392, guid: 7fa582607dab21643bc5be37d3cad408,
     type: 3}
+  playerBulletPrefab: {fileID: 365415494170737073, guid: 8a833745e77507d49ab911f1e74427fc,
+    type: 3}
   totalEnemiesWave1: 20
   totalEnemiesWave2: 20
   totalEnemiesWave3: 20

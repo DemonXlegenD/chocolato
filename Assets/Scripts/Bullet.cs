@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
             if (other.gameObject.tag == "Player")
             {
                 gameObject.SetActive(false);
-                //collision.gameObject.GetComponent<PlayerController>().TakeDamage(bulletDamage);
+                other.gameObject.GetComponent<PlayerController>().GetDamaged(bulletDamage);
             }
         }
         else

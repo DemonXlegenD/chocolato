@@ -52,7 +52,7 @@ public class AreaExplosion : MonoBehaviour
     {
         if (other.gameObject.tag == "Player" && explode)
         {
-            //other.GetComponent<PlayerController>().TakeDamage(damage);
+            other.GetComponent<PlayerController>().GetDamaged(damage);
             explode = false;
             if (enemy.GetComponent<EnemyBehaviour>().GetEnemyType() == EnemyBehaviour.EnemyType.Kamikaze)
             {
