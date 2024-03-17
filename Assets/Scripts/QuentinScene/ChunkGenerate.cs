@@ -69,6 +69,7 @@ public class ChunkGenerate : MonoBehaviour
             SetSpawnVague();
             finVague = false;
             timerVague = 0;
+            Debug.Log(NbVague);
             NbVague += 1;
         }
         if (NbVague >= 5)

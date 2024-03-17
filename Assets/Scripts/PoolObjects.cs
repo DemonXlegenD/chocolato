@@ -460,6 +460,7 @@ public class PoolObjects : MonoBehaviour
 
     public void StartWave1()
     {
+        Debug.Log("StartWave1");
         for(int i = 0; i < totalEnemiesWave1; i++)
         {
             float angle_offset = Random.value * Mathf.PI * 2;
@@ -495,6 +496,7 @@ public class PoolObjects : MonoBehaviour
 
     public void StartWave2()
     {
+        Debug.Log("StartWave2");
         for (int i = 0; i < totalEnemiesWave2; i++)
         {
             float angle_offset = Random.value * Mathf.PI * 2;
@@ -547,6 +549,7 @@ public class PoolObjects : MonoBehaviour
 
     public void StartWave3()
     {
+        Debug.Log("StartWave3");
         for (int i = 0; i < totalEnemiesWave3; i++)
         {
             float angle_offset = Random.value * Mathf.PI * 2;
@@ -599,6 +602,7 @@ public class PoolObjects : MonoBehaviour
 
     public void StartWave4()
     {
+        Debug.Log("StartWave4");
         for(int i = 0; i < totalEnemiesWave4; i++)
         {
             float angle_offset = Random.value * Mathf.PI * 2;
