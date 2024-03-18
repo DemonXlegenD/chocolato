@@ -1493,7 +1493,7 @@ MonoBehaviour:
   dashSlider: {fileID: 3419223498000875245}
   menuPause: {fileID: 0}
   hpUiValueText: {fileID: 4692863925756107115}
-  uiTestDead: {fileID: 2847783209609949099}
+  uiDead: {fileID: 2847783209609949099}
   xpText: {fileID: 4790357882110178995, guid: ebfdec6a1df36ed41b6cf29593403725, type: 3}
   center: {fileID: 5385111529256310797}
   audioSource: {fileID: 0}
@@ -3101,7 +3101,7 @@ GameObject:
   - component: {fileID: 6251586551252487075}
   - component: {fileID: 2847783209609949099}
   m_Layer: 0
-  m_Name: TestDead
+  m_Name: Dead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3115,15 +3115,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4589290271050147261}
   m_LocalRotation: {x: -0.000000059604638, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00014062726}
-  m_LocalScale: {x: 1.675127, y: 1.6751273, z: 1.6751273}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0021621}
+  m_LocalScale: {x: 17.230404, y: 17.24212, z: 1.6751273}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7828001052000671444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200.00092, y: 1122.7872}
+  m_AnchoredPosition: {x: 657, y: 1122.7872}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &3909176169743794235
@@ -3207,13 +3207,13 @@ MonoBehaviour:
         Type: 0
     Position:
       X:
-        Raw: 200.00092
+        Raw: 657
         Type: 0
       Y:
-        Raw: 199.375
+        Raw: 110
         Type: 0
       Z:
-        Raw: 0.00014062726
+        Raw: -0.0021621
         Type: 0
     Padding:
       Left:
@@ -3387,8 +3387,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280164020
+  m_fontColor: {r: 0.7056604, g: 0.11583479, b: 0.11583479, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
