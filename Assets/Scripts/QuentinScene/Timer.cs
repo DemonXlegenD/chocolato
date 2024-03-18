@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using Nova.TMP;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,13 +21,14 @@ public class Timer : MonoBehaviour
 
 
     [Header("Component")]
-    public TextMeshPro timerText;
+    private TextMeshProTextBlock timerText;
 
     [Header("Timer Settings")]
     public float currentTime;
 
     private void Awake()
     {
+        timerText = GetComponent<TextMeshProTextBlock>();
         gameManager = GameManager.Instance;  
         _playerInput = FindAnyObjectByType<PlayerInput>();
         _inputActions = _playerInput.actions;
@@ -42,8 +44,10 @@ public class Timer : MonoBehaviour
     {
         if(gameManager._state == GameState.IsPlaying)
         {
+            Debug.Log("timer a");
             currentTime += Time.deltaTime;
-            timerText.text = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
+            string timer = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
+            timerText.text = timer;
             FindObjectOfType<ChunkGenerate>().StartSpawnNextWave(currentTime);
             FindObjectOfType<ChunkGenerate>().StartSpawnNormalMonsters(currentTime);
         }

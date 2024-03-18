@@ -68,5 +68,6 @@ MonoBehaviour:
   GameEnded:
     m_PersistentCalls:
       m_Calls: []
-  timerText: {fileID: 0}
+  timerText: {fileID: 5860632687305619993, guid: cdcdae11c91177b41a6a00d44db7fd43,
+    type: 3}
   currentTime: 0
