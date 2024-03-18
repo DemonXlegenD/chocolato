@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -43,6 +42,7 @@ public class LoadingBar : MonoBehaviour
 
     public void LoadLevel(string scene)
     {
+        manager._state = GameState.IsLoading;
         coockies.SetVisible(false);
         foreach (var line in lines)
         {

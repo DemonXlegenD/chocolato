@@ -1,14 +1,10 @@
 
+using Nova;
 using NovaSamples.UIControls;
-using TMPro;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Nova;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -102,7 +98,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        gameManager = GameManager.Instance;  
+        gameManager = GameManager.Instance;
         meshPlayer = GameObject.FindGameObjectWithTag("PlayerRenderer").GetComponent<SkinnedMeshRenderer>();
         meshPlayer.material = whiteMat;
         rb = GetComponent<Rigidbody>();
@@ -126,31 +122,37 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameManager._state == GameState.IsPlaying)
+        if (gameManager._state == GameState.IsPlaying)
         {
-        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
-        {
-            if (!menuPause.IsPause) menuPause.PauseGame();
-            else menuPause.ResumeGame();
-        }
-        if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
-        {
-            Rotate();
-            if (_actionMap.FindAction("Dash").WasPressedThisFrame() && canDash)
+            if (GetLife() <= 0 || ChocolatJauge.Value >= 100 || ChocolatJauge.Value <= 0)
             {
-                Dash();
+                uiTestDead.text = "DEAD";
+                rb.isKinematic = true;
+                StartCoroutine(StartDeadPlayer());
             }
+            if (_actionMap.FindAction("Pause").WasPressedThisFrame())
+            {
+                if (!menuPause.IsPause) menuPause.PauseGame();
+                else menuPause.ResumeGame();
+            }
+            if (playerState == PlayerState.normal || playerState == PlayerState.hitted)
+            {
+                Rotate();
+                if (_actionMap.FindAction("Dash").WasPressedThisFrame() && canDash)
+                {
+                    Dash();
+                }
+            }
+
+            SwapColor();
+
+            TickTimers();
+
+            SetColor();
+
+            SetArms();
         }
 
-        SwapColor();
-
-        TickTimers();
-
-        SetColor();
-
-        SetArms();
-        }
-      
     }
 
     private void SetArms()
@@ -365,7 +367,7 @@ public class PlayerController : MonoBehaviour
     {
         meshPlayer.material = damagedMaterial;
         yield return new WaitForSeconds(0.2f);
-        if(chocoState == ChocoState.chocoWhite)
+        if (chocoState == ChocoState.chocoWhite)
         {
             meshPlayer.material = whiteMat;
         }

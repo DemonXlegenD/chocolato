@@ -83,6 +83,7 @@ public class MenuPause : MonoBehaviour
     public void MainMenu()
     {
         Time.timeScale = 1f;
+        gameManager._state = GameState.IsPlaying;
         menuBlock.gameObject.SetActive(true);
         gameManager.ChangeScene("MenuScene");
     }
