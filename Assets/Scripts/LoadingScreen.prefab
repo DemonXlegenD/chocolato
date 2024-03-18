@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1040385864377085844}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -82,7 +82,7 @@ MonoBehaviour:
         Raw: 0
         Type: 0
       Z:
-        Raw: 0
+        Raw: -1
         Type: 0
     Padding:
       Left:
@@ -4802,7 +4802,7 @@ MonoBehaviour:
     LightingModel: 0
     ShadowCastingMode: 2
     ReceiveShadows: 1
-  PreviewSize: {x: 1, y: 1, z: 0}
+  PreviewSize: {x: 1920, y: 1080, z: 0}
 --- !u!114 &4521644906687356467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6515,7 +6515,7 @@ PrefabInstance:
     - target: {fileID: 3518420026389154425, guid: a66aa3b5fd44b3744ac5663eb1ba144e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3518420026389154425, guid: a66aa3b5fd44b3744ac5663eb1ba144e,
         type: 3}
@@ -6551,6 +6551,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5621204925664414627, guid: a66aa3b5fd44b3744ac5663eb1ba144e,
+        type: 3}
+      propertyPath: layout.Position.Z.Raw
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

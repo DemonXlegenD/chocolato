@@ -11,6 +11,7 @@ TagManager:
   - Asteroid
   - Storm
   - EnemyRenderer
+  - Gun
   layers:
   - Default
   - TransparentFX

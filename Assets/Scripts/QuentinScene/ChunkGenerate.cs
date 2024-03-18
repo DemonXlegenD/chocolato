@@ -32,6 +32,10 @@ public class ChunkGenerate : MonoBehaviour
     int NbVague;
     bool BossFigth;
     bool finVague;
+    int currentWave = 0;
+    int normalMonstersSpawnCounter = 0;
+    int currentTotalWave = 0;
+    int currentTotalMonstersWave = 0;
 
     static ObstacleSpawner ObstacleSpawner;
 
@@ -49,6 +53,8 @@ public class ChunkGenerate : MonoBehaviour
         decompteNbEnemi = 4;
         finVague = true;
         NbVague = 0;
+        StartGameNormalMonsters();
+
     }
 
     // Update is called once per frame
@@ -61,14 +67,12 @@ public class ChunkGenerate : MonoBehaviour
             viewersPositionOld = viewersPosition;
             UpdateVisibleChunks();
         }
-        timerVague += Time.deltaTime;
-        timerEnemies += Time.deltaTime;
-
-        if (timerVague >= 30 && finVague && !BossFigth)
+/*        if (timerVague >= 30 && finVague && !BossFigth)
         {
             SetSpawnVague();
             finVague = false;
             timerVague = 0;
+            Debug.Log(NbVague);
             NbVague += 1;
         }
         if (NbVague >= 5)
@@ -86,7 +90,7 @@ public class ChunkGenerate : MonoBehaviour
         {
             CurrentSpawnVague();
             timerEnemies = 0;
-        }
+        }*/
     }
 
     void UpdateVisibleChunks()
@@ -123,6 +127,50 @@ public class ChunkGenerate : MonoBehaviour
 
     }
 
+    public void StartSpawnNextWave(float timer)
+    {
+        float tmpTimer = timer - (currentTotalWave * 30);
+        if (tmpTimer >= 30)
+        {
+            if (currentWave < 5)
+            {
+                currentWave++;
+            }
+            else
+            {
+                currentWave = 1;
+            }
+            SpawnWave(currentWave);
+            currentTotalWave++;
+        }
+    }
+
+    public void StartSpawnNormalMonsters(float timer)
+    {
+        float tmpTimer = timer - (currentTotalMonstersWave * 10);
+        if(tmpTimer >= 10)
+        {
+            normalMonstersSpawnCounter++;
+            if (normalMonstersSpawnCounter < 3)
+            {
+                int rand = Random.Range(1, 5);
+                FindObjectOfType<PoolObjects>().SpawnNumEnemiesFromCurrentWave(rand, currentWave);
+            }
+            else
+            {
+                normalMonstersSpawnCounter = 0;
+            }
+            currentTotalMonstersWave++;
+        }
+    }
+
+    public void StartGameNormalMonsters()
+    {
+        int rand = Random.Range(1, 5);
+        int tmp = 1;
+        FindObjectOfType<PoolObjects>().SpawnNumEnemiesFromCurrentWave(rand, tmp);
+    }
+/*
     private void SetSpawnVague()
     {
         int rand = Random.Range(1, 4);
@@ -151,9 +199,9 @@ public class ChunkGenerate : MonoBehaviour
             }
         }
         finVague = true;
-    }
+    }*/
 
-    private void CurrentSpawnVague()
+/*    private void CurrentSpawnVague()
     {
         int rand = Random.Range(1, 4);
 
@@ -180,25 +228,29 @@ public class ChunkGenerate : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
-    private void SetVague(int rand)
+    private void SpawnWave(int waveToSpawn)
     {
-        if (rand == 1)
+        if (waveToSpawn == 1)
         {
             FindObjectOfType<PoolObjects>().StartWave1();
         }
-        if (rand == 2)
+        if (waveToSpawn == 2)
         {
             FindObjectOfType<PoolObjects>().StartWave2();
         }
-        if (rand == 3)
+        if (waveToSpawn == 3)
         {
             FindObjectOfType<PoolObjects>().StartWave3();
         }
-        if (rand == 4)
+        if (waveToSpawn == 4)
         {
             FindObjectOfType<PoolObjects>().StartWave4();
+        }
+        if (waveToSpawn == 5)
+        {
+            FindObjectOfType<PoolObjects>().StartBoss();
         }
     }
 

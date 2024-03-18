@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameState _state = GameState.IsPlaying;
+    public GameState _state = GameState.IsLoading;
 
     private string previousLoadedScene = null;
 

@@ -259,7 +259,7 @@ MoveTowardsPlayer();
         //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
-            gameObject.GetComponentInChildren<ParticleSystem>().Play();
+            GetComponentInChildren<ParticleSystem>().Play();
             isExploding = false;
             isDead = true;
             //animator.SetBool(isDeadHash, true);
