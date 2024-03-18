@@ -12,6 +12,8 @@ public class MenuPause : MonoBehaviour
     private GameManager gameManager;
     // Start is called before the first frame update
 
+    private LoadingBar loadingBar;
+
     private PlayerInput _playerInput;
     private InputActionAsset _inputActions;
     private InputActionMap _actionMap;
@@ -23,12 +25,16 @@ public class MenuPause : MonoBehaviour
 
     private void Start()
     {
+        loadingBar = FindAnyObjectByType<LoadingBar>();
+        loadingBar.StartAsOpen();
+        loadingBar.StopLoading();
         gameManager = GameManager.Instance;
         _playerInput = FindAnyObjectByType<PlayerInput>();
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("Player");
         ClosePanel();
     }
+
 
     // Update is called once per frame
     private void Update()

@@ -20,8 +20,11 @@ public class MenuController : MonoBehaviour
     public AudioClip mainMenuMusic;
     public AudioClip scoreMusic;
 
+    private LoadingBar loadingBar;
     private void Start()
     {
+        loadingBar = FindAnyObjectByType<LoadingBar>();
+        loadingBar.StartAsClose();
         audioSource = GetComponent<AudioSource>();
         gameManager = GameManager.Instance;
         OpenPanel(PanelType.Main);

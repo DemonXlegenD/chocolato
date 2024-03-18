@@ -7,7 +7,16 @@ public class LoadingLine : MonoBehaviour
 {
     // Start is called before the first frame update
     private UIBlock2D[] uiblock2ds;
-    void Start()
+    public void StartAsOpen()
+    {
+        uiblock2ds = GetComponentsInChildren<UIBlock2D>();
+        for (int i = 0; i < uiblock2ds.Length; i++)
+        {
+            uiblock2ds[i].transform.localScale = Vector3.one;
+        }
+    }
+    
+    public void StartAsClose()
     {
         uiblock2ds = GetComponentsInChildren<UIBlock2D>();
         for (int i = 0; i < uiblock2ds.Length; i++)
@@ -16,37 +25,43 @@ public class LoadingLine : MonoBehaviour
         }
     }
 
-    public void StartAnimation()
+    public void EndLoading()
     {
-        StartCoroutine(TraitementDonnees());
+        StartCoroutine(CloseLoading());
     }
-    IEnumerator TraitementDonnees()
+
+    public void BeginLoading()
+    {
+        StartCoroutine(StartLoading());
+    }
+
+    IEnumerator CloseLoading()
     {
         // Parcours de tous les éléments du tableau
         for (int i = 0; i < uiblock2ds.Length; i++)
         {
             // Traitement de chaque donnée
-            StartCoroutine(Animation(uiblock2ds[i]));
+            StartCoroutine(CloseAnimation(uiblock2ds[i]));
 
             // Attendre 1 seconde avant de traiter la prochaine donnée
             yield return new WaitForSeconds(0.05f);
         }
     }
 
-    IEnumerator EndTHis()
+    IEnumerator StartLoading()
     {
         // Parcours de tous les éléments du tableau
         for (int i = 0; i < uiblock2ds.Length; i++)
         {
             // Traitement de chaque donnée
-            StartCoroutine(EndAnimationFinal(uiblock2ds[i]));
+            StartCoroutine(StartAnimation(uiblock2ds[i]));
 
             // Attendre 1 seconde avant de traiter la prochaine donnée
             yield return new WaitForSeconds(0.05f);
         }
     }
 
-    private IEnumerator Animation(UIBlock2D uiblock2d)
+    private IEnumerator CloseAnimation(UIBlock2D uiblock2d)
     {
         Vector3 scale = uiblock2d.transform.localScale;
         Quaternion rotation = uiblock2d.transform.rotation;
@@ -54,15 +69,14 @@ public class LoadingLine : MonoBehaviour
         {
             scale -= new Vector3(0.01f, 0.01f, 0.01f);
             rotation *= Quaternion.Euler(0, 0, 3.6f);
-            // Traitement de chaque donnée
+
             uiblock2d.transform.localScale = scale;
             uiblock2d.transform.rotation = rotation;
 
-            // Attendre 1 seconde avant de traiter la prochaine donnée
             yield return new WaitForSeconds(0.01f);
         }
     }
-    private IEnumerator EndAnimationFinal(UIBlock2D uiblock2d)
+    private IEnumerator StartAnimation(UIBlock2D uiblock2d)
     {
         Vector3 scale = uiblock2d.transform.localScale;
         Quaternion rotation = uiblock2d.transform.rotation;
@@ -73,13 +87,7 @@ public class LoadingLine : MonoBehaviour
             uiblock2d.transform.localScale = scale;
             uiblock2d.transform.rotation = rotation;
 
-            // Attendre 1 seconde avant de traiter la prochaine donnée
             yield return new WaitForSeconds(0.01f);
         }
-    }
-
-    public void EndAnimation()
-    {
-        StartCoroutine(EndTHis());
     }
 }
