@@ -74,7 +74,7 @@ public class MenuPause : MonoBehaviour
     public void ResumeGame()
     {
         IsPause = false;
-        //audioSource.UnPause();
+        audioSource.UnPause();
         menuBlock.gameObject.SetActive(true);
         ClosePanel();
         Time.timeScale = 1f;

@@ -11,7 +11,7 @@ public class Loot : MonoBehaviour
     void Start()
     {
         son = GetComponent<AudioSource>();
-        son.Pause();
+        son.Stop();
     }
 
     // Update is called once per frame
@@ -23,17 +23,18 @@ public class Loot : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
-        {
+        {   
+            StartCoroutine(playSon());
             FindObjectOfType<PlayerController>().AddExp(color);
             gameObject.SetActive(false);
-            StartCoroutine(playSon());
+            
         }
     }
 
     private IEnumerator playSon()
     {
-        son.UnPause();
+        son.Play();
         yield return new WaitForSeconds(3);
-        son.Pause();
+        son.Stop();
     }
 }
