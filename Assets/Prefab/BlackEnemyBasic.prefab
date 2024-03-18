@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 0
   enemyColor: 1
-  moveSpeed: 9
+  moveSpeed: 11
   hpMax: 50
   damage: 5
   healthBar: {fileID: 0}
