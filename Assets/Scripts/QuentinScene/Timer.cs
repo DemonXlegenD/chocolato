@@ -44,7 +44,6 @@ public class Timer : MonoBehaviour
     {
         if(gameManager._state == GameState.IsPlaying)
         {
-            Debug.Log("timer a");
             currentTime += Time.deltaTime;
             string timer = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
             timerText.text = timer;
