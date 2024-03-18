@@ -5,6 +5,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -82,7 +83,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LoadDash dashSlider;
     [SerializeField] MenuPause menuPause;
     [SerializeField] TextMeshPro hpUiValueText;
-    [SerializeField] TextMeshPro uiTestDead;
+    [SerializeField] TextMeshPro uiDead;
     [SerializeField] TextMeshPro xpText;
     [SerializeField] UIBlock center;
 
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
         xpDarkWeapon.Max = blackWeaponXpMax;
         hpPlayer.Value = life;
         gun = GameObject.FindGameObjectWithTag("Gun");
-        uiTestDead.text = "";
+        uiDead.text = "";
     }
 
     // Update is called once per frame
@@ -126,11 +127,16 @@ public class PlayerController : MonoBehaviour
         {
             if (GetLife() <= 0 || ChocolatJauge.Value >= 100 || ChocolatJauge.Value <= 0)
             {
-                uiTestDead.text = "DEAD";
+                uiDead.text = "\nDEAD";
                 rb.isKinematic = true;
                 StartCoroutine(StartDeadPlayer());
             }
-            if (_actionMap.FindAction("Pause").WasPressedThisFrame())
+
+            if (GetLife() >= 66) { hpUiValueText.color = Color.green; }
+            else if (GetLife() >= 33 && GetLife() < 66) { hpUiValueText.color = new Color(1f, 0.5f, 0f); }
+            else if (GetLife() < 33) { hpUiValueText.color = Color.red; }
+
+                if (_actionMap.FindAction("Pause").WasPressedThisFrame())
             {
                 if (!menuPause.IsPause) menuPause.PauseGame();
                 else menuPause.ResumeGame();
@@ -197,20 +203,14 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
-
-        if (GetLife() <= 0)
-        {
-            uiTestDead.text = "DEAD";
-            rb.isKinematic = true;
-            StartCoroutine(StartDeadPlayer());
-        }
     }
 
     IEnumerator StartDeadPlayer()
     {
         yield return new WaitForSeconds(5f);
 
-        uiTestDead.text = "";
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        uiDead.text = "";
         rb.isKinematic = false;
         gameManager.ChangeScene("MenuScene");
     }
@@ -442,13 +442,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.GetInstance().onEnemyDeath.AddListener(OnEnemyDeath);
-        _actionMap.Enable();
+        EventManager eventManager = EventManager.GetInstance();
+        if (eventManager != null)
+            eventManager.onEnemyDeath.AddListener(OnEnemyDeath);
+
+        if (_actionMap != null)
+            _actionMap.Enable();
     }
 
     private void OnDisable()
     {
-        EventManager.GetInstance().onEnemyDeath.RemoveListener(OnEnemyDeath);
-        _actionMap.Disable();
+        EventManager eventManager = EventManager.GetInstance();
+        if (eventManager != null)
+            eventManager.onEnemyDeath.RemoveListener(OnEnemyDeath);
+
+        if (_actionMap != null)
+            _actionMap.Disable();
     }
 }
