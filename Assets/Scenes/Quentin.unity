@@ -758,6 +758,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9aed41c367d84642bbeb03aed9d8be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &874264848 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8259097293340295689, guid: ed12061fe1f4f4248bddb6f3f3316982,
+    type: 3}
+  m_PrefabInstance: {fileID: 5248520338372609241}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7a205681743564a86492cf61eece1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1029141498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1059,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee36ae3c515aa0140bab83ed4d28c495, type: 3}
+--- !u!114 &1624611716 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8021299141282668723, guid: ed12061fe1f4f4248bddb6f3f3316982,
+    type: 3}
+  m_PrefabInstance: {fileID: 5248520338372609241}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7a205681743564a86492cf61eece1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1877459830
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1882,6 +1906,16 @@ PrefabInstance:
       propertyPath: damagedMaterial
       value: 
       objectReference: {fileID: 2100000, guid: c302581219391f343856f5d5cb8da669, type: 2}
+    - target: {fileID: 8028526024460190934, guid: ed12061fe1f4f4248bddb6f3f3316982,
+        type: 3}
+      propertyPath: DarkChocolateWeaponDisplay
+      value: 
+      objectReference: {fileID: 1624611716}
+    - target: {fileID: 8028526024460190934, guid: ed12061fe1f4f4248bddb6f3f3316982,
+        type: 3}
+      propertyPath: WhiteChocolateWeaponDisplay
+      value: 
+      objectReference: {fileID: 874264848}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
