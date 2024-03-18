@@ -8,6 +8,7 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Nova;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -85,6 +86,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LoadDash dashSlider;
     [SerializeField] MenuPause menuPause;
     [SerializeField] TextMeshPro hpUiValueText;
+    [SerializeField] TextMeshPro uiTestDead;
     [SerializeField] TextMeshPro xpText;
     [SerializeField] UIBlock center;
 
@@ -118,6 +120,7 @@ public class PlayerController : MonoBehaviour
         xpDarkWeapon.Max = blackWeaponXpMax;
         hpPlayer.Value = life;
         gun = GameObject.FindGameObjectWithTag("Gun");
+        uiTestDead.text = "";
     }
 
     // Update is called once per frame
@@ -192,12 +195,29 @@ public class PlayerController : MonoBehaviour
         {
             Move();
         }
+
+        if (GetLife() <= 0)
+        {
+            uiTestDead.text = "DEAD";
+            rb.isKinematic = true;
+            StartCoroutine(StartDeadPlayer());
+        }
+    }
+
+    IEnumerator StartDeadPlayer()
+    {
+        yield return new WaitForSeconds(5f);
+
+        uiTestDead.text = "";
+        rb.isKinematic = false;
+        gameManager.ChangeScene("MenuScene");
     }
 
 
     #region Getter
 
     public float GetSwitchWeaponTime() { return switchWeaponTime; }
+    public float GetLife() { return life; }
 
     #endregion
 
