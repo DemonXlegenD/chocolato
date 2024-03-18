@@ -374,6 +374,7 @@ public class PlayerController : MonoBehaviour
         xpWhiteWeapon.Max = whiteWeaponXpMax;
         xpDarkWeapon.Value = blackWeaponXpActual;
         xpDarkWeapon.Max = blackWeaponXpMax;
+        gameManager.score += 10;
         CheckLevelUpWeapon();
     }
 
@@ -393,6 +394,7 @@ public class PlayerController : MonoBehaviour
                 tmp.color = black;
                 break;
         }
+        gameManager.score += 20;
     }
     void CheckLevelUpWeapon()
     {

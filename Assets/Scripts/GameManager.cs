@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public GameState _state = GameState.IsLoading;
-
+    public GameState _state = GameState.IsPlaying;
+    public float volume = -1f;
+    public int score = 0;
     private string previousLoadedScene = null;
 
     private void Awake()

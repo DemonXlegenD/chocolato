@@ -1,6 +1,4 @@
 using Nova;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,9 +27,10 @@ public class MenuPause : MonoBehaviour
         loadingBar.StartAsOpen();
         loadingBar.StopLoading();
         gameManager = GameManager.Instance;
+        gameManager._state = GameState.IsLoading;
         _playerInput = FindAnyObjectByType<PlayerInput>();
         _inputActions = _playerInput.actions;
-        _actionMap = _inputActions.FindActionMap("Player");
+        _actionMap = _inputActions.FindActionMap("Menu");
         ClosePanel();
     }
 
@@ -39,12 +38,7 @@ public class MenuPause : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
-        {
-            if (!IsPause) PauseGame();
-            else ResumeGame();
-        }
-
+    
     }
     public void StartScene(string _scene)
     {

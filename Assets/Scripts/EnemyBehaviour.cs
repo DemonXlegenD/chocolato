@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -99,50 +97,49 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameManager._state == GameState.IsPlaying)
+        if (gameManager._state == GameState.IsPlaying)
         {
-MoveTowardsPlayer();
-        if (isExploding)
-        {
-            Explode();
-        }
-        if (isDigging)
-        {
-            Digging();
-        }
-        if (isChomping)
-        {
-            Chomping();
-        }
-        if (enemyType == EnemyType.Boss)
-        {
-            int tmp = hpMax / 4;
-            if (hpActual <= tmp * 2 && !phase2Activated)
+            MoveTowardsPlayer();
+            if (isExploding)
             {
-                phase2Activated = true;
-                moveSpeed *= 2f;
+                Explode();
             }
-            if (hpActual <= tmp * 1 && !phase3Activated)
+            if (isDigging)
             {
-                phase3Activated = true;
+                Digging();
             }
-            if (phase3Activated && canShoot)
+            if (isChomping)
             {
-                StartCoroutine(ShootedBoss());
+                Chomping();
+            }
+            if (enemyType == EnemyType.Boss)
+            {
+                int tmp = hpMax / 4;
+                if (hpActual <= tmp * 2 && !phase2Activated)
+                {
+                    phase2Activated = true;
+                    moveSpeed *= 2f;
+                }
+                if (hpActual <= tmp * 1 && !phase3Activated)
+                {
+                    phase3Activated = true;
+                }
+                if (phase3Activated && canShoot)
+                {
+                    StartCoroutine(ShootedBoss());
+                }
+            }
+            if (hpActual <= 0)
+            {
+                if (areaEffectManager != null)
+                {
+                    isExploding = false;
+                    isDead = false;
+                    areaEffectManager.Deactivate();
+                    areaEffectManager = null;
+                }
             }
         }
-        if (hpActual <= 0)
-        {
-            if (areaEffectManager != null)
-            {
-                isExploding = false;
-                isDead = false;
-                areaEffectManager.Deactivate();
-                areaEffectManager = null;
-            }
-        }
-        }
-        
     }
 
     void MoveTowardsPlayer()
@@ -154,13 +151,13 @@ MoveTowardsPlayer();
         {
             if (EnemyType.Basic == enemyType && rangeContact < Vector3.Distance(player.transform.position, transform.position))
             {
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, (moveSpeed * Time.fixedDeltaTime) / 5);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime / 5);
             }
             else if (EnemyType.Ranged == enemyType)
             {
                 if (rangeContact < Vector3.Distance(player.transform.position, transform.position))
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.fixedDeltaTime / 5);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.deltaTime / 5);
                 }
                 if (range > Vector3.Distance(player.transform.position, transform.position) && canShoot)
                 {
@@ -171,7 +168,7 @@ MoveTowardsPlayer();
             {
                 if (range < Vector3.Distance(player.transform.position, transform.position) && !isExploding)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.fixedDeltaTime / 5);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.deltaTime / 5);
                 }
                 else
                 {
@@ -183,7 +180,7 @@ MoveTowardsPlayer();
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)) && !isDigging)
                 {
                     //Debug.Log("move");
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.deltaTime / 5);
                 }
                 else if (isUnderground)
                 {
@@ -202,7 +199,7 @@ MoveTowardsPlayer();
             {
                 if (rangeContact < Vector3.Distance(new Vector3(player.transform.position.x, 0, player.transform.position.z), new Vector3(transform.position.x, 0, transform.position.z)))
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), (moveSpeed * Time.fixedDeltaTime) / 5);
+                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), moveSpeed * Time.deltaTime / 5);
                 }
             }
             if (isTouchingPlayer)

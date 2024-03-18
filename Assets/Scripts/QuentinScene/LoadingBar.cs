@@ -24,6 +24,7 @@ public class LoadingBar : MonoBehaviour
 
     public void StartAsClose()
     {
+        manager._state = GameState.IsPlaying;
         coockies.SetVisible(false);
         foreach (var line in lines)
         {
@@ -32,6 +33,7 @@ public class LoadingBar : MonoBehaviour
     }
     public void StartAsOpen()
     {
+        manager._state = GameState.IsLoading;
         coockies.SetVisible(true);
         foreach (var line in lines)
         {
@@ -82,7 +84,7 @@ public class LoadingBar : MonoBehaviour
             lines[i].EndLoading();
             yield return new WaitForSeconds(0.1f);
         }
-
+        yield return new WaitForSeconds(2f);
         manager._state = GameState.IsPlaying;
 
     }
