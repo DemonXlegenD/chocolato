@@ -42,8 +42,10 @@ public class Timer : MonoBehaviour
     {
         if(gameManager._state == GameState.IsPlaying)
         {
-        currentTime += Time.deltaTime;
-        timerText.text = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
+            currentTime += Time.deltaTime;
+            timerText.text = "Timer : " + Mathf.RoundToInt(currentTime).ToString();
+            FindObjectOfType<ChunkGenerate>().StartSpawnNextWave(currentTime);
+            FindObjectOfType<ChunkGenerate>().StartSpawnNormalMonsters(currentTime);
         }
     }
     public void GameEnd()

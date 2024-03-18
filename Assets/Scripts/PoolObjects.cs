@@ -669,4 +669,157 @@ public class PoolObjects : MonoBehaviour
         boss.transform.position = newPos;
         boss.SetActive(true);
     }
+
+    public void SpawnNumEnemiesFromCurrentWave(int numEnemies, int currentWave)
+    {
+
+        for (int i = 0; i < numEnemies; i++)
+        {
+            float angle_offset = Random.value * Mathf.PI * 2;
+            float x = Mathf.Sin(angle_offset);
+            float y = Mathf.Cos(angle_offset);
+            Vector2 offset_direction = new Vector2(x, y);
+            float new_magnitude = Random.Range(20f, 2 * 20f);
+            offset_direction *= new_magnitude;
+            GameObject player = FindObjectOfType<PlayerController>().gameObject;
+            Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
+            switch (currentWave)
+            {
+                case 1:
+                    if (i % 2 == 0)
+                    {
+                        GameObject basicEnemy = GetFreeBasicBlack();
+                        if (basicEnemy != null)
+                        {
+                            basicEnemy.transform.position = newPos;
+                            basicEnemy.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        GameObject basicEnemy = GetFreeBasicWhite();
+                        if (basicEnemy != null)
+                        {
+                            basicEnemy.transform.position = newPos;
+                            basicEnemy.SetActive(true);
+                        }
+                    }
+                    break;
+                case 2:
+                    if (i % 4 == 0)
+                    {
+                        GameObject rangedEnemy = GetFreeRangedBlack();
+                        if (rangedEnemy != null)
+                        {
+                            rangedEnemy.transform.position = newPos;
+                            rangedEnemy.SetActive(true);
+                        }
+                    }
+                    else if (i % 4 == 1)
+                    {
+                        GameObject rangedEnemy = GetFreeRangedWhite();
+                        if (rangedEnemy != null)
+                        {
+                            rangedEnemy.transform.position = newPos;
+                            rangedEnemy.SetActive(true);
+                        }
+                    }
+                    else if (i % 4 == 2)
+                    {
+                        GameObject basicEnemy = GetFreeBasicBlack();
+                        if (basicEnemy != null)
+                        {
+                            basicEnemy.transform.position = newPos;
+                            basicEnemy.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        GameObject basicEnemy = GetFreeBasicWhite();
+                        if (basicEnemy != null)
+                        {
+                            basicEnemy.transform.position = newPos;
+                            basicEnemy.SetActive(true);
+                        }
+                    }
+                    break;
+                case 3:
+                    if (i % 4 == 0)
+                    {
+                        GameObject rangedEnemy = GetFreeRangedBlack();
+                        if (rangedEnemy != null)
+                        {
+                            rangedEnemy.transform.position = newPos;
+                            rangedEnemy.SetActive(true);
+                        }
+                    }
+                    else if (i % 4 == 1)
+                    {
+                        GameObject rangedEnemy = GetFreeRangedWhite();
+                        if (rangedEnemy != null)
+                        {
+                            rangedEnemy.transform.position = newPos;
+                            rangedEnemy.SetActive(true);
+                        }
+                    }
+                    else if (i % 4 == 2)
+                    {
+                        GameObject kamikazeEnemy = GetFreeKamikazeBlack();
+                        if (kamikazeEnemy != null)
+                        {
+                            kamikazeEnemy.transform.position = newPos;
+                            kamikazeEnemy.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        GameObject kamikazeEnemy = GetFreeKamikazeWhite();
+                        if (kamikazeEnemy != null)
+                        {
+                            kamikazeEnemy.transform.position = newPos;
+                            kamikazeEnemy.SetActive(true);
+                        }
+                    }
+                    break;
+                case 4:
+                    if (i % 4 == 0)
+                    {
+                        GameObject diggerEnemy = GetFreeDiggerBlack();
+                        if (diggerEnemy != null)
+                        {
+                            diggerEnemy.transform.position = newPos;
+                            diggerEnemy.SetActive(true);
+                        }
+                    }
+                    else if (i % 4 == 1)
+                    {
+                        GameObject diggerEnemy = GetFreeDiggerWhite();
+                        if (diggerEnemy != null)
+                        {
+                            diggerEnemy.transform.position = newPos;
+                            diggerEnemy.SetActive(true);
+                        }
+                    }
+                    else if (i % 4 == 2)
+                    {
+                        GameObject kamikazeEnemy = GetFreeKamikazeBlack();
+                        if (kamikazeEnemy != null)
+                        {
+                            kamikazeEnemy.transform.position = newPos;
+                            kamikazeEnemy.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        GameObject kamikazeEnemy = GetFreeKamikazeWhite();
+                        if (kamikazeEnemy != null)
+                        {
+                            kamikazeEnemy.transform.position = newPos;
+                            kamikazeEnemy.SetActive(true);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
 }

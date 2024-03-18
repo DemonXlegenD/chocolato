@@ -50,6 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3409404693814961786, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
+      propertyPath: moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409404693814961786, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
+        type: 3}
       propertyPath: enemyColor
       value: 0
       objectReference: {fileID: 0}
@@ -96,17 +101,17 @@ PrefabInstance:
     - target: {fileID: 8147497462734369515, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8147497462734369515, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8147497462734369515, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8147497462734369515, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}

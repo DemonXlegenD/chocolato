@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float blackWeaponDmg;
     [SerializeField] float blackWeaponBaseDmg = 20;
     [SerializeField] float blackAttackTick;
+    GameObject gun;
 
     [Header("Materials")]
     [SerializeField] MeshRenderer playerMesh;
@@ -108,6 +109,7 @@ public class PlayerController : MonoBehaviour
         xpDarkWeapon.Value = blackWeaponXpActual;
         xpDarkWeapon.Max = blackWeaponXpMax;
         hpPlayer.Value = life;
+        gun = GameObject.FindGameObjectWithTag("Gun");
     }
 
     // Update is called once per frame
@@ -157,12 +159,14 @@ public class PlayerController : MonoBehaviour
                     playerMesh.material = blackMat;
                     chocoState = ChocoState.chocoBlack;
                     colorState -= colorEvolve;
+                    gun.SetActive(false);
                 }
                 else
                 {
                     playerMesh.material = whiteMat;
                     chocoState = ChocoState.chocoWhite;
                     colorState += colorEvolve;
+                    gun.SetActive(true);
                 }
                 DarkChocolateWeaponDisplay.ChangeDisplay();
                 WhiteChocolateWeaponDisplay.ChangeDisplay();
@@ -248,10 +252,9 @@ public class PlayerController : MonoBehaviour
     {
         if (attackTimer <= 0)
         {
-
+            SetAttackTimer();
             if (chocoState == ChocoState.chocoWhite)
             {
-                SetAttackTimer();
                 pool.SpawnPlayerBullet(playerBody.transform.forward, shootPoint.transform);
             }
             else
@@ -305,7 +308,7 @@ public class PlayerController : MonoBehaviour
                 case EnemyBehaviour.EnemyColor.chocoWhite:
                     Debug.Log("oui");
                     tempBhv.TakeDamage(blackWeaponDmg);
-                    enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 50, ForceMode.Impulse);
+                    enemy.GetComponent<Rigidbody>().AddForce((enemy.transform.position - transform.position).normalized * 20, ForceMode.Impulse);
                     break;
             }
         }
