@@ -6,10 +6,12 @@ using UnityEngine.InputSystem;
 public class Loot : MonoBehaviour
 {
     [SerializeField] EnemyBehaviour.EnemyColor color;
+    AudioSource son;
     // Start is called before the first frame update
     void Start()
     {
-        
+        son = GetComponent<AudioSource>();
+        son.Pause();
     }
 
     // Update is called once per frame
@@ -24,6 +26,14 @@ public class Loot : MonoBehaviour
         {
             FindObjectOfType<PlayerController>().AddExp(color);
             gameObject.SetActive(false);
+            StartCoroutine(playSon());
         }
+    }
+
+    private IEnumerator playSon()
+    {
+        son.UnPause();
+        yield return new WaitForSeconds(3);
+        son.Pause();
     }
 }
