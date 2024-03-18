@@ -187,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 2
   enemyColor: 0
-  moveSpeed: 10
+  moveSpeed: 12
   hpMax: 20
   damage: 5
   healthBar: {fileID: 0}
@@ -199,6 +199,8 @@ MonoBehaviour:
   timeToStartAttackingAgain: 3
   timeToStartMovingAgain: 1
   pool: {fileID: 0}
+  baseMaterial: {fileID: 2100000, guid: d051d739de68bd047aaef7a527cd033e, type: 2}
+  damagedMaterial: {fileID: 2100000, guid: e1cd7fee8d28a49488db02dc6499633c, type: 2}
 --- !u!54 &4825582241911998146
 Rigidbody:
   m_ObjectHideFlags: 0

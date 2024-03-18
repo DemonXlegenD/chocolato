@@ -685,6 +685,26 @@ public class PoolObjects : MonoBehaviour
             Vector3 newPos = new Vector3(player.transform.position.x + offset_direction.x, 0, player.transform.position.z + offset_direction.y);
             switch (currentWave)
             {
+                case 0:
+                    if (i % 2 == 0)
+                    {
+                        GameObject basicEnemy = GetFreeBasicBlack();
+                        if (basicEnemy != null)
+                        {
+                            basicEnemy.transform.position = newPos;
+                            basicEnemy.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        GameObject basicEnemy = GetFreeBasicWhite();
+                        if (basicEnemy != null)
+                        {
+                            basicEnemy.transform.position = newPos;
+                            basicEnemy.SetActive(true);
+                        }
+                    }
+                    break;
                 case 1:
                     if (i % 2 == 0)
                     {

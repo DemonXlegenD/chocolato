@@ -12,6 +12,7 @@ TagManager:
   - Storm
   - EnemyRenderer
   - Gun
+  - PlayerRenderer
   layers:
   - Default
   - TransparentFX

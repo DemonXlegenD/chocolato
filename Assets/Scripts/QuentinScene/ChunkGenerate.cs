@@ -150,10 +150,11 @@ public class ChunkGenerate : MonoBehaviour
         float tmpTimer = timer - (currentTotalMonstersWave * 10);
         if(tmpTimer >= 10)
         {
+            Debug.Log("Spawn normal monsters");
             normalMonstersSpawnCounter++;
             if (normalMonstersSpawnCounter < 3)
             {
-                int rand = Random.Range(1, 5);
+                int rand = Random.Range(2, 5);
                 FindObjectOfType<PoolObjects>().SpawnNumEnemiesFromCurrentWave(rand, currentWave);
             }
             else
@@ -166,7 +167,7 @@ public class ChunkGenerate : MonoBehaviour
 
     public void StartGameNormalMonsters()
     {
-        int rand = Random.Range(1, 5);
+        int rand = Random.Range(2, 5);
         int tmp = 1;
         FindObjectOfType<PoolObjects>().SpawnNumEnemiesFromCurrentWave(rand, tmp);
     }

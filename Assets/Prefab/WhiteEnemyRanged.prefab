@@ -51,13 +51,18 @@ PrefabInstance:
     - target: {fileID: 3409404693814961786, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
       propertyPath: moveSpeed
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3409404693814961786, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
       propertyPath: enemyColor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3409404693814961786, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
+        type: 3}
+      propertyPath: baseMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: d051d739de68bd047aaef7a527cd033e, type: 2}
     - target: {fileID: 4861415295118077789, guid: 0a5272879761eaf4f906c7d9e2b14bf3,
         type: 3}
       propertyPath: m_LocalPosition.z

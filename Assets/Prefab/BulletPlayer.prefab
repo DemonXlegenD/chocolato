@@ -119,6 +119,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  bulletSpeed: 12
+  bulletSpeed: 18
   bulletDamage: 5
   timerUntilDespawn: 2

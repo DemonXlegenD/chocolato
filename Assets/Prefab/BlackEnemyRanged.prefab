@@ -51,11 +51,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   enemyColor: 1
-  moveSpeed: 5
+  moveSpeed: 6
   hpMax: 50
   damage: 5
   healthBar: {fileID: 0}
-  range: 15
+  range: 20
   rangeContact: 1
   explodeTimer: 0
   digCooldown: 0
@@ -63,6 +63,8 @@ MonoBehaviour:
   timeToStartAttackingAgain: 3
   timeToStartMovingAgain: 1
   pool: {fileID: 0}
+  baseMaterial: {fileID: 2100000, guid: d14897e3dc9e06d4fade64ff368079d1, type: 2}
+  damagedMaterial: {fileID: 2100000, guid: e1cd7fee8d28a49488db02dc6499633c, type: 2}
 --- !u!136 &3080667724502626208
 CapsuleCollider:
   m_ObjectHideFlags: 0

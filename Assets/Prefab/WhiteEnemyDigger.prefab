@@ -108,6 +108,11 @@ PrefabInstance:
       propertyPath: enemyColor
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6598479753887286593, guid: 7464ae8da7dd787429331191511e4fc3,
+        type: 3}
+      propertyPath: baseMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: d051d739de68bd047aaef7a527cd033e, type: 2}
     - target: {fileID: 7170819902742521459, guid: 7464ae8da7dd787429331191511e4fc3,
         type: 3}
       propertyPath: m_Time

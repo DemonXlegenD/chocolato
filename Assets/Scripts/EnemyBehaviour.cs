@@ -42,6 +42,8 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] float timeToStartAttackingAgain;
     [SerializeField] float timeToStartMovingAgain;
     [SerializeField] PoolObjects pool;
+    [SerializeField] Material baseMaterial;
+    [SerializeField] Material damagedMaterial;
     AreaEffectManager areaEffectManager;
     bool isRunning = false;
     bool phase2Activated = false;
@@ -251,11 +253,13 @@ MoveTowardsPlayer();
         phase3Activated = false;
         isDead = false;
         isDigging = false;
+        GetComponentInChildren<MeshRenderer>().material = baseMaterial;
     }
 
     public void TakeDamage(float damage)
     {
         hpActual -= damage;
+        StartCoroutine(FlashDamaged());
         //healthBar.value = hpActual;
         if (hpActual <= 0)
         {
@@ -286,6 +290,13 @@ MoveTowardsPlayer();
                 pool.SpawnCookieWhite(tmp);
             }
         }
+    }
+
+    IEnumerator FlashDamaged()
+    {
+        GetComponentInChildren<MeshRenderer>().material = damagedMaterial;
+        yield return new WaitForSeconds(0.2f);
+        GetComponentInChildren<MeshRenderer>().material = baseMaterial;
     }
 
     IEnumerator StopMoving()

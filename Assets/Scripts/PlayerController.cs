@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Nova;
 
 public class PlayerController : MonoBehaviour
 {
@@ -52,9 +53,11 @@ public class PlayerController : MonoBehaviour
     GameObject gun;
 
     [Header("Materials")]
-    [SerializeField] MeshRenderer playerMesh;
     [SerializeField] Material whiteMat;
     [SerializeField] Material blackMat;
+    [SerializeField] SkinnedMeshRenderer meshPlayer;
+    [SerializeField] Material baseMaterial;
+    [SerializeField] Material damagedMaterial;
 
     [Header("State")]
     [SerializeField] PlayerState playerState;
@@ -81,10 +84,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Slider hpPlayer;
     [SerializeField] LoadDash dashSlider;
     [SerializeField] MenuPause menuPause;
+    [SerializeField] TextMeshPro hpUiValueText;
+    [SerializeField] TextMeshPro xpText;
+    [SerializeField] UIBlock center;
 
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip musicChill;
     [SerializeField] AudioClip musicVnr;
+    [SerializeField] Color white;
+    [SerializeField] Color black;
 
     private bool canSwitchWeapon = false;
     private bool canDash = false;
@@ -93,8 +101,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         gameManager = GameManager.Instance;  
-        playerMesh = GetComponentInChildren<MeshRenderer>();
-        playerMesh.material = whiteMat;
+        meshPlayer = GameObject.FindGameObjectWithTag("PlayerRenderer").GetComponent<SkinnedMeshRenderer>();
+        meshPlayer.material = whiteMat;
         rb = GetComponent<Rigidbody>();
         shootPoint = GameObject.FindWithTag("ShootPoint");
         _playerInput = GetComponent<PlayerInput>();
@@ -117,7 +125,7 @@ public class PlayerController : MonoBehaviour
     {
         if(gameManager._state == GameState.IsPlaying)
         {
-  if (_actionMap.FindAction("Pause").WasPressedThisFrame())
+        if (_actionMap.FindAction("Pause").WasPressedThisFrame())
         {
             if (!menuPause.IsPause) menuPause.PauseGame();
             else menuPause.ResumeGame();
@@ -156,14 +164,14 @@ public class PlayerController : MonoBehaviour
             {
                 if (chocoState == ChocoState.chocoWhite)
                 {
-                    playerMesh.material = blackMat;
+                    meshPlayer.material = blackMat;
                     chocoState = ChocoState.chocoBlack;
                     colorState -= colorEvolve;
                     gun.SetActive(false);
                 }
                 else
                 {
-                    playerMesh.material = whiteMat;
+                    meshPlayer.material = whiteMat;
                     chocoState = ChocoState.chocoWhite;
                     colorState += colorEvolve;
                     gun.SetActive(true);
@@ -329,6 +337,22 @@ public class PlayerController : MonoBehaviour
     {
         life -= damage;
         hpPlayer.Value = life;
+        hpUiValueText.text = life.ToString();
+        StartCoroutine(Damaged());
+    }
+
+    IEnumerator Damaged()
+    {
+        meshPlayer.material = damagedMaterial;
+        yield return new WaitForSeconds(0.2f);
+        if(chocoState == ChocoState.chocoWhite)
+        {
+            meshPlayer.material = whiteMat;
+        }
+        else
+        {
+            meshPlayer.material = blackMat;
+        }
     }
 
     void GetHealed(float heal)
@@ -355,13 +379,18 @@ public class PlayerController : MonoBehaviour
 
     public void AddExp(EnemyBehaviour.EnemyColor color)
     {
+        var tmp = Instantiate(xpText, center.transform);
         switch (color)
         {
             case EnemyBehaviour.EnemyColor.chocoWhite:
                 whiteWeaponXpActual += 20;
+                tmp.text = "+20 WHITE EXP";
+                tmp.color = white;
                 break;
             case EnemyBehaviour.EnemyColor.chocoBlack:
                 blackWeaponXpActual += 20;
+                tmp.text = "+20 BLACK EXP";
+                tmp.color = black;
                 break;
         }
     }

@@ -7,11 +7,12 @@ public class Loot : MonoBehaviour
 {
     [SerializeField] EnemyBehaviour.EnemyColor color;
     AudioSource son;
+    [SerializeField] AudioClip lootSound;
     // Start is called before the first frame update
     void Start()
     {
         son = GetComponent<AudioSource>();
-        son.Stop();
+        son.clip = lootSound;
     }
 
     // Update is called once per frame
@@ -24,17 +25,20 @@ public class Loot : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {   
-            StartCoroutine(playSon());
+            Debug.Log("Loot");
+            son.Play(0);
             FindObjectOfType<PlayerController>().AddExp(color);
-            gameObject.SetActive(false);
+            GetComponent<MeshRenderer>().enabled = false;
+            StartCoroutine(Deactivate());
             
         }
     }
 
-    private IEnumerator playSon()
+    IEnumerator Deactivate()
     {
-        son.Play();
-        yield return new WaitForSeconds(3);
-        son.Stop();
+        yield return new WaitForSeconds(1);
+        transform.parent.gameObject.SetActive(false);
+        GetComponent<MeshRenderer>().enabled = true;
     }
+
 }
