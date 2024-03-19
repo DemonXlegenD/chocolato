@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         uiDead.text = "";
         rb.isKinematic = false;
         gameManager.ChangeScene("MenuScene");
